@@ -2,8 +2,6 @@ import {
     FetchArgs,
     fetchBaseQuery,
     FetchBaseQueryError,
-    FetchBaseQueryMeta,
-    QueryReturnValue
 } from '@reduxjs/toolkit/query';
 import { BaseQueryFn, createApi } from '@reduxjs/toolkit/query/react';
 import { RootState } from 'store';
@@ -20,10 +18,6 @@ const baseQuery = fetchBaseQuery({
         return headers;
     }
 });
-
-type MaybePromise<T> = T | Promise<T>;
-
-let refreshPromise: MaybePromise<QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>> | null = null;
 
 const baseQueryWithRefresh: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
