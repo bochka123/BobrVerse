@@ -17,7 +17,6 @@ jobs:
         shell: bash
         working-directory: frontend
     steps:
-    # checkout the repo
     - name: 'Checkout GitHub Action' 
       uses: actions/checkout@main
     
@@ -30,17 +29,17 @@ jobs:
     
     - uses: azure/docker-login@v1
       with:
-        login-server: bobrversefrontend.azurecr.io
+        login-server: bobrverse.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
-        docker build . -t bobrversefrontend.azurecr.io/images:${{ github.sha }}
-        docker push bobrversefrontend.azurecr.io/images:${{ github.sha }}   
+        docker build . -t bobrverse.azurecr.io/frontend:${{ github.sha }}
+        docker push bobrverse.azurecr.io/frontend:${{ github.sha }}   
       
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: 'bobrversefrontend'
-        images: 'bobrversefrontend.azurecr.io/images:${{ github.sha }}'
+        app-name: 'bobrverse'
+        images: 'bobrverse.azurecr.io/frontend:${{ github.sha }}'
     
     - name: Azure logout
       run: |
