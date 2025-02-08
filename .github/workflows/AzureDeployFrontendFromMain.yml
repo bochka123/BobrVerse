@@ -38,7 +38,7 @@ jobs:
       
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: 'bobrverse'
+        app-name: 'bobrversefrontend'
         images: 'bobrverse.azurecr.io/frontend:${{ github.sha }}'
     
     - name: Azure logout
