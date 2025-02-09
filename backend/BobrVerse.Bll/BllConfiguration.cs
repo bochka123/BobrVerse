@@ -10,6 +10,7 @@ namespace BobrVerse.Bll
         public static IServiceCollection ConfigureBllServiceCollection(this IServiceCollection services)
         {
             services.AddScoped<IBobrAccountService, BobrAccountService>();
+            services.AddScoped<IBobrLevelService, BobrLevelService>();
             services.AddAutoMapper(typeof(MapperProfile));
             return services;
         }

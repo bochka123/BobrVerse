@@ -1,9 +1,9 @@
-﻿using BobrVerse.Auth.Interfaces;
+﻿using BobrVerse.Auth.Entities;
+using BobrVerse.Auth.Interfaces;
 using BobrVerse.Auth.Models.Redis;
 using BobrVerse.Auth.Models.Settings;
 using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace BobrVerse.Auth.Services
 {
@@ -21,19 +21,22 @@ namespace BobrVerse.Auth.Services
             var accessToken = context.Request.Cookies[cookieSettings.AccessTokenName];
             var refreshToken = context.Request.Cookies[cookieSettings.RefreshTokenName];
 
-            if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken))
+            if (string.IsNullOrEmpty(refreshToken))
             {
                 return false;
             }
 
             Guid userId;
-            if (accessTokenService.TryValidateAccessToken(accessToken, out var claimsPrincipal))
+            if (!string.IsNullOrEmpty(accessToken) && accessTokenService.TryValidateAccessToken(accessToken, out var claimsPrincipal))
             {
-                var userIdClaim = claimsPrincipal?.FindFirst(JwtRegisteredClaimNames.NameId)?.Value;
+                var userIdClaim = claimsPrincipal?.FindFirst(nameof(User))?.Value;
                 if (userIdClaim == null || !Guid.TryParse(userIdClaim, out userId))
                 {
                     return false;
                 }
+
+                userContextService.SetUser(userId);
+                return true;
             }
 
             var validateModel = new RefreshTokenValidateModel
@@ -76,10 +79,11 @@ namespace BobrVerse.Auth.Services
 
         private void SetAccessToken(Guid userId)
         {
-            var claims = new[]
+            var claims = new Dictionary<string, object>()
             {
-                new Claim(JwtRegisteredClaimNames.NameId, userId.ToString()),
+                { nameof(User), userId.ToString() },
             };
+
             var newAccessToken = accessTokenService.GenerateAccessToken(claims);
             SetCookie(cookieSettings.AccessTokenName, newAccessToken, DateTime.UtcNow.AddMinutes(cookieSettings.AccessTokenCookieMinutesExpire));
         }

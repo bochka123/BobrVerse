@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BobrVerse.Dal.Migrations
 {
     /// <inheritdoc />
-    public partial class addBobrProfile : Migration
+    public partial class AddBobrProfile : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,8 @@ namespace BobrVerse.Dal.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
                     RequiredXP = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,7 +51,7 @@ namespace BobrVerse.Dal.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
