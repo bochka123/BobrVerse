@@ -5,6 +5,8 @@ import {
 } from '@reduxjs/toolkit/query';
 import { BaseQueryFn, createApi } from '@reduxjs/toolkit/query/react';
 
+import { logOut } from '@/store/auth';
+
 const baseQuery = fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL,
     credentials: 'include',
@@ -18,6 +20,7 @@ const baseQueryWithRefresh: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError>
 
     if (result.error?.status === 401) {
         console.log('dropped 401');
+        api.dispatch(logOut());
     }
 
     return result;
