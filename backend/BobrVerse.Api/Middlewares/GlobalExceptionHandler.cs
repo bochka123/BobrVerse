@@ -12,7 +12,7 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
         catch (UnauthorizedAccessException ex)
         {
             logger.LogError(ex, "Unauthorized access exception occurred.");
-            await HandleException(context, ex.Message, HttpStatusCode.Unauthorized);
+            await HandleException(context, ex.Message, HttpStatusCode.BadRequest);
         }
         catch (Exception ex)
         {
