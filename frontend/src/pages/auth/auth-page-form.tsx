@@ -2,19 +2,23 @@ import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { InputTypes } from '@/common';
+import { IAuthRequestDto } from '@/models/requests';
+import { useLoginMutation, useRegisterMutation } from '@/services/auth';
 
 import styles from './auth-page.module.scss';
-import { useLoginMutation } from '@/services/auth';
-import { IAuthRequestDto } from '@/models/requests';
 
 type FormNames = {
     email: string;
     password: string;
 }
 
-const AuthPageForm: FC = () => {
+type AuthPageFormProps = {
+    authType: 'signIn' | 'signUp';
+}
+const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
 
     const [logIn] = useLoginMutation();
+    const [signUp] = useRegisterMutation();
 
     const { handleSubmit, control } = useForm<FormNames>();
 
@@ -24,10 +28,15 @@ const AuthPageForm: FC = () => {
             password: data.password,
         };
 
-        logIn(requestData)
-            .unwrap()
-            .then((response) => { console.log('Logged in successfully:', response); })
-            .catch((error) => { console.error('Failed to log in:', error); });
+        authType === 'signIn'
+            ? logIn(requestData)
+                .unwrap()
+                .then((response) => { console.log('Logged in successfully:', response); })
+                .catch((error) => { console.error('Failed to log in:', error); })
+            : signUp(requestData)
+                .unwrap()
+                .then((response) => { console.log('Registered successfully:', response); })
+                .catch((error) => { console.error('Failed to register:', error); });
     };
     
     const onError = (error: any): void => {
@@ -56,7 +65,9 @@ const AuthPageForm: FC = () => {
                     </div>
                 )}
             />
-            <button type="submit" className={styles.authButton}>Login</button>
+            <button type="submit" className={styles.authButton}>
+                {authType ==='signIn'? 'Login' : 'Register'}
+            </button>
         </form>
     );
 };

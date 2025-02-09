@@ -1,19 +1,40 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import styles from './auth-page.module.scss';
 import { AuthPageForm } from './auth-page-form.tsx';
 
 const AuthPage: FC = () => {
+
+    const [authType, setAuthType] = useState<'signIn' | 'signUp'>('signIn');
     
     return (
         <div className={styles.authContainer}>
             <div className={styles.authCard}>
-                <h2>Sign In</h2>
-                <AuthPageForm />
-                <button className={styles.googleButton}>
-                    <img src="/google-icon.png" alt="Google logo" /> Sign in with Google
-                </button>
-                <p className={styles.authFooter}>Don't have an account? <a href="#">Sign Up</a></p>
+                {authType === 'signIn' ? <h2>Sign In</h2> : <h2>Sign Up</h2>}
+                <AuthPageForm authType={authType} />
+
+                {
+                    authType === 'signIn' &&
+                    <>
+                        <button className={styles.googleButton}>
+                            <img src="/google-icon.png" alt="Google logo"/> Sign in with Google
+                        </button>
+                        <p className={styles.authFooter}>
+                            Don't have an account?
+                            <a href="#" onClick={() => setAuthType('signUp')}>Sign Up</a>
+                        </p>
+                    </>
+                }
+
+                {
+                    authType ==='signUp' &&
+                    <>
+                        <p className={styles.authFooter}>
+                            Already have an account?
+                            <a href="#" onClick={() => setAuthType('signIn')}>Sign In</a>
+                        </p>
+                    </>
+                }
             </div>
         </div>
     );
