@@ -1,5 +1,4 @@
-﻿using BobrVerse.Auth.Entities;
-using BobrVerse.Auth.Interfaces;
+﻿using BobrVerse.Auth.Interfaces;
 using BobrVerse.Auth.Models.Settings;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,11 +7,12 @@ using System.Text;
 
 namespace BobrVerse.Auth.Services
 {
-    public class AccessTokenService(JwtSettings jwtSettings): IAccessTokenService
+    public class AccessTokenService(AuthSettings authSettings) : IAccessTokenService
     {
+        private readonly JwtSettings jwtSettings = authSettings.Jwt;
         public string GenerateAccessToken(Claim[] claims)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret));
+            var key = new SymmetricSecurityKey(EnsureKeyLength(Encoding.UTF8.GetBytes(jwtSettings.Secret)));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
@@ -54,5 +54,17 @@ namespace BobrVerse.Auth.Services
             }
         }
 
+        private byte[] EnsureKeyLength(byte[] keyBytes)
+        {
+            if (keyBytes.Length < 32)
+            {
+                Array.Resize(ref keyBytes, 32);
+            }
+            else if (keyBytes.Length > 32)
+            {
+                Array.Resize(ref keyBytes, 32);
+            }
+            return keyBytes;
+        }
     }
 }

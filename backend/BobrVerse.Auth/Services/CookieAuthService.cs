@@ -1,4 +1,5 @@
 ﻿using BobrVerse.Auth.Interfaces;
+using BobrVerse.Auth.Models.Redis;
 using BobrVerse.Auth.Models.Settings;
 using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
@@ -45,14 +46,19 @@ namespace BobrVerse.Auth.Services
                 }
             }
 
-            var storedToken = await refreshTokenService.GetValidatedRefreshTokenAsync(refreshToken);
+            var validateModel = new RefreshTokenValidateModel
+            {
+                Ip = context.Connection.RemoteIpAddress.ToString(),
+                Value = refreshToken
+            };
+            var storedToken = await refreshTokenService.GetValidatedRefreshTokenAsync(validateModel);
             if (storedToken == null)
             {
                 return false;
             }
             userId = storedToken.UserId;
 
-            SetRefreshToken(storedToken.Token);
+            SetRefreshToken(storedToken.Value);
             SetAccessToken(userId);
 
             return true;
@@ -72,40 +78,32 @@ namespace BobrVerse.Auth.Services
 
         public void SetupAuth(Guid userId)
         {
-            var refreshToken = refreshTokenService.GenerateRefreshToken(userId);
-            SetRefreshToken(refreshToken.Token);
+            var ip = httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+            var refreshToken = refreshTokenService.GenerateRefreshToken(userId, ip);
+            SetRefreshToken(refreshToken.Value);
             SetAccessToken(userId);
         }
 
         private void SetAccessToken(Guid userId)
         {
-            var context = httpContextAccessor.HttpContext;
-            if (context == null)
-            {
-                return;
-            }
-
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.NameId, userId.ToString()),
             };
             var newAccessToken = accessTokenService.GenerateAccessToken(claims);
-            SetCookie(context, cookieSettings.AccessTokenName, newAccessToken, DateTime.UtcNow.AddMinutes(cookieSettings.AccessTokenCookieMinutesExpire));
+            SetCookie(cookieSettings.AccessTokenName, newAccessToken, DateTime.UtcNow.AddMinutes(cookieSettings.AccessTokenCookieMinutesExpire));
         }
 
-        private void SetRefreshToken(string value)
+        private void SetRefreshToken(string value) =>
+            SetCookie(cookieSettings.RefreshTokenName, value, DateTime.UtcNow.AddDays(cookieSettings.RefreshTokenCookieDaysExpire));
+
+        private void SetCookie(string key, string value, DateTimeOffset timeOffset)
         {
             var context = httpContextAccessor.HttpContext;
             if (context == null)
             {
                 return;
             }
-
-            SetCookie(context, cookieSettings.RefreshTokenName, value, DateTime.UtcNow.AddDays(cookieSettings.RefreshTokenCookieDaysExpire));
-        }
-
-        private void SetCookie(HttpContext context, string key, string value, DateTimeOffset timeOffset)
-        {
             var options = new CookieOptions
             {
                 HttpOnly = true,
