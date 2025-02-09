@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { InputTypes } from '@/common';
 import { IAuthRequestDto } from '@/models/requests';
@@ -19,6 +20,8 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
 
     const [logIn] = useLoginMutation();
     const [signUp] = useRegisterMutation();
+    
+    const navigate = useNavigate();
 
     const { handleSubmit, control } = useForm<FormNames>();
 
@@ -31,11 +34,11 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
         authType === 'signIn'
             ? logIn(requestData)
                 .unwrap()
-                .then((response) => { console.log('Logged in successfully:', response); })
+                .then(() => navigate('/'))
                 .catch((error) => { console.error('Failed to log in:', error); })
             : signUp(requestData)
                 .unwrap()
-                .then((response) => { console.log('Registered successfully:', response); })
+                .then(() => navigate('/'))
                 .catch((error) => { console.error('Failed to register:', error); });
     };
     
@@ -66,7 +69,7 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                 )}
             />
             <button type="submit" className={styles.authButton}>
-                {authType ==='signIn'? 'Login' : 'Register'}
+                {authType ==='signIn' ? 'Login' : 'Register'}
             </button>
         </form>
     );
