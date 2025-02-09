@@ -9,17 +9,31 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
         {
             await next(context);
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            logger.LogError(ex, "Unauthorized access exception occurred.");
+            await HandleException(context, ex.Message, HttpStatusCode.BadRequest);
+        }
+        catch(InvalidOperationException ex)
+        {
+            logger.LogError(ex, "Invalid operation exeption.");
+            await HandleException(context, ex.Message, HttpStatusCode.BadRequest);
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unhandled exception occurred.");
-
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-            var response = new ApiResponse(false, "An unexpected error occurred.");
-            var jsonResponse = JsonSerializer.Serialize(response);
-
-            await context.Response.WriteAsync(jsonResponse);
+            await HandleException(context, ex.Message, HttpStatusCode.InternalServerError);
         }
+    }
+
+    private async Task HandleException(HttpContext context, string message, HttpStatusCode statusCode)
+    {
+        context.Response.StatusCode = (int)statusCode;
+        context.Response.ContentType = "application/json";
+
+        var response = new ApiResponse(false, message);
+        var jsonResponse = JsonSerializer.Serialize(response);
+
+        await context.Response.WriteAsync(jsonResponse);
     }
 }

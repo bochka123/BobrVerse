@@ -3,6 +3,7 @@ using BobrVerse.Api.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBobrVerseServices(builder.Configuration);
+builder.Services.AddBobrVerseAzureBlobStorage(builder.Configuration);
 
 var app = builder.Build();
 
@@ -13,10 +14,12 @@ app.UseMiddleware<GlobalExceptionHandler>();
 
 app.UseHttpsRedirection();
 
+app.UseCors("CorsPolicy");
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.SeedDatabase();
 
-app.Run();
+await app.RunAsync();
