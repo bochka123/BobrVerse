@@ -71,6 +71,7 @@ namespace BobrVerse.Auth.Services
 
         public void SetupAuth(Guid userId)
         {
+            userContextService.SetUser(userId);
             var ip = httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
             var refreshToken = refreshTokenService.GenerateRefreshToken(userId, ip);
             SetRefreshToken(refreshToken.Value);
