@@ -21,7 +21,8 @@ namespace BobrVerse.Api.Extensions
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder
-                        .AllowAnyOrigin()
+                        .WithOrigins(configuration.GetValue<string>("AllowedOrigins") ?? "")
+                        .AllowCredentials()
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 
