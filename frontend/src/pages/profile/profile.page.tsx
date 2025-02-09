@@ -1,10 +1,20 @@
 import { FC } from 'react';
 
+import { useProfileHook } from '@/hooks';
 import img from '@/resources/profile.png';
 
+import { useProfilePageHook } from './hooks';
 import styles from './profile.page.module.scss';
 
 const ProfilePage: FC = () => {
+    
+    const { isProfileLoading } = useProfilePageHook();
+    const { name } = useProfileHook();
+
+    if (isProfileLoading) {
+        return <div>Loading...</div>;
+    }
+    
     return (
         <div className={styles.profileContainer}>
             <div className={styles.profileFrame}>
@@ -13,7 +23,7 @@ const ProfilePage: FC = () => {
 
             <div>
                 <div>
-                    <p className={styles.name}>Name aas</p>
+                    <p className={styles.name}>{name || 'Unknown'}</p>
                 </div>
                 <div>
 
