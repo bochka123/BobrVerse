@@ -1,0 +1,55 @@
+@use "@/styles/variables/font-variables" as t;
+
+.button {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    overflow: hidden;
+    gap: 8px;
+    white-space: nowrap;
+  
+    &.loading > .text {
+      color: transparent;
+    }
+  
+    & .text {
+      flex-grow: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  
+    &.tiny {
+      padding: 8px 16px;
+    //   @include t.button-400;
+    }
+  
+    &.small {
+      padding: 8px 14px;
+    //   @include t.button-300;
+    }
+  
+    &.medium {
+      padding: 10px 16px;
+      border-radius: 8px;
+    //   @include t.button-200;
+    }
+  
+    &.large {
+      padding: 10px 60px;
+      border-radius: 8px;
+      @include t.button-large;
+    }
+  
+    &:hover {
+      cursor: pointer;
+    }
+  
+    &:disabled {
+      pointer-events: none;
+    }
+  }
