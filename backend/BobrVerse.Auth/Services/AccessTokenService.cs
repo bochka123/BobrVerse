@@ -3,68 +3,63 @@ using BobrVerse.Auth.Models.Settings;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace BobrVerse.Auth.Services
 {
-    public class AccessTokenService(AuthSettings authSettings) : IAccessTokenService
+    public class AccessTokenService : IAccessTokenService
     {
-        private readonly JwtSettings jwtSettings = authSettings.Jwt;
-        public string GenerateAccessToken(Claim[] claims)
+        private readonly JwtSettings _jwtSettings;
+        private readonly SymmetricSecurityKey _symmetricSecurityKey;
+        public AccessTokenService(AuthSettings authSettings)
         {
-            var key = new SymmetricSecurityKey(EnsureKeyLength(Encoding.UTF8.GetBytes(jwtSettings.Secret)));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            _jwtSettings = authSettings.Jwt;
+            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
+            _symmetricSecurityKey = new SymmetricSecurityKey(hmac.Key);
+        }
+        public string GenerateAccessToken(Dictionary<string, object> claims)
+        {
 
-            var token = new JwtSecurityToken(
-                issuer: jwtSettings.Issuer,
-                audience: jwtSettings.Audience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(jwtSettings.TokenLifetimeMinutes),
-                signingCredentials: credentials
-            );
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.TokenLifetimeMinutes),
+                SigningCredentials = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature),
+                Issuer = _jwtSettings.Issuer,
+                Audience = _jwtSettings.Audience,
+                Claims = claims
+            };
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         public bool TryValidateAccessToken(string token, out ClaimsPrincipal? claimsPrincipal)
         {
-            claimsPrincipal = null;
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _symmetricSecurityKey,
+                ValidateIssuer = true,
+                ValidIssuer = _jwtSettings.Issuer,
+                ValidateAudience = true,
+                ValidAudience = _jwtSettings.Audience,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
 
             try
             {
-                claimsPrincipal = tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidIssuer = jwtSettings.Issuer,
-                    ValidateAudience = true,
-                    ValidAudience = jwtSettings.Audience,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
-                }, out _);
-
+                claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out _);
                 return true;
             }
-            catch (Exception)
+            catch
             {
+                claimsPrincipal = null;
                 return false;
             }
-        }
-
-        private byte[] EnsureKeyLength(byte[] keyBytes)
-        {
-            if (keyBytes.Length < 32)
-            {
-                Array.Resize(ref keyBytes, 32);
-            }
-            else if (keyBytes.Length > 32)
-            {
-                Array.Resize(ref keyBytes, 32);
-            }
-            return keyBytes;
         }
     }
 }

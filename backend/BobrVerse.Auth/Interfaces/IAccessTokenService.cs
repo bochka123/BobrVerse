@@ -1,11 +1,10 @@
-﻿using BobrVerse.Auth.Entities;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace BobrVerse.Auth.Interfaces
 {
     public interface IAccessTokenService
     {
-        string GenerateAccessToken(Claim[] claims);
+        string GenerateAccessToken(Dictionary<string, object> claims);
         bool TryValidateAccessToken(string token, out ClaimsPrincipal? claimsPrincipal);
     }
 }
