@@ -13,7 +13,7 @@ app.UseMiddleware<GlobalExceptionHandler>();
 
 app.UseHttpsRedirection();
 
-//app.UseCors("CorsPolicy");
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
