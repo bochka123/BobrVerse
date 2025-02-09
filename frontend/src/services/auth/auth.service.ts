@@ -1,6 +1,7 @@
-import { IAuthRequestDto } from 'models/requests';
-import { IApiResponseDto } from 'models/responses';
-import { apiSlice } from 'services';
+import { IAuthRequestDto } from '@/models/requests';
+import { IApiResponseDto } from '@/models/responses';
+import { apiSlice } from '@/services';
+
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({

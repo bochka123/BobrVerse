@@ -8,15 +8,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "paths": {
-      "@/common": ["common"],
-      "@/layouts": ["layouts"],
-      "@/models": ["models"],
-      "@/modules": ["modules"],
-      "@/pages": ["pages"],
-      "@/resources": ["resources"],
-      "@/services": ["services"],
-      "@/store": ["store"],
-      "@/styles": ["styles"],
+      "@/*": ["*"]
     },
 
     /* Bundler mode */
