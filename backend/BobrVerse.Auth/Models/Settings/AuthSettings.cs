@@ -2,9 +2,9 @@
 {
     public class AuthSettings
     {
-        public string RedisConnectionString {  get; set; }
-        public string RefreshTokenLifeTimeInDays {  get; set; }
+        public RedisSettings Redis { get; set; }
         public CookieSettings Cookie { get; set; }
         public JwtSettings Jwt { get; set; }
+        public RefreshTokenSettings RefreshToken { get; set; }
     }
 }
