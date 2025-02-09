@@ -47,6 +47,10 @@ namespace BobrVerse.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
@@ -105,7 +109,7 @@ namespace BobrVerse.Dal.Migrations
                     b.HasOne("BobrVerse.Auth.Entities.User", "User")
                         .WithOne()
                         .HasForeignKey("BobrVerse.Dal.Entities.BobrProfile", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Level");

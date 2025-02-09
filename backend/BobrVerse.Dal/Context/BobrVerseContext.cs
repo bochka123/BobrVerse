@@ -18,7 +18,7 @@ namespace BobrVerse.Dal.Context
                 .HasOne(bp => bp.User)
                 .WithOne()
                 .HasForeignKey<BobrProfile>(bp => bp.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BobrProfile>()
                 .HasOne(bp => bp.Level)

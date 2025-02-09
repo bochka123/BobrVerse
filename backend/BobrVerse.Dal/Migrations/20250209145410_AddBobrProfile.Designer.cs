@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BobrVerse.Dal.Migrations
 {
     [DbContext(typeof(BobrVerseContext))]
-    [Migration("20250209130111_addBobrProfile")]
-    partial class addBobrProfile
+    [Migration("20250209145410_AddBobrProfile")]
+    partial class AddBobrProfile
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,10 @@ namespace BobrVerse.Dal.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -108,7 +112,7 @@ namespace BobrVerse.Dal.Migrations
                     b.HasOne("BobrVerse.Auth.Entities.User", "User")
                         .WithOne()
                         .HasForeignKey("BobrVerse.Dal.Entities.BobrProfile", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Level");
