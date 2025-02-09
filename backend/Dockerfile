@@ -4,10 +4,11 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["./BobrVerse.Api/BobrVerse.Api.csproj", "./BobrVerse.Api.WebApi/"]
+COPY ["./BobrVerse.Api/BobrVerse.Api.csproj", "./BobrVerse.Api/"]
 COPY ["./BobrVerse.Auth/BobrVerse.Auth.csproj", "./BobrVerse.Auth/"]
 COPY ["./BobrVerse.Bll/BobrVerse.Bll.csproj", "./BobrVerse.Bll/"]
 COPY ["./BobrVerse.Dal/BobrVerse.Dal.csproj", "./BobrVerse.Dal/"]
+COPY ["./BobrVerse.Common/BobrVerse.Common.csproj", "./BobrVerse.Common/"]
 
 RUN dotnet restore "./BobrVerse.Api/BobrVerse.Api.csproj"
 COPY . .
