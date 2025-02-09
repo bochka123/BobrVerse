@@ -7,24 +7,14 @@ using System.Security.Claims;
 
 namespace BobrVerse.Auth.Services
 {
-    public class CookieAuthService : IAuthService
+    public class CookieAuthService(
+        IAccessTokenService accessTokenService,
+        IRefreshTokenService refreshTokenService,
+        AuthSettings authSettings,
+        IUserContextService userContextService,
+        IHttpContextAccessor httpContextAccessor) : IAuthService
     {
-        private readonly IAccessTokenService accessTokenService;
-        private readonly IRefreshTokenService refreshTokenService;
-        private readonly CookieSettings cookieSettings;
-        private readonly IHttpContextAccessor httpContextAccessor;
-
-        public CookieAuthService(
-            IAccessTokenService accessTokenService,
-            IRefreshTokenService refreshTokenService,
-            AuthSettings authSettings,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            this.accessTokenService = accessTokenService;
-            this.refreshTokenService = refreshTokenService;
-            this.cookieSettings = authSettings.Cookie;
-            this.httpContextAccessor = httpContextAccessor;
-        }
+        private readonly CookieSettings cookieSettings = authSettings.Cookie;
 
         public async Task<bool> ValidateRequestAsync(HttpContext context)
         {
@@ -57,7 +47,7 @@ namespace BobrVerse.Auth.Services
                 return false;
             }
             userId = storedToken.UserId;
-
+            userContextService.SetUser(userId);
             SetRefreshToken(storedToken.Value);
             SetAccessToken(userId);
 
