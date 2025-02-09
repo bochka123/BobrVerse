@@ -16,6 +16,7 @@ namespace BobrVerse.Auth
             services.AddScoped<IAccessTokenService, AccessTokenService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IEmailPasswordAuthService, EmailPasswordAuthService>();
+            services.AddScoped<IGoogleAuthService, GoogleAuthService>();
             services.AddScoped<IUserContextService, UserContextService>();
             services.AddSingleton<IConnectionMultiplexer>(x =>
             {

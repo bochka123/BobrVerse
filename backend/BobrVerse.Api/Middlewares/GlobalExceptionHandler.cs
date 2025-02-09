@@ -14,6 +14,11 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
             logger.LogError(ex, "Unauthorized access exception occurred.");
             await HandleException(context, ex.Message, HttpStatusCode.BadRequest);
         }
+        catch(InvalidOperationException ex)
+        {
+            logger.LogError(ex, "Invalid operation exeption.");
+            await HandleException(context, ex.Message, HttpStatusCode.BadRequest);
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unhandled exception occurred.");

@@ -13,6 +13,8 @@ namespace BobrVerse.Bll.Mappers
             .ForMember(dest => dest.Level, opt => opt.MapFrom(src => src.Level));
 
             CreateMap<BobrLevel, BobrLevelDTO>();
+
+            CreateMap<UpdateBobrProfileDTO, BobrProfile>();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace BobrVerse.Api.Controllers
         [HttpGet("myprofile")]
         public async Task<ApiResponse<MyBobrProfileDTO>> GetMyProfile() => new ApiResponse<MyBobrProfileDTO>(await bobrAccountService.GetMyProfileAsync());
 
-        [HttpPost("create")]
-        public async Task<ApiResponse<MyBobrProfileDTO>> Create(CreateBobrProfileDTO dto) => new ApiResponse<MyBobrProfileDTO>(await bobrAccountService.CreateProfileAsync(dto));
+        [HttpPost("update")]
+        public async Task<ApiResponse<MyBobrProfileDTO>> Update(UpdateBobrProfileDTO dto) => new ApiResponse<MyBobrProfileDTO>(await bobrAccountService.UpdateProfileAsync(dto));
     }
 }

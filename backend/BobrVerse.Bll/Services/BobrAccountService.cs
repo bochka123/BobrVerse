@@ -19,7 +19,7 @@ namespace BobrVerse.Bll.Services
             return profile == null ? null : mapper.Map<MyBobrProfileDTO>(profile);
         }
 
-        public async Task<MyBobrProfileDTO> CreateProfileAsync(CreateBobrProfileDTO dto)
+        public async Task CreateProfileAsync()
         {
             var userId = userContextService.UserId;
 
@@ -28,23 +28,31 @@ namespace BobrVerse.Bll.Services
                 throw new InvalidOperationException("Profile already exists.");
             }
 
-            var defaultLevel = await context.BobrLevels.OrderBy(x => x.Level).FirstOrDefaultAsync() 
+            var defaultLevel = await context.BobrLevels.AsNoTracking().OrderBy(x => x.Level).FirstOrDefaultAsync() 
                 ?? throw new InvalidOperationException("No levels configured.");
 
             var newProfile = new BobrProfile
             {
                 UserId = userId,
-                Name = dto.Name,
+                Name = $"bobr {Guid.NewGuid().ToString()[..8]}",
                 LevelId = defaultLevel.Id,
-                Level = defaultLevel,
                 XP = 0,
                 Logs = 10
             };
 
             context.BobrProfiles.Add(newProfile);
             await context.SaveChangesAsync();
+        }
 
-            return mapper.Map<MyBobrProfileDTO>(newProfile);
+        public async Task<MyBobrProfileDTO> UpdateProfileAsync(UpdateBobrProfileDTO dto)
+        {
+            var userId = userContextService.UserId;
+            var profile = await context.BobrProfiles.Include(x => x.Level).FirstOrDefaultAsync(x => x.UserId == userId) 
+                ?? throw new InvalidOperationException("Profile doesn't exists.");
+
+            mapper.Map(dto, profile);
+            await context.SaveChangesAsync();
+            return mapper.Map<MyBobrProfileDTO>(profile);
         }
     }
 }
