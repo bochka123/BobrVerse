@@ -83,4 +83,9 @@
 .authFooter a:hover {
     text-decoration: underline;
 }
-  
+
+.buttonsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

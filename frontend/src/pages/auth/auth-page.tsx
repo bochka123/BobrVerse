@@ -15,25 +15,18 @@ const AuthPage: FC = () => {
 
                 {
                     authType === 'signIn' &&
-                    <>
-                        <button className={styles.googleButton}>
-                            <img src="/google-icon.png" alt="Google logo"/> Sign in with Google
-                        </button>
-                        <p className={styles.authFooter}>
-                            Don't have an account?
-                            <a href="#" onClick={() => setAuthType('signUp')}>Sign Up</a>
-                        </p>
-                    </>
+                    <p className={styles.authFooter}>
+                        Don't have an account?
+                        <a href="#" onClick={() => setAuthType('signUp')}>Sign Up</a>
+                    </p>
                 }
 
                 {
                     authType ==='signUp' &&
-                    <>
-                        <p className={styles.authFooter}>
-                            Already have an account?
-                            <a href="#" onClick={() => setAuthType('signIn')}>Sign In</a>
-                        </p>
-                    </>
+                    <p className={styles.authFooter}>
+                        Already have an account?
+                        <a href="#" onClick={() => setAuthType('signIn')}>Sign In</a>
+                    </p>
                 }
             </div>
         </div>

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { InputTypes } from '@/common';
 import { IAuthRequestDto } from '@/models/requests';
+import { GoogleAuthButton } from '@/pages/auth/components';
 import { useLoginMutation, useRegisterMutation } from '@/services/auth';
 
 import styles from './auth-page.module.scss';
@@ -68,9 +69,12 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                     </div>
                 )}
             />
-            <button type="submit" className={styles.authButton}>
-                {authType ==='signIn' ? 'Login' : 'Register'}
-            </button>
+            <div className={styles.buttonsWrapper}>
+                <button type="submit" className={styles.authButton}>
+                    {authType === 'signIn' ? 'Login' : 'Register'}
+                </button>
+                <GoogleAuthButton/>
+            </div>
         </form>
     );
 };
