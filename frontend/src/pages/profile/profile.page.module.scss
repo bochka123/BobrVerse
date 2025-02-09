@@ -1,3 +1,5 @@
+@use '@/styles/variables/color-variables.scss' as c; 
+
 .profileContainer {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -8,8 +10,8 @@
     width: 200px;
     height: 200px;
     padding: 15px;
-    background: #8b5a2b;
-    border: 10px solid #5a3e1b;
+    background: #9b6c40;
+    border: 10px solid c.$primary;
     border-radius: 15px;
     box-shadow: 
       inset 2px 2px 8px rgba(0, 0, 0, 0.2), 
@@ -25,7 +27,7 @@
     left: 5px;
     right: 5px;
     bottom: 5px;
-    border: 5px solid #704214;
+    border: 5px solid c.$primary;
     border-radius: 10px;
 }
   
@@ -36,3 +38,8 @@
     border-radius: 10px;
 }
   
+.name {
+    color: c.$primary;
+    font-size: 50px;
+    text-shadow: 3px 4px #3C2E2E;
+}

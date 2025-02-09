@@ -12,7 +12,12 @@ const ProfilePage: FC = () => {
             </div>
 
             <div>
-                Name
+                <div>
+                    <p className={styles.name}>Name aas</p>
+                </div>
+                <div>
+
+                </div>
             </div>
         </div>
     );
