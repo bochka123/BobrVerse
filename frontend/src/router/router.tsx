@@ -1,8 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { AuthPage } from '@/pages';
+import { AuthPage, MainPage, ProfilePage } from '@/pages';
 
 export const router = createBrowserRouter([
+    {
+        element: <MainPage />,
+        children: [
+            {
+                path: '',
+                element: <ProfilePage />
+            }
+        ]
+    },
     {
         path: 'auth',
         element: <AuthPage />,
