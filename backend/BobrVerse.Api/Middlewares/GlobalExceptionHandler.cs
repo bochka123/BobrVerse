@@ -1,8 +1,6 @@
-﻿using System.Net;
+﻿using BobrVerse.Common.Models.Api;
+using System.Net;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using BobrVerse.Common.Models.Api;
 public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptionHandler> logger)
 {
     public async Task Invoke(HttpContext context)
