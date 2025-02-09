@@ -1,4 +1,6 @@
 ﻿using BobrVerse.Auth.Interfaces;
+using BobrVerse.Auth.Models.DTO;
+using BobrVerse.Common.Models.Api;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BobrVerse.Api.Controllers
@@ -8,12 +10,24 @@ namespace BobrVerse.Api.Controllers
     public class AuthController(IEmailPasswordAuthService authService) : ControllerBase
     {
         [HttpPost("register")]
-        public Task Register([FromBody] string email, string password) => authService.RegisterAsync(email, password);
+        public async Task<ActionResult<ApiResponse>> Register([FromBody] UserPasswordModel model)
+        {
+            await authService.RegisterAsync(model);
+            return Ok(new ApiResponse(true));
+        }
 
         [HttpPost("login")]
-        public Task Login([FromBody] string email, string password) => authService.LoginAsync(email, password);
+        public async Task<ActionResult<ApiResponse>> Login([FromBody] UserPasswordModel model)
+        {
+            await authService.LoginAsync(model);
+            return Ok(new ApiResponse(true));
+        }
 
         [HttpPost("logout")]
-        public void Logout() => authService.Logout();
+        public ActionResult<ApiResponse> Logout()
+        {
+            authService.Logout();
+            return Ok(new ApiResponse(true));
+        }
     }
 }

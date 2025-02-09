@@ -1,34 +1,39 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace BobrVerse.Auth.Utilities
 {
     public static class TokenEncryptionUtility
     {
-        public static string EncryptToken(string token, string secretKey)
+        private const int KeySize = 32;
+
+        public static string EncryptToken(string dataToEncode, string secretKey)
         {
-            var key = Encoding.ASCII.GetBytes(secretKey);
+            var key = GetValidKey(secretKey);
+
             using var aesAlg = Aes.Create();
             aesAlg.Key = key;
             aesAlg.GenerateIV();
             var iv = aesAlg.IV;
 
             using var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, iv);
-            var tokenBytes = Encoding.UTF8.GetBytes(token);
+            var tokenBytes = Encoding.UTF8.GetBytes(dataToEncode);
             var encryptedToken = encryptor.TransformFinalBlock(tokenBytes, 0, tokenBytes.Length);
 
             return Convert.ToBase64String(iv.Concat(encryptedToken).ToArray());
         }
 
-        public static bool TryDecryptToken(string encryptedToken, string secretKey, out string? decryptedToken)
+        public static bool TryDecryptToken(string dataToDecode, string secretKey, out string? decryptedToken)
         {
             try
             {
-                var tokenBytes = Convert.FromBase64String(encryptedToken);
+                var tokenBytes = Convert.FromBase64String(dataToDecode);
                 var iv = tokenBytes.Take(16).ToArray();
                 var encryptedData = tokenBytes.Skip(16).ToArray();
 
-                var key = Encoding.ASCII.GetBytes(secretKey);
+                var key = GetValidKey(secretKey);
                 using var aesAlg = Aes.Create();
                 aesAlg.Key = key;
                 aesAlg.IV = iv;
@@ -43,6 +48,21 @@ namespace BobrVerse.Auth.Utilities
                 decryptedToken = null;
                 return false;
             }
+        }
+
+        private static byte[] GetValidKey(string secretKey)
+        {
+            var keyBytes = Encoding.ASCII.GetBytes(secretKey);
+            if (keyBytes.Length < KeySize)
+            {
+                Array.Resize(ref keyBytes, KeySize);
+            }
+            else if (keyBytes.Length > KeySize)
+            {
+                Array.Resize(ref keyBytes, KeySize);
+            }
+
+            return keyBytes;
         }
     }
 }
