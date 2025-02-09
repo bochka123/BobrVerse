@@ -2,7 +2,6 @@
 using BobrVerse.Auth.Interfaces;
 using BobrVerse.Auth.Models.Settings;
 using BobrVerse.Auth.Services;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 
@@ -17,6 +16,7 @@ namespace BobrVerse.Auth
             services.AddScoped<IAccessTokenService, AccessTokenService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IEmailPasswordAuthService, EmailPasswordAuthService>();
+            services.AddScoped<IUserContextService, UserContextService>();
             services.AddSingleton<IConnectionMultiplexer>(x =>
             {
                 var settings = x.GetRequiredService<AuthSettings>();
