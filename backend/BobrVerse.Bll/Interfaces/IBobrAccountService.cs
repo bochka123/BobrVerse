@@ -5,7 +5,7 @@ namespace BobrVerse.Bll.Interfaces
     public interface IBobrAccountService
     {
         Task<MyBobrProfileDTO?> GetMyProfileAsync();
-        Task CreateProfileAsync();
+        Task EnsureProfileCreatedAsync();
         Task<MyBobrProfileDTO> UpdateProfileAsync(UpdateBobrProfileDTO dto);
     }
 }

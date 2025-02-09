@@ -19,13 +19,13 @@ namespace BobrVerse.Bll.Services
             return profile == null ? null : mapper.Map<MyBobrProfileDTO>(profile);
         }
 
-        public async Task CreateProfileAsync()
+        public async Task EnsureProfileCreatedAsync()
         {
             var userId = userContextService.UserId;
 
             if (await context.BobrProfiles.AnyAsync(x => x.UserId == userId))
             {
-                throw new InvalidOperationException("Profile already exists.");
+                return;
             }
 
             var defaultLevel = await context.BobrLevels.AsNoTracking().OrderBy(x => x.Level).FirstOrDefaultAsync() 

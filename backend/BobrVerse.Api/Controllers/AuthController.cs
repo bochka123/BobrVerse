@@ -15,7 +15,7 @@ namespace BobrVerse.Api.Controllers
         public async Task<ActionResult<ApiResponse>> Register([FromBody] UserPasswordModel model)
         {
             await authService.RegisterAsync(model);
-            await accountService.CreateProfileAsync();
+            await accountService.EnsureProfileCreatedAsync();
             return Ok(new ApiResponse<MyBobrProfileDTO>(true));
         }
 
@@ -37,6 +37,7 @@ namespace BobrVerse.Api.Controllers
         public async Task<ActionResult<ApiResponse>> Google([FromBody] GoogleSignModel model)
         {
             await googleAuthService.SignInAsync(model);
+            await accountService.EnsureProfileCreatedAsync();
             return Ok(new ApiResponse(true));
         }
     }
