@@ -5,21 +5,21 @@ import { apiSlice } from '@/services';
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        login: builder.mutation<IApiResponseDto, IAuthRequestDto>({
+        login: builder.mutation<IApiResponseDto<null>, IAuthRequestDto>({
             query: (data) => ({
                 url: '/api/auth/login',
                 method: 'POST',
                 body: data,
             }),
         }),
-        register: builder.mutation<IApiResponseDto, IAuthRequestDto>({
+        register: builder.mutation<IApiResponseDto<null>, IAuthRequestDto>({
             query: (data) => ({
                 url: '/api/auth/register',
                 method: 'POST',
                 body: data,
             }),
         }),
-        logOut: builder.mutation<IApiResponseDto, void>({
+        logOut: builder.mutation<IApiResponseDto<null>, void>({
             query: () => ({
                 url: '/api/auth/register',
                 method: 'POST',

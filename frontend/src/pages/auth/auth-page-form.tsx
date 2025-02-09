@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { InputTypes } from '@/common';
 import { IAuthRequestDto } from '@/models/requests';
-import { GoogleAuthButton } from '@/pages/auth/components';
-import { useLoginMutation, useRegisterMutation } from '@/services/auth';
+import { useLoginMutation, useRegisterMutation } from '@/services';
 
 import styles from './auth-page.module.scss';
+import { GoogleAuthButton } from './components';
 
 type FormNames = {
     email: string;
