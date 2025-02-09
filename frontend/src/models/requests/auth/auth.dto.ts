@@ -3,4 +3,8 @@ interface IAuthRequestDto {
     password: string;
 }
 
-export { type IAuthRequestDto };
+interface IGoogleAuthRequestDto {
+    credential: string;
+}
+
+export { type IAuthRequestDto, type IGoogleAuthRequestDto };

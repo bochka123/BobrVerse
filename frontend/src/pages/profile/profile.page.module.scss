@@ -1,4 +1,6 @@
 @use '@/styles/variables/color-variables.scss' as c; 
+@use '@/styles/variables/font-variables.scss' as t; 
+@use '@/styles/variables/shadow-variables.scss' as sh; 
 
 .profileContainer {
     display: grid;
@@ -38,8 +40,41 @@
     border-radius: 10px;
 }
   
-.name {
+.name, .logs {
     color: c.$primary;
-    font-size: 50px;
-    text-shadow: 3px 4px #3C2E2E;
+    @include t.button-large;
+    @include sh.text-primary-large;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.statsInfo {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.logsInfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+    img {
+        height: 70px;
+    }
+}
+
+.createButton {
+    background-color: c.$gray;
+    color: c.$white;
+    @include sh.button-gray;
+    @include sh.text-gray;
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: flex-end;
 }

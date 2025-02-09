@@ -1,5 +1,4 @@
-import { ICreateProfileRequestDto } from '@/models/requests';
-import { IApiResponseDto, IProfileDto, IProfileLevelDto } from '@/models/responses';
+import { IApiResponseDto, IFileDto, IProfileDto, IProfileLevelDto } from '@/models/responses';
 import { apiSlice } from '@/services';
 
 export const profileApiSlice = apiSlice.injectEndpoints({
@@ -7,17 +6,17 @@ export const profileApiSlice = apiSlice.injectEndpoints({
         getMyProfile: builder.query<IApiResponseDto<IProfileDto>, void>({
             query: () => ({ url: '/api/BobrProfile/myprofile' }),
         }),
-        createProfile: builder.mutation<IApiResponseDto<IProfileDto>, ICreateProfileRequestDto>({
-            query: (profile) => ({
-                url: '/api/BobrProfile/create',
-                method: 'POST',
-                body: profile,
-            }),
-        }),
         getLevel: builder.query<IApiResponseDto<IProfileLevelDto>, void>({
             query: () => ({ url: '/api/BobrLevel' }),
+        }),
+        uploadPhoto: builder.mutation<IApiResponseDto<IFileDto>, FormData>({
+            query: (photoDto: FormData) => ({ 
+                url: '/api/BobrProfile/UploadPhoto',
+                method: 'POST',
+                body: photoDto
+            }),
         }),
     })
 });
 
-export const { useGetMyProfileQuery, useCreateProfileMutation, useGetLevelQuery } = profileApiSlice;
+export const { useGetMyProfileQuery, useGetLevelQuery, useUploadPhotoMutation } = profileApiSlice;

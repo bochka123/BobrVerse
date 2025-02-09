@@ -1,4 +1,4 @@
-import { IAuthRequestDto } from '@/models/requests';
+import { IAuthRequestDto, IGoogleAuthRequestDto } from '@/models/requests';
 import { IApiResponseDto } from '@/models/responses';
 import { apiSlice } from '@/services';
 
@@ -25,7 +25,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
             }),
         }),
+        google: builder.mutation<IApiResponseDto<null>, IGoogleAuthRequestDto>({
+            query: (data) => ({
+                url: '/api/auth/google',
+                method: 'POST',
+                body: data
+            }),
+        }),
     })
 });
 
-export const { useLoginMutation, useRegisterMutation, useLogOutMutation } = authApiSlice;
+export const { useLoginMutation, useRegisterMutation, useLogOutMutation, useGoogleMutation } = authApiSlice;

@@ -13,4 +13,8 @@ interface IProfileDto {
     logs: number;
 }
 
-export { type IProfileDto, type IProfileLevelDto };
+interface IFileDto {
+    url: string;
+}
+
+export { type IFileDto, type IProfileDto, type IProfileLevelDto };
