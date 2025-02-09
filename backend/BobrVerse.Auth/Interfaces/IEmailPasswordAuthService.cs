@@ -1,9 +1,11 @@
-﻿namespace BobrVerse.Auth.Interfaces
+﻿using BobrVerse.Auth.Models.DTO;
+
+namespace BobrVerse.Auth.Interfaces
 {
     public interface IEmailPasswordAuthService
     {
-        Task RegisterAsync(string email, string password);
-        Task LoginAsync(string email, string password);
+        Task RegisterAsync(UserPasswordModel model);
+        Task LoginAsync(UserPasswordModel model);
         void Logout();
     }
 }

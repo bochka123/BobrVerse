@@ -1,10 +1,10 @@
-﻿using BobrVerse.Auth.Entities;
+﻿using BobrVerse.Auth.Models.Redis;
 
 namespace BobrVerse.Auth.Interfaces
 {
     public interface IRefreshTokenService
     {
-        RefreshToken GenerateRefreshToken(Guid userId);
-        Task<RefreshToken?> GetValidatedRefreshTokenAsync(string refreshToken);
+        RefreshTokenResponse GenerateRefreshToken(Guid userId, string ip);
+        Task<RefreshTokenResponse?> GetValidatedRefreshTokenAsync(RefreshTokenValidateModel model);
     }
 }

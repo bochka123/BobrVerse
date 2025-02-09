@@ -1,6 +1,5 @@
 ﻿using BobrVerse.Auth.Context;
 using BobrVerse.Auth.Interfaces;
-using BobrVerse.Auth.Middlewares;
 using BobrVerse.Auth.Models.Settings;
 using BobrVerse.Auth.Services;
 using Microsoft.AspNetCore.Builder;
@@ -18,19 +17,18 @@ namespace BobrVerse.Auth
             services.AddScoped<IAccessTokenService, AccessTokenService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IEmailPasswordAuthService, EmailPasswordAuthService>();
-            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect($"Auth:{nameof(AuthSettings.RedisConnectionString)}"));
+            services.AddSingleton<IConnectionMultiplexer>(x =>
+            {
+                var settings = x.GetRequiredService<AuthSettings>();
+                return ConnectionMultiplexer.Connect(settings.Redis.ConnectionString);
+            });
             services.AddScoped<IRefreshTokenStore, RedisRefreshTokenStore>();
 
             return services;
         }
-        public static void AddAuthDbContext<T>(this IServiceCollection services) where T: class, IAuthContext 
+        public static void AddAuthDbContext<T>(this IServiceCollection services) where T : class, IAuthContext
         {
             services.AddScoped<IAuthContext, T>();
-        }
-
-        public static void ConfigureAuth(this IApplicationBuilder app)
-        {
-            app.UseMiddleware<MainAuthMiddleware>();
         }
     }
 }
