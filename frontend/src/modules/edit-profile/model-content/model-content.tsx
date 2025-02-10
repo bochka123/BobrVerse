@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import { InputTypes } from '@/common';
+import { InputTypes, ToastModeEnum } from '@/common';
 import { BaseButton } from '@/components';
-import { useProfileHook } from '@/hooks';
+import { useProfileHook, useToast } from '@/hooks';
 import { IUpdateProfileRequestDto } from '@/models/requests';
 import { useUpdateMutation } from '@/services';
 import { setProfile } from '@/store/auth';
@@ -23,6 +23,7 @@ const ModelContent: FC<ModelContentProp> = ({ setVisible }) => {
     const { name } = useProfileHook();
     const [updateProfile] = useUpdateMutation();
     const dispatch = useDispatch();
+    const { addToast } = useToast();
 
     const { handleSubmit, control } = useForm<FormNames>({
         mode: 'onSubmit',
@@ -40,6 +41,7 @@ const ModelContent: FC<ModelContentProp> = ({ setVisible }) => {
             .unwrap()
             .then((data) => {
                 dispatch(setProfile(data.data));
+                addToast(ToastModeEnum.SUCCESS, 'Profile updated successfully');
                 setVisible(false);
             })
             .catch((error) => { console.error('Failed to update:', error); });
