@@ -3,7 +3,6 @@ using BobrVerse.Auth.Interfaces;
 using BobrVerse.Auth.Models.Redis;
 using BobrVerse.Auth.Models.Settings;
 using Microsoft.AspNetCore.Http;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace BobrVerse.Auth.Services
 {

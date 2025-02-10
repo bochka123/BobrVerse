@@ -14,6 +14,7 @@ namespace BobrVerse.Bll
             services.AddScoped<IBobrAccountService, BobrAccountService>();
             services.AddScoped<IBobrLevelService, BobrLevelService>();
             services.AddScoped<IQuestService, QuestService>();
+            services.AddScoped<IQuizTaskService, QuizTaskService>();
             services.AddAutoMapper(typeof(MapperProfile));
             return services;
         }

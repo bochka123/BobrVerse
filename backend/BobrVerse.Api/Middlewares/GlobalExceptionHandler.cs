@@ -1,4 +1,5 @@
-﻿using BobrVerse.Common.Models.Api;
+﻿using BobrVerse.Common.Exceptions;
+using BobrVerse.Common.Models.Api;
 using System.Net;
 using System.Text.Json;
 public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptionHandler> logger)
@@ -14,7 +15,7 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
             logger.LogError(ex, "Unauthorized access exception occurred.");
             await HandleException(context, ex.Message, HttpStatusCode.BadRequest);
         }
-        catch(InvalidOperationException ex)
+        catch(BobrException ex)
         {
             logger.LogError(ex, "Invalid operation exeption.");
             await HandleException(context, ex.Message, HttpStatusCode.BadRequest);

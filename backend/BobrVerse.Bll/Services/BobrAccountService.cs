@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BobrVerse.Auth.Interfaces;
 using BobrVerse.Bll.Interfaces;
+using BobrVerse.Common.Exceptions;
 using BobrVerse.Common.Models.DTO.BobrProfile;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities;
@@ -29,7 +30,7 @@ namespace BobrVerse.Bll.Services
             }
 
             var defaultLevel = await context.BobrLevels.AsNoTracking().OrderBy(x => x.Level).FirstOrDefaultAsync() 
-                ?? throw new InvalidOperationException("No levels configured.");
+                ?? throw new BobrException("No levels configured.");
 
             var newProfile = new BobrProfile
             {
@@ -48,7 +49,7 @@ namespace BobrVerse.Bll.Services
         {
             var userId = userContextService.UserId;
             var profile = await context.BobrProfiles.Include(x => x.Level).FirstOrDefaultAsync(x => x.UserId == userId) 
-                ?? throw new InvalidOperationException("Profile doesn't exists.");
+                ?? throw new BobrException("Profile doesn't exists.");
 
             mapper.Map(dto, profile);
             await context.SaveChangesAsync();
