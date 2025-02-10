@@ -3,8 +3,6 @@ using BobrVerse.Api.Models.Settings;
 using BobrVerse.Api.Seeders;
 using BobrVerse.Auth;
 using BobrVerse.Bll;
-using BobrVerse.Bll.Interfaces;
-using BobrVerse.Bll.Services;
 using BobrVerse.Common.Helpers;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Helpers;
