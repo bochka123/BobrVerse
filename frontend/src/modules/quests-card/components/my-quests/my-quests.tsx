@@ -11,7 +11,7 @@ const MyQuests: FC = () => {
         {
             title: 'Quest 1',
             description: '',
-            id: '',
+            id: '1',
             createdAt: '',
             updatedAt: '',
             tasks: [],
@@ -22,7 +22,7 @@ const MyQuests: FC = () => {
         {
             title: 'Quest 2',
             description: '',
-            id: '',
+            id: '2',
             createdAt: '',
             updatedAt: '',
             tasks: [],
@@ -33,7 +33,7 @@ const MyQuests: FC = () => {
         {
             title: 'Quest 3',
             description: '',
-            id: '',
+            id: '3',
             createdAt: '',
             updatedAt: '',
             tasks: [],

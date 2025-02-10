@@ -47,7 +47,7 @@ const ProfilePage: FC = () => {
                                 <BaseButton
                                     size={ButtonSizeEnum.LARGE}
                                     buttonClasses={styles.createButton}
-                                    onClick={() => navigate('create-quest')}
+                                    onClick={() => navigate('quests/create')}
                                 >
                                     Create
                                 </BaseButton>
@@ -59,7 +59,6 @@ const ProfilePage: FC = () => {
                     <QuestsCardModule />
                 </div>
             </div>
-
             <div className={styles.settingsButton}>
                 <IconButton icon={faGear} />
             </div>

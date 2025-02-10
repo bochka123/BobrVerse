@@ -8,7 +8,10 @@ import styles from './quest-creation.layout.module.scss';
 type QuestCreatingLayoutProps = {}
 const QuestCreatingLayout: FC<QuestCreatingLayoutProps> = () => {
 
-    const { addSlide, removeSlide, updateSlide, questSlides } = useQuestCreating();
+    const { addSlide,
+        // removeSlide, updateSlide,
+        questSlides
+    } = useQuestCreating();
 
     const handleAddSlide = (): void => {
         addSlide({ id: uuid() });
@@ -19,7 +22,7 @@ const QuestCreatingLayout: FC<QuestCreatingLayoutProps> = () => {
             <div className={styles.slidesWrapper}>
                 <div className={styles.slidesColumn}>
                     {
-                        questSlides.map((slide, index) => (
+                        questSlides.map((_, index) => (
                             <div key={index} className={styles.slide}>
                                 <h2>{index + 1}</h2>
                             </div>
