@@ -1,0 +1,80 @@
+@use '@/styles/variables/color-variables.scss' as c; 
+@use '@/styles/variables/font-variables.scss' as t; 
+@use '@/styles/variables/shadow-variables.scss' as sh; 
+
+.profileContainer {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+}
+  
+.profileFrame {
+    width: 200px;
+    height: 200px;
+    padding: 15px;
+    background: #9b6c40;
+    border: 10px solid c.$primary;
+    border-radius: 15px;
+    box-shadow: 
+      inset 2px 2px 8px rgba(0, 0, 0, 0.2), 
+      inset -2px -2px 8px rgba(255, 255, 255, 0.1), 
+      5px 5px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+  
+.profileFrame::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 5px solid c.$primary;
+    border-radius: 10px;
+}
+  
+.profileImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+  
+.name, .logs {
+    color: c.$primary;
+    @include t.button-large;
+    @include sh.text-primary-large;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.statsInfo {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.logsInfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+    img {
+        height: 70px;
+    }
+}
+
+.createButton {
+    background-color: c.$gray;
+    color: c.$white;
+    @include sh.button-gray;
+    @include sh.text-gray;
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: flex-end;
+}

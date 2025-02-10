@@ -1,35 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { FC } from 'react';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0)
+import { router } from '@/router';
+import { store } from '@/store';
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 3)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+import { PopoverProvider } from './providers';
 
-export default App
+const App: FC = () => {
+
+    return (
+        <Provider store={store}>
+            <PopoverProvider>
+                <RouterProvider router={router} />
+            </PopoverProvider>
+        </Provider>
+    );
+};
+
+export default App;

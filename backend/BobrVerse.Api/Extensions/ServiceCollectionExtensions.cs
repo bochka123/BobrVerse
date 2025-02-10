@@ -35,7 +35,6 @@ namespace BobrVerse.Api.Extensions
             services.AddSingleton(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value.Auth);
             services.AddScoped<IMigrationHelper, MigrationHelper>();
             services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
-            services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
             services.AddDbContext<BobrVerseContext>(options => options.UseSqlServer(configuration.GetConnectionString("BobrVerseDb")));
             services.ConfigureBllServiceCollection();
 

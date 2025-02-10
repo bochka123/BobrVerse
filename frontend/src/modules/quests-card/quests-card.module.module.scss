@@ -1,0 +1,75 @@
+@use '@/styles/variables/color-variables.scss' as c;
+@use '@/styles/variables/font-variables.scss' as t;
+@use '@/styles/variables/shadow-variables.scss' as sh;
+
+.card {
+    width: 100%;
+    margin: 20px auto;
+    position: relative;
+}
+  
+.cardHeader {
+    padding: 0 40px;
+    position: relative;
+    top: 10px;
+}
+  
+.navTabs {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+}
+  
+.navItem {
+    flex: 1;
+    text-align: center;
+    margin: 0 5px;
+    border: 10px solid c.$primary;
+    background-image: url('@/resources/wood.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-radius: 30px 30px 0 0;
+
+    &:has(.navLink.active) {
+        border-bottom-width: 0px;
+    }
+}
+  
+.navLink {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+
+    @include t.label-small;
+    @include sh.text-primary-small;
+    color: c.$primary;
+}
+  
+.cardBody {
+    border-radius: 30px;
+    border: 10px solid c.$primary;
+
+    background-image: url('@/resources/wood.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+  
+.cardTitle {
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+}
+  
+.cardText {
+    margin-bottom: 15px;
+    color: #6c757d;
+}
