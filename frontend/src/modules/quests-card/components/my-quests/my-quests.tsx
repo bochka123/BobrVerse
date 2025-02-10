@@ -11,14 +11,35 @@ const MyQuests: FC = () => {
         {
             title: 'Quest 1',
             description: '',
+            id: '',
+            createdAt: '',
+            updatedAt: '',
+            tasks: [],
+            questResponses: [],
+            xpForComplete: 0,
+            xpForSuccess: 0
         },
         {
             title: 'Quest 2',
             description: '',
+            id: '',
+            createdAt: '',
+            updatedAt: '',
+            tasks: [],
+            questResponses: [],
+            xpForComplete: 0,
+            xpForSuccess: 0
         },
         {
             title: 'Quest 3',
             description: '',
+            id: '',
+            createdAt: '',
+            updatedAt: '',
+            tasks: [],
+            questResponses: [],
+            xpForComplete: 0,
+            xpForSuccess: 0
         }
     ];
 

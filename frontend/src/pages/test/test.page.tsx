@@ -5,7 +5,7 @@ import { useUploadPhotoMutation } from '@/services';
 const TestPage: FC = () => {
     const [uploadPhoto] = useUploadPhotoMutation();
 
-    const fileSelected = (event): void => {
+    const fileSelected = (event: any): void => {
         // @ts-ignore
         const file = event.target.files[0];
 
