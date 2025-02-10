@@ -1,13 +1,27 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import Editor from 'react-simple-code-editor';
 
 import { WoodenContainer } from '@/components';
-import styles from '@/pages/quest/quest.page.module.scss';
+import { highlight } from '@/helpers';
+
+import styles from './quest-answer.module.scss';
 
 type QuestAnswerProps = {}
 const QuestAnswer: FC<QuestAnswerProps> = () => {
+
+    const [code, setCode] = useState('');
+    
     return (
         <WoodenContainer className={styles.answerContainer}>
-            <>Answer</>
+            <div className={styles.editorWrapper}>
+                <Editor
+                    padding={5}
+                    highlight={code => highlight(code)}
+                    onValueChange={setCode}
+                    value={code}
+                    placeholder={'Enter your code here...'}
+                />
+            </div>
         </WoodenContainer>
     );
 };

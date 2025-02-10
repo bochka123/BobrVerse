@@ -1,7 +1,8 @@
 import { FC } from 'react';
 
 import { WoodenContainer } from '@/components';
-import styles from '@/pages/quest/quest.page.module.scss';
+
+import styles from './quest-question.module.scss';
 
 type QuestQuestionProps = {}
 const QuestQuestion: FC<QuestQuestionProps> = () => {
@@ -11,7 +12,7 @@ const QuestQuestion: FC<QuestQuestionProps> = () => {
                 <img src="/src/resources/profile.png" alt="question image"/>
             </div>
 
-            <>Question</>
+            <p>Question</p>
         </WoodenContainer>
     );
 };

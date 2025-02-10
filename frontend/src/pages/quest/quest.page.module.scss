@@ -24,28 +24,6 @@
     align-items: center;
     height: 90px;
   }
-
-  .questionContainer {
-    width: 100%;
-    flex-grow: 1;
-    padding: 20px;
-    display: flex;
-    gap: 20px;
-
-    .questionImage {
-      width: 30%;
-
-      & > img {
-        border-radius: 10px;
-      }
-    }
-  }
-
-  .answerContainer {
-    width: 100%;
-    flex-grow: 1;
-    padding: 20px;
-  }
 }
 
 .rightPanelWrapper {
