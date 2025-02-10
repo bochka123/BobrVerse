@@ -3,6 +3,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { InputTypes } from '@/common';
+import { BaseButton } from '@/components';
+import { useAuth } from '@/hooks';
 import { IAuthRequestDto } from '@/models/requests';
 import { useLoginMutation, useRegisterMutation } from '@/services';
 
@@ -21,6 +23,7 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
 
     const [logIn] = useLoginMutation();
     const [signUp] = useRegisterMutation();
+    const { logIn: setAuthenticated } = useAuth();
     
     const navigate = useNavigate();
 
@@ -35,11 +38,17 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
         authType === 'signIn'
             ? logIn(requestData)
                 .unwrap()
-                .then(() => navigate('/'))
+                .then(() => {
+                    setAuthenticated();
+                    navigate('/');
+                })
                 .catch((error) => { console.error('Failed to log in:', error); })
             : signUp(requestData)
                 .unwrap()
-                .then(() => navigate('/'))
+                .then(() => {
+                    setAuthenticated();
+                    navigate('/');
+                })
                 .catch((error) => { console.error('Failed to register:', error); });
     };
     
@@ -70,9 +79,9 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                 )}
             />
             <div className={styles.buttonsWrapper}>
-                <button type="submit" className={styles.authButton}>
+                <BaseButton type={'submit'} className={styles.authButton}>
                     {authType === 'signIn' ? 'Login' : 'Register'}
-                </button>
+                </BaseButton>
                 <GoogleAuthButton/>
             </div>
         </form>

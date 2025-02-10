@@ -4,6 +4,7 @@ using BobrVerse.Auth.Interfaces;
 using BobrVerse.Auth.Models.DTO;
 using Google.Apis.Auth;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Authentication;
 
 namespace BobrVerse.Auth.Services
 {
@@ -16,7 +17,7 @@ namespace BobrVerse.Auth.Services
                 var payload = await GoogleJsonWebSignature.ValidateAsync(model.Credential);
                 if (!payload.EmailVerified)
                 {
-                    throw new InvalidOperationException("Email is not verified.");
+                    throw new InvalidCredentialException("Email is not verified.");
                 }
                 var user = await context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == payload.Email);
                 if (user == null)

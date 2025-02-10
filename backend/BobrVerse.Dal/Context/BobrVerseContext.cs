@@ -1,10 +1,8 @@
 ﻿using BobrVerse.Auth.Context;
 using BobrVerse.Auth.Entities;
-using BobrVerse.Common.Models.Quiz.Enums;
 using BobrVerse.Dal.Entities;
 using BobrVerse.Dal.Entities.Quest;
 using BobrVerse.Dal.Entities.Quest.Tasks;
-using BobrVerse.Dal.Entities.Quest.Tasks.CollectResources;
 using Microsoft.EntityFrameworkCore;
 
 namespace BobrVerse.Dal.Context
@@ -15,16 +13,13 @@ namespace BobrVerse.Dal.Context
         public DbSet<BobrProfile> BobrProfiles { get; set; }
         public DbSet<BobrLevel> BobrLevels { get; set; }
         public DbSet<Quest> Quests { get; set; }
-        public DbSet<QuestResponse> QuestResponses {  get; set; }
-        public DbSet<QuizTaskStatus> QuizTaskStatuses {  get; set; }
+        public DbSet<QuestResponse> QuestResponses { get; set; }
+        public DbSet<QuizTaskStatus> QuizTaskStatuses { get; set; }
         public DbSet<QuizTask> QuizTasks { get; set; }
-        public DbSet<Resource> Resources {  get; set; }
+        public DbSet<Resource> Resources { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<QuizTask>()
-                .HasDiscriminator<TaskTypeEnum>(nameof(QuizTask.TaskType))
-                .HasValue<CollectResourcesTask>(TaskTypeEnum.CollectResources);
 
             modelBuilder.Entity<BobrProfile>()
                 .HasOne(bp => bp.User)
@@ -49,6 +44,12 @@ namespace BobrVerse.Dal.Context
                 .WithOne(qr => qr.Quest)
                 .HasForeignKey(qr => qr.QuestId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Quest>()
+                .HasMany(q => q.Tasks)
+                .WithOne(t => t.Quest)
+                .HasForeignKey(t => t.QuestId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

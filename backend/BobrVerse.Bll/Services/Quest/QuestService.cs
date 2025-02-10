@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BobrVerse.Auth.Interfaces;
 using BobrVerse.Bll.Interfaces.Quest;
+using BobrVerse.Common.Exceptions;
 using BobrVerse.Common.Models.DTO.Quest;
 using BobrVerse.Common.Models.Quest.Enums;
 using BobrVerse.Dal.Context;
@@ -25,7 +26,7 @@ namespace BobrVerse.Bll.Services.Quest
             var cost = dto.XpForSuccess * XpForSuccessCompleteToLogsModifier + dto.XpForComplete * XpForCompleteToLogsModifier;
             if (profile.Logs < cost)
             {
-                throw new InvalidOperationException($"Your log balance is {profile.Logs}, but must be greater than {cost} to create quest.");
+                throw new BobrException($"Your log balance is {profile.Logs}, but must be greater than {cost} to create quest.");
             }
             profile.Logs -= cost;
             var newQuest = mapper.Map<QuestDb>(dto);

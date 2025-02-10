@@ -1,5 +1,7 @@
 import { FC, useState } from 'react';
 
+import { WoodenContainer } from '@/components';
+
 import styles from './auth-page.module.scss';
 import { AuthPageForm } from './auth-page-form.tsx';
 
@@ -9,26 +11,28 @@ const AuthPage: FC = () => {
     
     return (
         <div className={styles.authContainer}>
-            <div className={styles.authCard}>
-                {authType === 'signIn' ? <h2>Sign In</h2> : <h2>Sign Up</h2>}
-                <AuthPageForm authType={authType} />
+            <div className={styles.background} />
+            <div className={styles.backgroundOverlay} />
+            <WoodenContainer>
+                <div className={styles.authCard}>
+                    {authType === 'signIn' ? <h2>Sign In</h2> : <h2>Sign Up</h2>}
+                    <AuthPageForm authType={authType}/>
 
-                {
-                    authType === 'signIn' &&
-                    <p className={styles.authFooter}>
-                        Don't have an account?
-                        <a href="#" onClick={() => setAuthType('signUp')}>Sign Up</a>
-                    </p>
-                }
+                    {
+                        authType === 'signIn' &&
+                        <p className={styles.authFooter}>
+                            Don't have an account? <a href="#" onClick={() => setAuthType('signUp')}>Sign Up</a>
+                        </p>
+                    }
 
-                {
-                    authType ==='signUp' &&
-                    <p className={styles.authFooter}>
-                        Already have an account?
-                        <a href="#" onClick={() => setAuthType('signIn')}>Sign In</a>
-                    </p>
-                }
-            </div>
+                    {
+                        authType === 'signUp' &&
+                        <p className={styles.authFooter}>
+                            Already have an account? <a href="#" onClick={() => setAuthType('signIn')}>Sign In</a>
+                        </p>
+                    }
+                </div>
+            </WoodenContainer>
         </div>
     );
 };

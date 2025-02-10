@@ -1,0 +1,79 @@
+@use '@/styles/variables/color-variables' as c;
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.leftPanelWrapper {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  height: 100%;
+
+  h1 {
+    display: flex;
+    align-items: center;
+    height: 90px;
+  }
+
+  .questionContainer {
+    width: 100%;
+    flex-grow: 1;
+    padding: 20px;
+  }
+
+  .answerContainer {
+    width: 100%;
+    flex-grow: 1;
+    padding: 20px;
+  }
+}
+
+.rightPanelWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.hintsContainer {
+  width: 400px;
+  height: 100%;
+  padding: 15px;
+
+  .hintsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    & > h2 {
+      align-self: center;
+    }
+
+    & li {
+      list-style: none;
+    }
+
+    & li:before {
+      content: '· '
+    }
+  }
+}
+
+.timeWrapper {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 10px solid c.$primary;
+}

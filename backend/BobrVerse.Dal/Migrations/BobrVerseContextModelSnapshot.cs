@@ -223,43 +223,14 @@ namespace BobrVerse.Dal.Migrations
                     b.ToTable("QuizTaskStatuses");
                 });
 
-            modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.CollectResources.Resource", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CollectResourcesTaskId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("Length")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Weigth")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CollectResourcesTaskId");
-
-                    b.ToTable("Resources");
-                });
-
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CodeTemplate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -268,11 +239,17 @@ namespace BobrVerse.Dal.Migrations
                     b.Property<bool>("IsRequiredForNextStage")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsTemplate")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("MaxAttempts")
                         .HasColumnType("int");
 
                     b.Property<Guid>("QuestId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ShortDescription")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TaskType")
                         .HasColumnType("int");
@@ -288,21 +265,34 @@ namespace BobrVerse.Dal.Migrations
                     b.HasIndex("QuestId");
 
                     b.ToTable("QuizTasks");
-
-                    b.HasDiscriminator<int>("TaskType");
-
-                    b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.CollectResources.CollectResourcesTask", b =>
+            modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.Resource", b =>
                 {
-                    b.HasBaseType("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CodeTemplate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Length")
+                        .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue(0);
+                    b.Property<int>("Name")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("QuizTaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Weigth")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizTaskId");
+
+                    b.ToTable("Resources");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrProfile", b =>
@@ -372,13 +362,6 @@ namespace BobrVerse.Dal.Migrations
                     b.Navigation("QuizTask");
                 });
 
-            modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.CollectResources.Resource", b =>
-                {
-                    b.HasOne("BobrVerse.Dal.Entities.Quest.Tasks.CollectResources.CollectResourcesTask", null)
-                        .WithMany("RequiredResources")
-                        .HasForeignKey("CollectResourcesTaskId");
-                });
-
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask", b =>
                 {
                     b.HasOne("BobrVerse.Dal.Entities.Quest.Quest", "Quest")
@@ -388,6 +371,13 @@ namespace BobrVerse.Dal.Migrations
                         .IsRequired();
 
                     b.Navigation("Quest");
+                });
+
+            modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.Resource", b =>
+                {
+                    b.HasOne("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask", null)
+                        .WithMany("RequiredResources")
+                        .HasForeignKey("QuizTaskId");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrProfile", b =>
@@ -411,12 +401,9 @@ namespace BobrVerse.Dal.Migrations
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask", b =>
                 {
-                    b.Navigation("TaskStatuses");
-                });
-
-            modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.CollectResources.CollectResourcesTask", b =>
-                {
                     b.Navigation("RequiredResources");
+
+                    b.Navigation("TaskStatuses");
                 });
 #pragma warning restore 612, 618
         }
