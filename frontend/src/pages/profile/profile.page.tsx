@@ -22,7 +22,7 @@ const ProfilePage: FC = () => {
         if(id !== '')
             return;
         
-        if ((hasLoaded && !isProfileLoading) || (!hasLoaded && !isProfileLoading)) {            
+        if (hasLoaded && !isProfileLoading) {            
             navigate('auth');
         }
     }, [id, isProfileLoading, navigate, hasLoaded]);
