@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
-import { ButtonHTMLAttributes, FC, FormEvent, MouseEvent,useState } from 'react';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ButtonHTMLAttributes, FC, FormEvent, MouseEvent, useState } from 'react';
 
-import { useCommonButtonFunctions } from '../common';
+import { ButtonSizeEnum, useCommonButtonFunctions } from '../common';
 import styles from './icon-button.module.scss';
 
 type IconButtonProps = {
+    icon: IconDefinition;
     color?: 'primary' | 'red' | 'orange' | 'green' | 'gray' | 'dark-gray',
     hoverColor?: 'primary' | 'red' | 'orange' | 'green' | 'gray' | 'dark-gray',
-    size?: number,
+    size?: ButtonSizeEnum,
     outline?: boolean,
     transparent?: boolean,
     onClick?: (
@@ -17,17 +20,18 @@ type IconButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const IconButton: FC<IconButtonProps> = ({
-                                             color = 'primary',
-                                             hoverColor = color === 'primary' ? 'primary' : 'red',
-                                             size = 20,
-                                             outline = true,
-                                             transparent = false,
-                                             onClick,
-                                             disabled,
-                                             ...props
-                                         }) => {
+    icon,
+    color = 'primary',
+    hoverColor = color === 'primary' ? 'primary' : 'red',
+    size = ButtonSizeEnum.MEDIUM,
+    outline = true,
+    transparent = false,
+    onClick,
+    disabled,
+    ...props
+}) => {
 
-    const [isHovered, setIsHovered] = useState<boolean>(false);
+    const [_, setIsHovered] = useState<boolean>(false);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
     const { isFocused, handleFocus, handleBlur, handleClick } = useCommonButtonFunctions(props, onClick);
@@ -46,6 +50,7 @@ const IconButton: FC<IconButtonProps> = ({
             className={`
                 ${styles.button}
                 ${styles[color]}
+                ${styles[size]}
                 ${styles[`hover-${hoverColor}`]}
                 ${styles[`outline-${String(outline)}`]}
                 ${isFocused ? styles['focused'] : ''}
@@ -65,7 +70,7 @@ const IconButton: FC<IconButtonProps> = ({
             onMouseMove={handleHover}
             {...props}
         >
-            icon
+            <FontAwesomeIcon icon={icon} />
         </button>
     );
 };

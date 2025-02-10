@@ -1,6 +1,6 @@
-@use '@/styles/variables/color-variables.scss' as c; 
-@use '@/styles/variables/font-variables.scss' as t; 
-@use '@/styles/variables/shadow-variables.scss' as sh; 
+@use '@/styles/variables/color-variables.scss' as c;
+@use '@/styles/variables/font-variables.scss' as t;
+@use '@/styles/variables/shadow-variables.scss' as sh;
 
 .itemWrapper {
     display: flex;
@@ -20,7 +20,7 @@
         right: 0;
         bottom: 0;
         border-radius: 10px;
-        
+
         background-color: rgba($color: c.$primary, $alpha: 0.3);
     }
 
