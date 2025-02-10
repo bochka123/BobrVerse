@@ -1,7 +1,8 @@
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { BaseButton } from '@/components';
+import { BaseButton, IconButton } from '@/components';
 import { ButtonSizeEnum } from '@/components/primitives/buttons/common';
 import { useProfileHook } from '@/hooks';
 import { QuestsCardModule } from '@/modules';
@@ -22,41 +23,46 @@ const ProfilePage: FC = () => {
     }
 
     return (
-        <div>
-            <div className={styles.profileContainer}>
-                <div className={styles.profileFrame}>
-                    <img src={img} alt="Profile Picture" className={styles.profileImg} />
-                </div>
-
-                <div className={styles.profileInfo}>
-                    <div>
-                        <p className={styles.name}>{name || 'Unknown'}</p>
-                    </div>
-                    <div className={styles.statsInfo}>
-                        <div className={styles.logsInfo}>
-                            <div>
-                                <img src={logImage} alt="Wood log" />
-                            </div>
-                            <div>
-                                <p className={styles.logs}>{logs}</p>
-                            </div>
-                        </div>
-                        <div className={styles.buttonWrapper}>
-                            <BaseButton
-                                size={ButtonSizeEnum.LARGE}
-                                buttonClasses={styles.createButton}
-                                onClick={() => navigate('quests/create')}
-                            >
-                                Create
-                            </BaseButton>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <>
             <div>
-                <QuestsCardModule />
+                <div className={styles.profileContainer}>
+                    <div className={styles.profileFrame}>
+                        <img src={img} alt="Profile Picture" className={styles.profileImg} />
+                    </div>
+
+                    <div className={styles.profileInfo}>
+                        <div>
+                            <p className={styles.name}>{name || 'Unknown'}</p>
+                        </div>
+                        <div className={styles.statsInfo}>
+                            <div className={styles.logsInfo}>
+                                <div>
+                                    <img src={logImage} alt="Wood log" />
+                                </div>
+                                <div>
+                                    <p className={styles.logs}>{logs}</p>
+                                </div>
+                            </div>
+                            <div className={styles.buttonWrapper}>
+                                <BaseButton
+                                    size={ButtonSizeEnum.LARGE}
+                                    buttonClasses={styles.createButton}
+                                    onClick={() => navigate('quests/create')}
+                                >
+                                    Create
+                                </BaseButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <QuestsCardModule />
+                </div>
             </div>
-        </div>
+            <div className={styles.settingsButton}>
+                <IconButton icon={faGear} />
+            </div>
+        </>
     );
 };
 
