@@ -54,7 +54,9 @@ const ProfilePage: FC = () => {
                         <div className={styles.buttonWrapper}>
                             <BaseButton
                                 size={ButtonSizeEnum.LARGE}
-                                buttonClasses={styles.createButton}>
+                                buttonClasses={styles.createButton}
+                                onClick={() => navigate('create-quest')}
+                            >
                                 Create
                             </BaseButton>
                         </div>

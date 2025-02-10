@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { AuthPage, MainPage, ProfilePage, TestPage } from '@/pages';
+import { AuthPage, MainPage, ProfilePage, QuestCreatingPage, TestPage } from '@/pages';
 import { ProtectedRoute } from '@/router/protected-route.tsx';
 
 export const router = createBrowserRouter([
@@ -13,6 +13,10 @@ export const router = createBrowserRouter([
                     {
                         path: '',
                         element: <ProfilePage />
+                    },
+                    {
+                        path: 'create-quest',
+                        element: <QuestCreatingPage />
                     }
                 ]
             },
