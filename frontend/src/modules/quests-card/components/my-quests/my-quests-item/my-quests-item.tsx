@@ -1,5 +1,6 @@
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { IconButton } from '@/components';
 import { IQuestDto } from '@/models/responses';
@@ -11,6 +12,9 @@ type MyQuestsItemProps = {
 }
 
 const MyQuestsItem: FC<MyQuestsItemProps> = ({ quest }) => {
+
+    const navigate = useNavigate();
+
     return (
         <div className={styles.itemWrapper}>
             <div className={styles.backgroundOverlay} />
@@ -18,7 +22,7 @@ const MyQuestsItem: FC<MyQuestsItemProps> = ({ quest }) => {
                 <p className={styles.title}>{quest.title}</p>
 
                 <div>
-                    <IconButton icon={faArrowRight} />
+                    <IconButton icon={faArrowRight} onClick={() => navigate(`/quests/${quest.id}`)} />
                 </div>
             </div>
         </div>
