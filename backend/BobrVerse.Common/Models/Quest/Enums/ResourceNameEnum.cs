@@ -1,6 +1,6 @@
 ﻿namespace BobrVerse.Common.Models.Quiz.Enums
 {
-    public enum ResourceTypeEnum
+    public enum ResourceNameEnum
     {
         Rock,
         Wood
