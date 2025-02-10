@@ -1,0 +1,23 @@
+.hintsContainer {
+  width: 400px;
+  height: 100%;
+  padding: 15px;
+
+  .hintsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    & > h2 {
+      align-self: center;
+    }
+
+    & li {
+      list-style: none;
+    }
+
+    & li:before {
+      content: '· '
+    }
+  }
+}
