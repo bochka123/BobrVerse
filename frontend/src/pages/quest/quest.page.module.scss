@@ -1,3 +1,4 @@
+@use "@/styles/variables/shadow-variables.scss" as sh;
 @use '@/styles/variables/color-variables' as c;
 
 .container {
@@ -23,18 +24,6 @@
     display: flex;
     align-items: center;
     height: 90px;
-  }
-
-  .questionContainer {
-    width: 100%;
-    flex-grow: 1;
-    padding: 20px;
-  }
-
-  .answerContainer {
-    width: 100%;
-    flex-grow: 1;
-    padding: 20px;
   }
 }
 
@@ -76,4 +65,5 @@
   padding: 10px;
   border-radius: 10px;
   border: 10px solid c.$primary;
+  @include sh.button-bottom-small-gray-transform;
 }
