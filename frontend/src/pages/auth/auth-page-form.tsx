@@ -53,7 +53,7 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
     };
     
     const onError = (error: any): void => {
-        console.log('Form validation failed:', error);
+        console.error('Form validation failed:', error);
     };
 
     return (

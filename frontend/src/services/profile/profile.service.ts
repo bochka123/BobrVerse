@@ -1,3 +1,5 @@
+import { HttpType } from '@/common';
+import { IUpdateProfileRequestDto } from '@/models/requests';
 import { IApiResponseDto, IFileDto, IProfileDto, IProfileLevelDto } from '@/models/responses';
 import { apiSlice } from '@/services';
 
@@ -9,14 +11,21 @@ export const profileApiSlice = apiSlice.injectEndpoints({
         getLevel: builder.query<IApiResponseDto<IProfileLevelDto>, void>({
             query: () => ({ url: '/api/BobrLevel' }),
         }),
+        update: builder.mutation<IApiResponseDto<IProfileDto>, IUpdateProfileRequestDto>({
+            query: (requestDto: IUpdateProfileRequestDto) => ({ 
+                url: '/api/BobrProfile/Update',
+                method: HttpType.PUT,
+                body: requestDto
+            }),
+        }),
         uploadPhoto: builder.mutation<IApiResponseDto<IFileDto>, FormData>({
             query: (photoDto: FormData) => ({ 
                 url: '/api/BobrProfile/UploadPhoto',
-                method: 'POST',
+                method: HttpType.PUT,
                 body: photoDto
             }),
         }),
     })
 });
 
-export const { useGetMyProfileQuery, useGetLevelQuery, useUploadPhotoMutation } = profileApiSlice;
+export const { useGetMyProfileQuery, useGetLevelQuery, useUpdateMutation, useUploadPhotoMutation } = profileApiSlice;
