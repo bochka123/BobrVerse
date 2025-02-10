@@ -2,7 +2,7 @@ import { FC, ReactNode, useState } from 'react';
 
 import { QuestCardTypes } from '@/common';
 
-import { MyQuests } from './components';
+import { MyQuests, PassedQuests, Ratings } from './components';
 import styles from './quests-card.module.module.scss';
 
 const QuestsCardModule: FC = () => {
@@ -13,9 +13,9 @@ const QuestsCardModule: FC = () => {
             case QuestCardTypes.MY_QUESTS:
                 return <MyQuests />;
             case QuestCardTypes.PASSED_QUESTS:
-                return <MyQuests />;
+                return <PassedQuests />;
             case QuestCardTypes.RATINGS:
-                return <MyQuests />;
+                return <Ratings />;
         }
     };
 

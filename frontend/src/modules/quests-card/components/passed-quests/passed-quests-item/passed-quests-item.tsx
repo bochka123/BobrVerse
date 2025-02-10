@@ -1,16 +1,14 @@
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FC } from 'react';
 
-import { IconButton } from '@/components';
 import { IQuestDto } from '@/models/responses';
 
-import styles from './my-quests-item.module.scss';
+import styles from './passed-quests-item.module.scss';
 
-type MyQuestsItemProps = {
+type PassedQuestsItemProps = {
     quest: IQuestDto;
 }
 
-const MyQuestsItem: FC<MyQuestsItemProps> = ({ quest }) => {
+const PassedQuestsItem: FC<PassedQuestsItemProps> = ({ quest }) => {
     return (
         <div className={styles.itemWrapper}>
             <div className={styles.backgroundOverlay} />
@@ -18,11 +16,11 @@ const MyQuestsItem: FC<MyQuestsItemProps> = ({ quest }) => {
                 <p className={styles.title}>{quest.title}</p>
 
                 <div>
-                    <IconButton icon={faArrowRight} />
+                    
                 </div>
             </div>
         </div>
     );
 };
 
-export { MyQuestsItem };
+export { PassedQuestsItem };
