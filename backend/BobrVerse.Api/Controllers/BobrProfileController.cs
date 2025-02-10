@@ -15,10 +15,13 @@ namespace BobrVerse.Api.Controllers
         [HttpGet("myprofile")]
         public async Task<ApiResponse<MyBobrProfileDTO>> GetMyProfile() => new ApiResponse<MyBobrProfileDTO>(await bobrAccountService.GetMyProfileAsync());
 
-        [HttpPost("update")]
+        [HttpPut("update")]
         public async Task<ApiResponse<MyBobrProfileDTO>> Update(UpdateBobrProfileDTO dto) => new ApiResponse<MyBobrProfileDTO>(await bobrAccountService.UpdateProfileAsync(dto));
 
-        [HttpPost("uploadPhoto")]
+        [HttpPut("uploadPhoto")]
         public async Task<ApiResponse<FileDto>> UploadPhoto() => new ApiResponse<FileDto>(await bobrAccountService.UploadPhotoAsync(await Request.ReadFormAsync()));
+
+        [HttpDelete("deletePhoto")]
+        public async Task<ApiResponse> DeletePhoto() => new ApiResponse(await bobrAccountService.DeletePhotoAsync());
     }
 }

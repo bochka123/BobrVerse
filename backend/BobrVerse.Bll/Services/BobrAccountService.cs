@@ -87,5 +87,21 @@ namespace BobrVerse.Bll.Services
             await context.SaveChangesAsync();
             return mapper.Map<FileDto>(profile);
         }
+
+        public async Task<bool> DeletePhotoAsync()
+        {
+            var userId = userContextService.UserId;
+            var profile = await context.BobrProfiles.Include(x => x.Level).FirstOrDefaultAsync(x => x.UserId == userId)
+                ?? throw new InvalidOperationException("Profile doesn't exists.");
+
+            var oldFile = new FileDto()
+            {
+                Url = profile.Url
+            };
+
+            await azureBlobStorageService.DeleteFromBlob(oldFile);
+
+            return true;
+        }
     }
 }
