@@ -7,6 +7,10 @@ type QuestQuestionProps = {}
 const QuestQuestion: FC<QuestQuestionProps> = () => {
     return (
         <WoodenContainer className={styles.questionContainer}>
+            <div className={styles.questionImage}>
+                <img src="/src/resources/profile.png" alt="question image"/>
+            </div>
+
             <>Question</>
         </WoodenContainer>
     );
