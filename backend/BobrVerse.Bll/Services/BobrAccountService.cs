@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
+using BobrVerse.Auth.Entities;
 using BobrVerse.Auth.Interfaces;
 using BobrVerse.Bll.Interfaces;
 using BobrVerse.Common.Exceptions;
 using BobrVerse.Common.Models.DTO.BobrProfile;
+using BobrVerse.Common.Models.DTO.File;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace BobrVerse.Bll.Services
 {
-    public class BobrAccountService(BobrVerseContext context, IUserContextService userContextService, IMapper mapper) : IBobrAccountService
+    public class BobrAccountService(BobrVerseContext context, IUserContextService userContextService, IMapper mapper, IAzureBlobStorageService azureBlobStorageService) : IBobrAccountService
     {
         public IQueryable<BobrProfile> BobrProfilesQueryable =>
             context.BobrProfiles.Include(x => x.Level).AsNoTracking();
@@ -54,6 +57,35 @@ namespace BobrVerse.Bll.Services
             mapper.Map(dto, profile);
             await context.SaveChangesAsync();
             return mapper.Map<MyBobrProfileDTO>(profile);
+        }
+
+        public async Task<FileDto> UploadPhotoAsync(IFormCollection formCollection)
+        {
+            var file = formCollection.Files.FirstOrDefault();
+            var newFileDto = new NewFileDto()
+            {
+                Stream = file.OpenReadStream(),
+                FileName = file.FileName
+            };
+            var userId = userContextService.UserId;
+            var profile = await context.BobrProfiles.Include(x => x.Level).FirstOrDefaultAsync(x => x.UserId == userId)
+                ?? throw new InvalidOperationException("Profile doesn't exists.");
+
+            if (!string.IsNullOrEmpty(profile.Url))
+            {
+                var oldFile = new FileDto()
+                {
+                    Url = profile.Url
+                };
+
+                await azureBlobStorageService.DeleteFromBlob(oldFile);
+            }
+
+            var fileDto = await azureBlobStorageService.AddFileToBlobStorage(newFileDto);
+
+            profile.Url = fileDto.Url;
+            await context.SaveChangesAsync();
+            return mapper.Map<FileDto>(profile);
         }
     }
 }
