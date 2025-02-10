@@ -54,7 +54,7 @@ namespace BobrVerse.Bll.Mappers
                     : (TimeSpan?)null));
 
             CreateMap<CreateTaskDTO, ICollectResourcesTask>()
-                .IncludeBase<CreateTaskDTO, QuizTask>();
+                .Include<CreateTaskDTO, QuizTask>();
 
             CreateMap<ResourceDTO, Resource>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => Enum.Parse<ResourceNameEnum>(src.Name)));
@@ -66,7 +66,7 @@ namespace BobrVerse.Bll.Mappers
 
 
             CreateMap<ICollectResourcesTask, QuizTaskDTO>()
-                .IncludeBase<QuizTask, QuizTaskDTO>();
+                .Include<QuizTask, QuizTaskDTO>();
                 
         }
     }
