@@ -45,6 +45,11 @@ namespace BobrVerse.Bll.Services
 
         public async Task DeleteFromBlob(FileDto file)
         {
+            if (string.IsNullOrEmpty(file.Url))
+            {
+                throw new ArgumentNullException($"{file.Url} is already null or empty");
+            }
+
             var fileName = Path.GetFileName(file.Url);
             var blob = blobServiceClient.GetBlobContainerClient(blobContainerOptionsHelper.BlobContainerName)
                 .GetBlobClient(fileName);
