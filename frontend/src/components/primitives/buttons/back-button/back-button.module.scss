@@ -1,0 +1,25 @@
+@use "@/styles/variables/shadow-variables.scss" as sh;
+@use "@/styles/variables/color-variables.scss" as c;
+
+@mixin icon-button-main-style() {
+  @include sh.button-bottom-small-gray;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:active {
+    transform: translateY(2px);
+    @include sh.button-bottom-small-gray-transform;
+  }
+}
+
+.button {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  height: 40px;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+
+  @include icon-button-main-style();
+}
