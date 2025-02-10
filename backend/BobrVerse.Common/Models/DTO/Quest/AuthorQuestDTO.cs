@@ -1,6 +1,4 @@
-﻿using BobrVerse.Common.Models.Quest.Enums;
-
-namespace BobrVerse.Common.Models.DTO.Quest
+﻿namespace BobrVerse.Common.Models.DTO.Quest
 {
     public class AuthorQuestDTO
     {
@@ -11,7 +9,7 @@ namespace BobrVerse.Common.Models.DTO.Quest
         public DateTime UpdatedAt { get; set; }
         public int XpForComplete { get; set; }
         public int XpForSuccess { get; set; }
-        public QuestStatusEnum Status { get; set; }
+        public string Status { get; set; } = string.Empty;
         public int? TimeLimitInSeconds { get; set; }
         public string? Url { get; set; }
     }

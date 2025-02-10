@@ -15,14 +15,14 @@ namespace BobrVerse.Bll.Services.Quest
     {
         private const int XpForCompleteToLogsModifier = 5;
         private const int XpForSuccessCompleteToLogsModifier = 2;
-        private async Task<BobrProfile> GetProfile()
+        private async Task<BobrProfile> GetProfileAsync()
         {
             var userId = userContextService.UserId;
-            return await context.BobrProfiles.FirstAsync(x => x.UserId == userId);
+            return await context.BobrProfiles.AsNoTracking().FirstAsync(x => x.UserId == userId);
         }
         public async Task<AuthorQuestDTO> CreateAsync(CreateQuestDTO dto)
         {
-            var profile = await GetProfile();
+            var profile = await GetProfileAsync();
             var cost = dto.XpForSuccess * XpForSuccessCompleteToLogsModifier + dto.XpForComplete * XpForCompleteToLogsModifier;
             if (profile.Logs < cost)
             {
@@ -34,10 +34,18 @@ namespace BobrVerse.Bll.Services.Quest
             newQuest.CreatedAt = DateTime.UtcNow;
             newQuest.UpdatedAt = DateTime.UtcNow;
             newQuest.Status = QuestStatusEnum.Draft;
-            profile.CreatedQuests.Add(newQuest);
+            newQuest.AuthorId = profile.Id;
+
+            await context.Quests.AddAsync(newQuest);
+            await context.SaveChangesAsync();
             return mapper.Map<AuthorQuestDTO>(newQuest);
         }
 
-
+        public async Task<ICollection<AuthorQuestDTO>> GetMyQuests()
+        {
+            var profile = await GetProfileAsync();
+            var quests = await context.Quests.Where(x => x.AuthorId == profile.Id).AsNoTracking().ToListAsync();
+            return mapper.Map<ICollection<QuestDb>, ICollection<AuthorQuestDTO>>(quests);
+        }
     }
 }

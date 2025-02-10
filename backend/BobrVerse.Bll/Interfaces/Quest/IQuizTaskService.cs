@@ -4,6 +4,8 @@ namespace BobrVerse.Bll.Interfaces.Quest
 {
     public interface IQuizTaskService
     {
-        Task CreateAsync(CreateTaskDTO dto);
+        Task<QuizTaskDTO> CreateAsync(CreateTaskDTO dto);
+        Task<QuizTaskDTO> UpdateAsync(QuizTaskDTO dto);
+        Task DeleteAsync(Guid Id);
     }
 }
