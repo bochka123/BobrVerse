@@ -12,7 +12,7 @@ const App: FC = () => {
     return (
         <Provider store={store}>
             <PopoverProvider>
-                <RouterProvider router={router} />
+                    <RouterProvider router={router} />
             </PopoverProvider>
         </Provider>
     );
