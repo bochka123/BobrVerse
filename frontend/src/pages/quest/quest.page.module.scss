@@ -6,14 +6,43 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 20px;
 }
 
-.wrapper {
+.leftPanelWrapper {
   display: flex;
+  flex-grow: 1;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   width: 100%;
+  gap: 20px;
+  height: 100%;
+
+  h1 {
+    display: flex;
+    align-items: center;
+    height: 90px;
+  }
+
+  .questionContainer {
+    width: 100%;
+    flex-grow: 1;
+    padding: 20px;
+  }
+
+  .answerContainer {
+    width: 100%;
+    flex-grow: 1;
+    padding: 20px;
+  }
+}
+
+.rightPanelWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   gap: 20px;
   height: 100%;
 }
@@ -40,18 +69,6 @@
       content: '· '
     }
   }
-}
-
-.questionContainer {
-  width: 60%;
-  height: 200px;
-  padding: 20px;
-}
-
-.answerContainer {
-  width: 60%;
-  height: 200px;
-  padding: 20px;
 }
 
 .timeWrapper {
