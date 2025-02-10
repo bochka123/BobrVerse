@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { BaseButton } from '@/components';
@@ -13,19 +13,9 @@ import styles from './profile.page.module.scss';
 
 const ProfilePage: FC = () => {
 
-    const { isProfileLoading, hasLoaded } = useProfilePageHook();
-    const { id, name, logs } = useProfileHook();
+    const { isProfileLoading } = useProfilePageHook();
+    const { name, logs } = useProfileHook();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // TODO: fix broken logic
-        if(id !== '')
-            return;
-        
-        if (hasLoaded && !isProfileLoading) {            
-            navigate('auth');
-        }
-    }, [id, isProfileLoading, navigate, hasLoaded]);
 
     if (isProfileLoading) {
         return <div>Loading...</div>;
