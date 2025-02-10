@@ -2,6 +2,7 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useAuth } from '@/hooks';
 import { IGoogleAuthRequestDto } from '@/models/requests';
 import { useGoogleMutation } from '@/services';
 
@@ -12,6 +13,7 @@ const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const GoogleAuthButton: FC = () => {
     const [googleLogIn] = useGoogleMutation();
     const navigate = useNavigate();
+    const { logIn: setAuthenticated } = useAuth();
 
     const onSuccess = (response: any): void => {
         const requestData: IGoogleAuthRequestDto = {
@@ -20,7 +22,10 @@ const GoogleAuthButton: FC = () => {
 
         googleLogIn(requestData)
             .unwrap()
-            .then(() => navigate('/'))
+            .then(() => {
+                setAuthenticated();
+                navigate('/');
+            })
             .catch((error) => { console.error('Failed to log in:', error); });
     };
 

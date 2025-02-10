@@ -1,0 +1,11 @@
+@use '@/styles/variables/color-variables' as c;
+
+.container {
+  border-radius: 30px;
+  border: 10px solid c.$primary;
+
+  background-image: url('@/resources/wood.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
