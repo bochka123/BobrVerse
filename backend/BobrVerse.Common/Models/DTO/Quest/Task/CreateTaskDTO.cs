@@ -4,6 +4,7 @@
     {
         public Guid QuestId { get; set; }
         public string TaskType { get; set; } = string.Empty;
+        public string? ShortDescription { get; set; }
         public string Description { get; set; } = string.Empty;
         public bool IsRequiredForNextStage { get; set; }
         public int? MaxAttempts { get; set; }

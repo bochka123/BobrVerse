@@ -11,6 +11,7 @@ interface IProfileDto {
     level: IProfileLevelDto;
     xp: number;
     logs: number;
+    url?: string;
 }
 
 interface IFileDto {

@@ -20,5 +20,6 @@ namespace BobrVerse.Dal.Entities.Quest.Tasks
 
         public ICollection<Resource> RequiredResources { get; set; } = [];
         public string? CodeTemplate { get; set; }
+        public int Order { get; set; }
     }
 }

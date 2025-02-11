@@ -1,3 +1,4 @@
+import { HttpType } from '@/common';
 import { IAuthRequestDto, IGoogleAuthRequestDto } from '@/models/requests';
 import { IApiResponseDto } from '@/models/responses';
 import { apiSlice } from '@/services';
@@ -8,27 +9,27 @@ export const authApiSlice = apiSlice.injectEndpoints({
         login: builder.mutation<IApiResponseDto<null>, IAuthRequestDto>({
             query: (data) => ({
                 url: '/api/auth/login',
-                method: 'POST',
+                method: HttpType.POST,
                 body: data,
             }),
         }),
         register: builder.mutation<IApiResponseDto<null>, IAuthRequestDto>({
             query: (data) => ({
                 url: '/api/auth/register',
-                method: 'POST',
+                method: HttpType.POST,
                 body: data,
             }),
         }),
         logOut: builder.mutation<IApiResponseDto<null>, void>({
             query: () => ({
                 url: '/api/auth/register',
-                method: 'POST',
+                method: HttpType.POST,
             }),
         }),
         google: builder.mutation<IApiResponseDto<null>, IGoogleAuthRequestDto>({
             query: (data) => ({
                 url: '/api/auth/google',
-                method: 'POST',
+                method: HttpType.POST,
                 body: data
             }),
         }),

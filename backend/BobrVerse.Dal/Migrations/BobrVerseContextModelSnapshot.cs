@@ -146,6 +146,40 @@ namespace BobrVerse.Dal.Migrations
                     b.ToTable("Quests");
                 });
 
+            modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestRating", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("BobrProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("QuestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("QuestResponseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BobrProfileId");
+
+                    b.HasIndex("QuestId");
+
+                    b.ToTable("QuestRatings");
+                });
+
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestResponse", b =>
                 {
                     b.Property<Guid>("Id")
@@ -168,6 +202,9 @@ namespace BobrVerse.Dal.Migrations
                     b.Property<Guid>("QuestId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("QuestRatingId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("QuestTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -186,6 +223,10 @@ namespace BobrVerse.Dal.Migrations
                     b.HasIndex("ProfileId");
 
                     b.HasIndex("QuestId");
+
+                    b.HasIndex("QuestRatingId")
+                        .IsUnique()
+                        .HasFilter("[QuestRatingId] IS NOT NULL");
 
                     b.ToTable("QuestResponses");
                 });
@@ -243,6 +284,9 @@ namespace BobrVerse.Dal.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int?>("MaxAttempts")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Order")
                         .HasColumnType("int");
 
                     b.Property<Guid>("QuestId")
@@ -324,6 +368,23 @@ namespace BobrVerse.Dal.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestRating", b =>
+                {
+                    b.HasOne("BobrVerse.Dal.Entities.BobrProfile", "BobrProfile")
+                        .WithMany("QuestRatings")
+                        .HasForeignKey("BobrProfileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("BobrVerse.Dal.Entities.Quest.Quest", "Quest")
+                        .WithMany("QuestRatings")
+                        .HasForeignKey("QuestId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("BobrProfile");
+
+                    b.Navigation("Quest");
+                });
+
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestResponse", b =>
                 {
                     b.HasOne("BobrVerse.Dal.Entities.BobrProfile", "Profile")
@@ -338,9 +399,16 @@ namespace BobrVerse.Dal.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("BobrVerse.Dal.Entities.Quest.QuestRating", "QuestRating")
+                        .WithOne("QuestResponse")
+                        .HasForeignKey("BobrVerse.Dal.Entities.Quest.QuestResponse", "QuestRatingId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Profile");
 
                     b.Navigation("Quest");
+
+                    b.Navigation("QuestRating");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuizTaskStatus", b =>
@@ -384,14 +452,23 @@ namespace BobrVerse.Dal.Migrations
                 {
                     b.Navigation("CreatedQuests");
 
+                    b.Navigation("QuestRatings");
+
                     b.Navigation("QuestResponses");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Quest", b =>
                 {
+                    b.Navigation("QuestRatings");
+
                     b.Navigation("QuestResponses");
 
                     b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestRating", b =>
+                {
+                    b.Navigation("QuestResponse");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestResponse", b =>

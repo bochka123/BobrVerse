@@ -20,6 +20,13 @@ namespace BobrVerse.Bll.Mappers
             CreateMapForQuest();
 
             CreateMapForQuizTask();
+
+            CreateMapForQuestRating();
+        }
+
+        public void CreateMapForQuestRating()
+        {
+            CreateMap<CreateQuestRatingDTO, QuestRating>();
         }
 
         public void CreateMapForBobrProfile()
@@ -53,17 +60,18 @@ namespace BobrVerse.Bll.Mappers
                     ? TimeSpan.FromSeconds(src.TimeLimitInSeconds.Value)
                     : (TimeSpan?)null));
 
-            CreateMap<CreateTaskDTO, ICollectResourcesTask>()
-                .Include<CreateTaskDTO, QuizTask>();
-
             CreateMap<ResourceDTO, Resource>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => Enum.Parse<ResourceNameEnum>(src.Name)));
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => Enum.Parse<ResourceNameEnum>(src.Name)))
+                .ReverseMap();
 
             CreateMap<QuizTask, QuizTaskDTO>()
                 .ForMember(dest => dest.TaskType, opt => opt.MapFrom(src => src.TaskType.ToString()))
                 .ForMember(dest => dest.TimeLimitInSeconds, opt => opt.MapFrom(src =>
                     src.TimeLimit.HasValue ? (int?)src.TimeLimit.Value.TotalSeconds : null));
 
+            CreateMap<QuizTaskDTO, QuizTask>()
+                .ForMember(dest => dest.TaskType, opt => opt.MapFrom(src => Enum.Parse<TaskTypeEnum>(src.TaskType)))
+                .ForMember(dest => dest.RequiredResources, opt => opt.Ignore());
 
             CreateMap<ICollectResourcesTask, QuizTaskDTO>()
                 .Include<QuizTask, QuizTaskDTO>();
