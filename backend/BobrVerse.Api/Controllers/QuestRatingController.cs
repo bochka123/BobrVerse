@@ -17,5 +17,13 @@ namespace BobrVerse.Api.Controllers
             await service.CreateAsync(dto);
             return new ApiResponse(true);
         }
+
+        [HttpGet]
+        public async Task<ApiResponse<double>> GetUserRating() =>
+            new ApiResponse<double>(await service.GetUserRatingAsync());
+
+        [HttpGet("{questId:Guid}")]
+        public async Task<ApiResponse> GetQuestRating([FromRoute] Guid questId) =>
+            new ApiResponse<double>(await service.GetQuestRatingAsync(questId));
     }
 }
