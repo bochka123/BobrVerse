@@ -47,9 +47,11 @@ namespace BobrVerse.Bll.Mappers
             .ForMember(dest => dest.TimeLimit, opt => opt.MapFrom(src =>
                 src.TimeLimitInSeconds.HasValue ? TimeSpan.FromSeconds(src.TimeLimitInSeconds.Value) : (TimeSpan?)null));
 
-            CreateMap<Quest, AuthorQuestDTO>()
+            CreateMap<Quest, QuestDTO>()
                 .ForMember(dest => dest.TimeLimitInSeconds, opt => opt.MapFrom(src =>
-                    src.TimeLimit.HasValue ? (int?)src.TimeLimit.Value.TotalSeconds : null));
+                    src.TimeLimit.HasValue ? (int?)src.TimeLimit.Value.TotalSeconds : null))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.ToString()))
+                .ReverseMap();
         }
 
         public void CreateMapForQuizTask()
@@ -75,7 +77,7 @@ namespace BobrVerse.Bll.Mappers
 
             CreateMap<ICollectResourcesTask, QuizTaskDTO>()
                 .Include<QuizTask, QuizTaskDTO>();
-                
+
         }
     }
 }
