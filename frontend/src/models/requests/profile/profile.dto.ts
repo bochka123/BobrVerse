@@ -2,4 +2,6 @@ interface ICreateProfileRequestDto {
     name: string;
 }
 
-export { type ICreateProfileRequestDto };
+interface IUpdateProfileRequestDto extends ICreateProfileRequestDto { }
+
+export { type ICreateProfileRequestDto, type IUpdateProfileRequestDto };

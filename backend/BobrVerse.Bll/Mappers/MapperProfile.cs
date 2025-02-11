@@ -20,6 +20,13 @@ namespace BobrVerse.Bll.Mappers
             CreateMapForQuest();
 
             CreateMapForQuizTask();
+
+            CreateMapForQuestRating();
+        }
+
+        public void CreateMapForQuestRating()
+        {
+            CreateMap<CreateQuestRatingDTO, QuestRating>();
         }
 
         public void CreateMapForBobrProfile()

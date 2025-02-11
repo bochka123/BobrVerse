@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { AuthPage, MainPage, ProfilePage, QuestCreatingPage, QuestPage, TestPage } from '@/pages';
+import { AuthPage, MainPage, ProfilePage, QuestCreatingPage, QuestPage } from '@/pages';
 import { ProtectedRoute } from '@/router/protected-route.tsx';
 
 export const router = createBrowserRouter([
@@ -25,10 +25,6 @@ export const router = createBrowserRouter([
                 ]
             },
         ]
-    },
-    {
-        path: 'test',
-        element: <TestPage />
     },
     {
         path: 'auth',

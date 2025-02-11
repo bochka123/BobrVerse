@@ -1,11 +1,11 @@
 import { faGear } from '@fortawesome/free-solid-svg-icons';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { BaseButton, IconButton } from '@/components';
 import { ButtonSizeEnum } from '@/components/primitives/buttons/common';
 import { useProfileHook } from '@/hooks';
-import { QuestsCardModule } from '@/modules';
+import { EditProfile, QuestsCardModule } from '@/modules';
 import logImage from '@/resources/log.png';
 import img from '@/resources/profile.png';
 
@@ -15,8 +15,9 @@ import styles from './profile.page.module.scss';
 const ProfilePage: FC = () => {
 
     const { isProfileLoading } = useProfilePageHook();
-    const { name, logs } = useProfileHook();
+    const { name, logs, url } = useProfileHook();
     const navigate = useNavigate();
+    const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
 
     if (isProfileLoading) {
         return <div>Loading...</div>;
@@ -27,7 +28,7 @@ const ProfilePage: FC = () => {
             <div>
                 <div className={styles.profileContainer}>
                     <div className={styles.profileFrame}>
-                        <img src={img} alt="Profile Picture" className={styles.profileImg} />
+                        <img src={(url == undefined || url == '') ? img : url} alt="Profile Picture" className={styles.profileImg} />
                     </div>
 
                     <div className={styles.profileInfo}>
@@ -60,8 +61,9 @@ const ProfilePage: FC = () => {
                 </div>
             </div>
             <div className={styles.settingsButton}>
-                <IconButton icon={faGear} />
+                <IconButton icon={faGear} onClick={() => setSettingsVisible(true)} />
             </div>
+           <EditProfile visible={settingsVisible} setVisible={setSettingsVisible} />
         </>
     );
 };

@@ -5,15 +5,17 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from '@/router';
 import { store } from '@/store';
 
-import { PopoverProvider } from './providers';
+import { PopoverProvider, ToastProvider } from './providers';
 
 const App: FC = () => {
 
     return (
         <Provider store={store}>
-            <PopoverProvider>
-                <RouterProvider router={router} />
-            </PopoverProvider>
+            <ToastProvider>
+                <PopoverProvider>
+                    <RouterProvider router={router} />
+                </PopoverProvider>
+            </ToastProvider>
         </Provider>
     );
 };
