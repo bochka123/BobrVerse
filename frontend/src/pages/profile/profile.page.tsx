@@ -15,7 +15,7 @@ import styles from './profile.page.module.scss';
 const ProfilePage: FC = () => {
 
     const { isProfileLoading } = useProfilePageHook();
-    const { name, logs } = useProfileHook();
+    const { name, logs, url } = useProfileHook();
     const navigate = useNavigate();
     const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
 
@@ -28,7 +28,7 @@ const ProfilePage: FC = () => {
             <div>
                 <div className={styles.profileContainer}>
                     <div className={styles.profileFrame}>
-                        <img src={img} alt="Profile Picture" className={styles.profileImg} />
+                        <img src={(url == undefined || url == '') ? img : url} alt="Profile Picture" className={styles.profileImg} />
                     </div>
 
                     <div className={styles.profileInfo}>

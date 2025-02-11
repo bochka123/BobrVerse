@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
@@ -6,8 +6,8 @@ import { InputTypes, ToastModeEnum } from '@/common';
 import { BaseButton } from '@/components';
 import { useProfileHook, useToast } from '@/hooks';
 import { IUpdateProfileRequestDto } from '@/models/requests';
-import { useUpdateMutation } from '@/services';
-import { setProfile } from '@/store/auth';
+import { useUpdateMutation, useUploadPhotoMutation } from '@/services';
+import { setProfile, setUrl } from '@/store/auth';
 
 import styles from './model-content.module.scss';
 
@@ -20,10 +20,13 @@ type ModelContentProp = {
 }
 
 const ModelContent: FC<ModelContentProp> = ({ setVisible }) => {
-    const { name } = useProfileHook();
+    const { name, url } = useProfileHook();
     const [updateProfile] = useUpdateMutation();
+    const [uploadPhoto] = useUploadPhotoMutation();
     const dispatch = useDispatch();
     const { addToast } = useToast();
+    const [imageUrl, setImageUrl] = useState<string | undefined>(url);
+    const [file, setFile] = useState<File | null>(null);
 
     const { handleSubmit, control } = useForm<FormNames>({
         mode: 'onSubmit',
@@ -33,6 +36,22 @@ const ModelContent: FC<ModelContentProp> = ({ setVisible }) => {
     });
 
     const onSubmit: SubmitHandler<FormNames> = (data): void => {
+
+        if (file) {
+            const formData = new FormData();
+            formData.append(file.name, file, `/${file.name}`);
+
+            uploadPhoto(formData)
+                .unwrap()
+                .then((data) => {
+                    dispatch(setUrl(data.data));
+                    addToast(ToastModeEnum.SUCCESS, 'Successfully updated profile image');
+                })
+                .catch(() => {
+                    addToast(ToastModeEnum.ERROR, 'Failed to update profile image');
+                });
+        }
+
         const requestData: IUpdateProfileRequestDto = {
             name: data.name,
         };
@@ -44,15 +63,29 @@ const ModelContent: FC<ModelContentProp> = ({ setVisible }) => {
                 addToast(ToastModeEnum.SUCCESS, 'Profile updated successfully');
                 setVisible(false);
             })
-            .catch((error) => { console.error('Failed to update:', error); });
+            .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to update profile'));
     };
 
     const onError = (error: any): void => {
-        console.error('Form validation failed:', error);
+        addToast(ToastModeEnum.ERROR, `Form validation failed: ${error}`);
+    };
+
+    const fileSelected = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        // @ts-ignore
+        const file = event.target.files[0];
+
+        if (file) {
+            setImageUrl(URL.createObjectURL(file));
+            setFile(file);
+        }
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit, onError)} className={styles.form}>
+            {imageUrl && <img src={imageUrl} alt="Selected Image" className={styles.imagePreview} />}
+
+            <input type="file" accept="image/*" onChange={fileSelected} />
+            {/* <input type="file" onChange={fileSelected} /> */}
             <Controller
                 control={control}
                 name="name"
