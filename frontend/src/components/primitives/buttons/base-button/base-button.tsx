@@ -13,6 +13,7 @@ type BaseButtonProps = {
     ) => void,
     buttonClasses?: string,
     isLoading?: boolean,
+    enableHover?: boolean,
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const BaseButton: FC<BaseButtonProps> = ({
@@ -23,6 +24,7 @@ const BaseButton: FC<BaseButtonProps> = ({
                                             onClick,
                                             buttonClasses,
                                             isLoading,
+                                            enableHover = true,
                                             ...props
                                         }) => {
     const { isFocused, handleFocus, handleBlur, handleClick } = useCommonButtonFunctions(props, onClick);
@@ -35,7 +37,8 @@ const BaseButton: FC<BaseButtonProps> = ({
             ${isFocused ? styles['focused'] : ''}
             ${transparent ? styles['transparent'] : ''}
             ${buttonClasses || ''} 
-            ${isLoading ? styles.loading : ''}`}
+            ${isLoading ? styles.loading : ''}
+            ${enableHover ? styles.hover : ''}`}
             onClick={(e) => handleClick(e)}
             onMouseDown={handleFocus}
             onMouseUp={handleBlur}
