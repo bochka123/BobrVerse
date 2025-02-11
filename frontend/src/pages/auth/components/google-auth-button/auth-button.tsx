@@ -4,8 +4,9 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { ToastModeEnum } from '@/common';
 import { BaseButton } from '@/components';
-import { useAuth } from '@/hooks';
+import { useAuth, useToast } from '@/hooks';
 import { IGoogleAuthRequestDto } from '@/models/requests';
 import { useGoogleMutation } from '@/services';
 
@@ -15,6 +16,7 @@ const AuthButton: FC<AuthButtonProps> = () => {
     const [googleLogIn] = useGoogleMutation();
     const navigate = useNavigate();
     const { logIn: setAuthenticated } = useAuth();
+    const { addToast } = useToast();
     
     const onSuccess = (response: any): void => {
         const requestData: IGoogleAuthRequestDto = {
@@ -31,7 +33,7 @@ const AuthButton: FC<AuthButtonProps> = () => {
     };
 
     const onError = (): void => {
-        console.error('Failed to log in...');
+        addToast(ToastModeEnum.ERROR, 'Failed login with google');
     };
 
     const login = useGoogleLogin({ onSuccess, onError });

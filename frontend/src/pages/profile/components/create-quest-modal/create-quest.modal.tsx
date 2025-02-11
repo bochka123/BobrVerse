@@ -1,10 +1,11 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { InputTypes, ToastModeEnum } from '@/common';
 import { Modal } from '@/components';
 import { BaseButton, BaseInput } from '@/components/primitives';
+import { getFormErrorMessage } from '@/helpers';
 import { useToast } from '@/hooks';
 import { ICreateQuestDto } from '@/models/requests';
 import { useCreateQuestMutation } from '@/services';
@@ -45,11 +46,11 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
             .then((data) => {
                 navigate(`quests/edit/${data.data.id}`);
             })
-            .catch(() => addToast(ToastModeEnum.ERROR, 'Faled to create quest'));
+            .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to create quest'));
     };
 
-    const onError = (error: any): void => {
-        console.error('Quest creating failed:', error);
+    const onError: SubmitErrorHandler<FormNames> = (error): void => {
+        addToast(ToastModeEnum.ERROR, getFormErrorMessage(error));
     };
 
     return (
