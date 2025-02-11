@@ -6,10 +6,14 @@
 }
 
 .fileInputLabel {
+  position: absolute;
+  bottom: -10px;
+  right: -25px;
+
   border-radius: 10px;
   border: c.$primary solid 5px;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
 
   display: flex;
   flex-direction: column;
@@ -17,6 +21,9 @@
   color: c.$light;
   justify-content: center;
   align-items: center;
+
+  background: url('src/resources/wood.jpg');
+  background-size: cover;
 
   @include b.wood-darker-background-with-hover;
 
@@ -27,7 +34,7 @@
 
   & > svg {
     color: c.$light;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
 }

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { Modal } from '@/components';
 
-import { ModalContent } from './model-content';
+import { ModalContent } from './modal-content';
 
 type EditProfileModalProps = {
     visible: boolean;

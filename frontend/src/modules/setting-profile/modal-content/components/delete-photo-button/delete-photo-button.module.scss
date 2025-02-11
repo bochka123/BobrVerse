@@ -1,9 +1,13 @@
-@use "@/styles/variables/color-variables.scss" as c;
-@use "@/styles/variables/background-variables.scss" as b;
+@use "@/styles/variables/color-variables" as c;
+@use "@/styles/variables/background-variables" as b;
 
 .deleteButtonWrapper {
-  width: 100px;
-  height: 100px;
+  position: absolute;
+  bottom: -10px;
+  left: -25px;
+
+  width: 50px;
+  height: 50px;
   border-radius: 10px;
   border: c.$primary solid 5px;
 
@@ -14,6 +18,9 @@
   justify-content: center;
   align-items: center;
 
+  background: url('../../../../../resources/wood.jpg');
+  background-size: cover;
+
   @include b.wood-darker-background-with-hover;
 
   &:hover {
@@ -22,7 +29,7 @@
 
   & > svg {
     color: c.$light;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
 }

@@ -11,7 +11,6 @@ const DeletePhotoButton: FC<DeletePhotoButtonProps> = ({ onClick }) => {
     return (
         <div onClick={onClick} className={styles.deleteButtonWrapper}>
             <FontAwesomeIcon icon={faTrashCan} />
-            <span>Delete photo</span>
         </div>
     );
 };
