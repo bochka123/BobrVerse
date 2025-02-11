@@ -8,6 +8,7 @@ namespace BobrVerse.Dal.Entities
         public Guid Id { get; set; } = Guid.NewGuid();
         public ICollection<Quest.Quest> CreatedQuests { get; set; } = [];
         public ICollection<QuestResponse> QuestResponses { get; set; } = [];
+        public ICollection<QuestRating> QuestRatings { get; set; } = [];
         public string Name { get; set; } = string.Empty;
 
         public User User { get; set; } = null!;
