@@ -15,10 +15,10 @@ type ToastProps = {
 const Toast: FC<ToastProps> = ({ toast, removeToast }) => {
 
     const modeToIcon = {
-        // [ToastModeEnum.INFO]: faCircleInfo,
-        // [ToastModeEnum.SUCCESS]: faCheck,
-        // [ToastModeEnum.WARNING]: faCircleExclamation,
-        // [ToastModeEnum.ERROR]: faTriangleExclamation
+        [ToastModeEnum.INFO]: faCircleInfo,
+        [ToastModeEnum.SUCCESS]: faCheck,
+        [ToastModeEnum.WARNING]: faCircleExclamation,
+        [ToastModeEnum.ERROR]: faTriangleExclamation
     };
 
     return (
@@ -27,9 +27,9 @@ const Toast: FC<ToastProps> = ({ toast, removeToast }) => {
             ${styles[toast.mode]}
             ${styles['small']}`}
         >
-            {/* <div className={styles.icon}>
+            <div className={styles.icon}>
                 <FontAwesomeIcon icon={modeToIcon[toast.mode]} />
-            </div> */}
+            </div>
 
             <div className={styles.toastInfo}>
                 <h6 className={ styles['small']}>
