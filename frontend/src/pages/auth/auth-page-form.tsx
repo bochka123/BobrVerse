@@ -76,7 +76,7 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                 )}
             />
 
-            <BaseButton type={'submit'} className={styles.authButton}>
+            <BaseButton type={'submit'}>
                 {authType === 'signIn' ? 'Login' : 'Register'}
             </BaseButton>
             <GoogleAuthButton/>

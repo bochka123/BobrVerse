@@ -1,3 +1,6 @@
+@use "@/styles/variables/color-variables.scss" as c;
+@use '@/styles/variables/shadow-variables.scss' as sh;
+
 .form {
     display: flex;
     flex-direction: column;
@@ -12,6 +15,13 @@
     max-height: 100%;
     position: relative;
     overflow: hidden;
+
+    & h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: c.$primary;
+        @include sh.text-primary-medium;
+    }
 }
 
 .authCard {
@@ -25,18 +35,6 @@
 
 .inputGroup {
     margin: 1rem 0;
-}
-
-.authButton {
-    width: 100%;
-    padding: 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s;
 }
 
 .authButton:hover {
