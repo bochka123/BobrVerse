@@ -48,6 +48,7 @@ const ProfilePage: FC = () => {
                                 <BaseButton
                                     size={ButtonSizeEnum.LARGE}
                                     buttonClasses={styles.createButton}
+                                    enableHover={false}
                                     onClick={() => setCreateQuestModalVisible(true)}
                                 >
                                     Create
