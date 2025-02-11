@@ -3,7 +3,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { InputTypes, ToastModeEnum } from '@/common';
-import { BaseButton } from '@/components';
+import { BaseButton, BaseInput } from '@/components';
 import { useAuth, useToast } from '@/hooks';
 import { IAuthRequestDto } from '@/models/requests';
 import { useLoginMutation, useRegisterMutation } from '@/services';
@@ -64,9 +64,7 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                 name="email"
                 rules={{ required: 'Email field is required', pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ }}
                 render={({ field: { onChange, value } }) => (
-                    <div className={styles.inputGroup}>
-                        <input value={value} onChange={onChange} type={InputTypes.EMAIL} placeholder="Email" />
-                    </div>
+                    <BaseInput value={value} onChange={onChange} placeholder={'Email'} type={InputTypes.EMAIL}/>
                 )}
             />
             <Controller
@@ -74,17 +72,14 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                 name="password"
                 rules={{ required: 'Password field is required' }}
                 render={({ field: { onChange, value } }) => (
-                    <div className={styles.inputGroup}>
-                        <input value={value} onChange={onChange} type={InputTypes.PASSWORD} placeholder="Password" />
-                    </div>
+                    <BaseInput value={value} onChange={onChange} placeholder={'Password'} type={InputTypes.PASSWORD}/>
                 )}
             />
-            <div className={styles.buttonsWrapper}>
-                <BaseButton type={'submit'} className={styles.authButton}>
-                    {authType === 'signIn' ? 'Login' : 'Register'}
-                </BaseButton>
-                <GoogleAuthButton />
-            </div>
+
+            <BaseButton type={'submit'} className={styles.authButton}>
+                {authType === 'signIn' ? 'Login' : 'Register'}
+            </BaseButton>
+            <GoogleAuthButton/>
         </form>
     );
 };
