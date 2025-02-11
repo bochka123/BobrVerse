@@ -23,7 +23,10 @@ const UploadPhoto: FC<UploadPhotoProps> = ({ setImageUrl, setFile }) => {
     return (
         <div>
             <label htmlFor={'fileInput'} className={styles.fileInputLabelWrapper}>
-                <div className={styles.fileInputLabel}><FontAwesomeIcon icon={faUpload}/></div>
+                <div className={styles.fileInputLabel}>
+                    <FontAwesomeIcon icon={faUpload}/>
+                    <span>Upload photo</span>
+                </div>
             </label>
             <input id={'fileInput'} type="file" accept="image/*" onChange={fileSelected} className={styles.fileInput}/>
         </div>

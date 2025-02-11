@@ -1,15 +1,11 @@
 @use "@/styles/variables/color-variables.scss" as c;
 @use "@/styles/variables/background-variables.scss" as b;
 
-.fileInput {
-  display: none;
-}
-
-.fileInputLabel {
-  border-radius: 10px;
-  border: c.$primary solid 5px;
+.deleteButtonWrapper {
   width: 100px;
   height: 100px;
+  border-radius: 10px;
+  border: c.$primary solid 5px;
 
   display: flex;
   flex-direction: column;
@@ -22,7 +18,6 @@
 
   &:hover {
     cursor: pointer;
-    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.55);
   }
 
   & > svg {

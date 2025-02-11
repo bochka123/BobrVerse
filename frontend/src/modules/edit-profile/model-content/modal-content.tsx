@@ -7,7 +7,9 @@ import { BaseButton, BaseInput, UploadPhoto } from '@/components';
 import { getFormErrorMessage } from '@/helpers';
 import { useProfileHook, useToast } from '@/hooks';
 import { IUpdateProfileRequestDto } from '@/models/requests';
-import { useUpdateMutation, useUploadPhotoMutation } from '@/services';
+import { DeletePhotoButton } from '@/modules/edit-profile/model-content/components';
+import img from '@/resources/profile.png';
+import { useDeletePhotoMutation, useUpdateMutation, useUploadPhotoMutation } from '@/services';
 import { setProfile, setUrl } from '@/store/auth';
 
 import styles from './model-content.module.scss';
@@ -22,10 +24,14 @@ type ModalContentProp = {
 
 const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
     const { name, url } = useProfileHook();
+
     const [updateProfile] = useUpdateMutation();
     const [uploadPhoto] = useUploadPhotoMutation();
+    const [deletePhoto] = useDeletePhotoMutation();
+
     const dispatch = useDispatch();
     const { addToast } = useToast();
+
     const [imageUrl, setImageUrl] = useState<string | undefined>(url);
     const [file, setFile] = useState<File | null>(null);
 
@@ -36,9 +42,14 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
         }
     });
 
+    const onDeletePhoto = (): void => {
+        setImageUrl(undefined);
+        setFile(null);
+    };
+
     const onSubmit: SubmitHandler<FormNames> = (data): void => {
 
-        if (file) {
+        if (file && imageUrl!== url) {
             const formData = new FormData();
             formData.append(file.name, file, `/${file.name}`);
 
@@ -48,23 +59,33 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
                     dispatch(setUrl(data.data));
                     addToast(ToastModeEnum.SUCCESS, 'Successfully updated profile image');
                 })
-                .catch(() => {
-                    addToast(ToastModeEnum.ERROR, 'Failed to update profile image');
-                });
+                .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to update profile image'));
         }
 
-        const requestData: IUpdateProfileRequestDto = {
-            name: data.name,
-        };
+        if (url && !imageUrl) {
+            deletePhoto()
+                .unwrap()
+                .then(() => {
+                    dispatch(setUrl(''));
+                    addToast(ToastModeEnum.SUCCESS, 'Successfully deleted profile image');
+                })
+                .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to delete profile image'));
+        }
 
-        updateProfile(requestData)
-            .unwrap()
-            .then((data) => {
-                dispatch(setProfile(data.data));
-                addToast(ToastModeEnum.SUCCESS, 'Profile updated successfully');
-                setVisible(false);
-            })
-            .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to update profile'));
+        if (name !== data.name) {
+            const requestData: IUpdateProfileRequestDto = {
+                name: data.name,
+            };
+
+            updateProfile(requestData)
+                .unwrap()
+                .then((data) => {
+                    dispatch(setProfile(data.data));
+                    addToast(ToastModeEnum.SUCCESS, 'Successfully updated profile name');
+                    setVisible(false);
+                })
+                .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to update profile'));
+        }
     };
 
     const onError: SubmitErrorHandler<FormNames> = (error): void => {
@@ -76,10 +97,10 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
 
             <div className={styles.uploadPhotoWrapper}>
                 {
-                    !imageUrl
-                        ? <UploadPhoto setImageUrl={setImageUrl} setFile={setFile}/>
-                        : <img src={imageUrl} alt="Selected Image" className={styles.imagePreview}/>
+                    <img src={imageUrl || img} alt="Selected Image" className={styles.imagePreview}/>
                 }
+                <UploadPhoto setImageUrl={setImageUrl} setFile={setFile}/>
+                <DeletePhotoButton onClick={onDeletePhoto} />
             </div>
 
             <Controller
