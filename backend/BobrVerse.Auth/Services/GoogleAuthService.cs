@@ -2,19 +2,32 @@
 using BobrVerse.Auth.Entities;
 using BobrVerse.Auth.Interfaces;
 using BobrVerse.Auth.Models.DTO;
+using BobrVerse.Auth.Models.Settings;
 using Google.Apis.Auth;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Security.Authentication;
 
 namespace BobrVerse.Auth.Services
 {
-    public class GoogleAuthService(IAuthContext context, IAuthService authService) : IGoogleAuthService
+    public class GoogleAuthService(AuthSettings authSettings, HttpClient _httpClient, IAuthContext context, IAuthService authService) : IGoogleAuthService
     {
         public async Task SignInAsync(GoogleSignModel model)
         {
             try
             {
-                var payload = await GoogleJsonWebSignature.ValidateAsync(model.Credential);
+                var creds = GoogleCredential.FromAccessToken(model.AccessToken);
+                var response = await _httpClient.GetAsync($"{authSettings.Google.UserInfoUrl}?access_token={model.AccessToken}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new UnauthorizedAccessException("Invalid Google access token.");
+                }
+
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var payload = JsonConvert.DeserializeObject<UserInfoModel>(jsonResponse)!;
+
                 if (!payload.EmailVerified)
                 {
                     throw new InvalidCredentialException("Email is not verified.");

@@ -2,6 +2,6 @@
 {
     public class GoogleSignModel
     {
-        public string Credential { get; set; } = string.Empty;
+        public string AccessToken { get; set; } = string.Empty;
     }
 }

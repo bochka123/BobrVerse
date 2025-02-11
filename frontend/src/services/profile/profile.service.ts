@@ -13,19 +13,25 @@ export const profileApiSlice = apiSlice.injectEndpoints({
         }),
         update: builder.mutation<IApiResponseDto<IProfileDto>, IUpdateProfileRequestDto>({
             query: (requestDto: IUpdateProfileRequestDto) => ({ 
-                url: '/api/BobrProfile/Update',
+                url: '/api/BobrProfile/update',
                 method: HttpType.PUT,
                 body: requestDto
             }),
         }),
         uploadPhoto: builder.mutation<IApiResponseDto<IFileDto>, FormData>({
             query: (photoDto: FormData) => ({ 
-                url: '/api/BobrProfile/UploadPhoto',
+                url: '/api/BobrProfile/uploadPhoto',
                 method: HttpType.PUT,
                 body: photoDto
+            }),
+        }),
+        deletePhoto: builder.mutation<IApiResponseDto<null>, void>({
+            query: () => ({
+                url: '/api/BobrProfile/deletePhoto',
+                method: HttpType.DELETE,
             }),
         }),
     })
 });
 
-export const { useGetMyProfileQuery, useGetLevelQuery, useUpdateMutation, useUploadPhotoMutation } = profileApiSlice;
+export const { useGetMyProfileQuery, useGetLevelQuery, useUpdateMutation, useUploadPhotoMutation, useDeletePhotoMutation } = profileApiSlice;

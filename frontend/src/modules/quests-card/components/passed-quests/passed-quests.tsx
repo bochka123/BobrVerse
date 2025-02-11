@@ -16,7 +16,8 @@ const PassedQuests: FC = () => {
             tasks: [],
             questResponses: [],
             xpForComplete: 0,
-            xpForSuccess: 0
+            xpForSuccess: 0,
+            status: ''
         },
         {
             title: 'Quest 2',
@@ -27,7 +28,8 @@ const PassedQuests: FC = () => {
             tasks: [],
             questResponses: [],
             xpForComplete: 0,
-            xpForSuccess: 0
+            xpForSuccess: 0,
+            status: ''
         }
     ];
 

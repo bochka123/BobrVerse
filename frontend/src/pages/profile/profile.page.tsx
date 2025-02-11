@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { BaseButton, IconButton, Loader } from '@/components';
 import { ButtonSizeEnum } from '@/components/primitives/buttons/common';
 import { useProfileHook } from '@/hooks';
-import { EditProfile, QuestsCardModule } from '@/modules';
+import { EditProfileModal, QuestsCardModule } from '@/modules';
 import logImage from '@/resources/log.png';
 import img from '@/resources/profile.png';
 
@@ -65,7 +65,7 @@ const ProfilePage: FC = () => {
                 <IconButton icon={faGear} onClick={() => setSettingsVisible(true)} />
             </div>
 
-            <EditProfile visible={settingsVisible} setVisible={setSettingsVisible} />
+            <EditProfileModal visible={settingsVisible} setVisible={setSettingsVisible} />
             <CreateQuestModal visible={createQuestModalVisible} setVisible={setCreateQuestModalVisible} />
         </>
     );

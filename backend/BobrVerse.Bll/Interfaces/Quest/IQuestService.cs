@@ -6,6 +6,7 @@ namespace BobrVerse.Bll.Interfaces.Quest
     {
         Task<QuestDTO> CreateAsync(CreateQuestDTO dto);
         Task<ICollection<QuestDTO>> GetMyQuests();
-        Task<ICollection<QuestDTO>> GetActiveQuests();
+        Task<ICollection<ViewQuestDTO>> GetActiveQuests();
+        Task<QuestDTO> UpdateAsync(QuestDTO dto);
     }
 }

@@ -29,6 +29,7 @@ namespace BobrVerse.Api.Extensions
                         .AllowAnyHeader());
 
             });
+            services.AddHttpClient();
             services.Configure<AppSettings>(configuration);
             services.AddSingleton(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value.Auth);
             services.AddScoped<IMigrationHelper, MigrationHelper>();

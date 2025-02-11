@@ -2,7 +2,7 @@ enum InputTypes {
     EMAIL = 'email',
     PASSWORD = 'password',
     TEXT = 'text',
-    NUMBER = 'number'
+    NUMBER = 'number',
 }
 
 export { InputTypes };
