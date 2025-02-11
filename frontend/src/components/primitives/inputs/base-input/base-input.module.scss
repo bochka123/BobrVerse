@@ -14,3 +14,13 @@
 .button::placeholder {
   color: c.$light;
 }
+
+.button[type="number"]::-webkit-inner-spin-button,
+.button[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  background: url('@/resources/sort.svg') no-repeat center center;
+  width: 24px;
+  height: 24px;
+  opacity: 0.8;
+  cursor: pointer;
+}

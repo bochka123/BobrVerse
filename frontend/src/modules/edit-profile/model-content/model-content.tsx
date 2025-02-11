@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import { InputTypes, ToastModeEnum } from '@/common';
 import { BaseButton } from '@/components';
+import { getFormErrorMessage } from '@/helpers';
 import { useProfileHook, useToast } from '@/hooks';
 import { IUpdateProfileRequestDto } from '@/models/requests';
 import { useUpdateMutation, useUploadPhotoMutation } from '@/services';
@@ -66,10 +67,6 @@ const ModelContent: FC<ModelContentProp> = ({ setVisible }) => {
             .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to update profile'));
     };
 
-    const onError = (error: any): void => {
-        addToast(ToastModeEnum.ERROR, `Form validation failed: ${error}`);
-    };
-
     const fileSelected = (event: React.ChangeEvent<HTMLInputElement>): void => {
         // @ts-ignore
         const file = event.target.files[0];
@@ -78,6 +75,10 @@ const ModelContent: FC<ModelContentProp> = ({ setVisible }) => {
             setImageUrl(URL.createObjectURL(file));
             setFile(file);
         }
+    };
+
+    const onError: SubmitErrorHandler<FormNames> = (error): void => {
+        addToast(ToastModeEnum.ERROR, getFormErrorMessage(error));
     };
 
     return (
