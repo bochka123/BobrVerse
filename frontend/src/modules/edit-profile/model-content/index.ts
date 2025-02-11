@@ -1,1 +1,1 @@
-export * from './model-content';
+export * from './modal-content.tsx';

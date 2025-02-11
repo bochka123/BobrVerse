@@ -2,8 +2,8 @@ import React, { FC, useState } from 'react';
 import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import { InputTypes, ToastModeEnum } from '@/common';
-import { BaseButton } from '@/components';
+import { ToastModeEnum } from '@/common';
+import { BaseButton, BaseInput, UploadPhoto } from '@/components';
 import { getFormErrorMessage } from '@/helpers';
 import { useProfileHook, useToast } from '@/hooks';
 import { IUpdateProfileRequestDto } from '@/models/requests';
@@ -16,11 +16,11 @@ type FormNames = {
     name: string;
 }
 
-type ModelContentProp = {
+type ModalContentProp = {
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModelContent: FC<ModelContentProp> = ({ setVisible }) => {
+const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
     const { name, url } = useProfileHook();
     const [updateProfile] = useUpdateMutation();
     const [uploadPhoto] = useUploadPhotoMutation();
@@ -67,42 +67,37 @@ const ModelContent: FC<ModelContentProp> = ({ setVisible }) => {
             .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to update profile'));
     };
 
-    const fileSelected = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        // @ts-ignore
-        const file = event.target.files[0];
-
-        if (file) {
-            setImageUrl(URL.createObjectURL(file));
-            setFile(file);
-        }
-    };
-
     const onError: SubmitErrorHandler<FormNames> = (error): void => {
         addToast(ToastModeEnum.ERROR, getFormErrorMessage(error));
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit, onError)} className={styles.form}>
-            {imageUrl && <img src={imageUrl} alt="Selected Image" className={styles.imagePreview} />}
 
-            <input type="file" accept="image/*" onChange={fileSelected} />
-            {/* <input type="file" onChange={fileSelected} /> */}
+            <div className={styles.uploadPhotoWrapper}>
+                {
+                    !imageUrl
+                        ? <UploadPhoto setImageUrl={setImageUrl} setFile={setFile}/>
+                        : <img src={imageUrl} alt="Selected Image" className={styles.imagePreview}/>
+                }
+            </div>
+
             <Controller
                 control={control}
                 name="name"
                 render={({ field: { onChange, value } }) => (
-                    <div className={styles.inputGroup}>
-                        <input value={value} onChange={onChange} type={InputTypes.TEXT} placeholder="Email" />
-                    </div>
+                    <BaseInput
+                        value={value}
+                        onChange={onChange}
+                        placeholder={'Enter new name...'}
+                        labelText={'New name:'}
+                    />
                 )}
             />
-            <div className={styles.buttonsWrapper}>
-                <BaseButton type={'submit'} className={styles.authButton}>
-                    update
-                </BaseButton>
-            </div>
+
+            <BaseButton type={'submit'}>Update</BaseButton>
         </form>
     );
 };
 
-export { ModelContent };
+export { ModalContent };
