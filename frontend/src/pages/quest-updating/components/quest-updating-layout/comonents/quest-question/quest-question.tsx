@@ -14,7 +14,7 @@ const QuestQuestion: FC<QuestQuestionProps> = ({ title }) => {
             <div className={styles.questionImage}>
                 <img src="/src/resources/profile.png" alt="question image"/>
             </div>
-            
+            {title}
             <p>Question</p>
         </WoodenContainer>
     );
