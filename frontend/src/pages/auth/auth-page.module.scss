@@ -1,3 +1,9 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .authContainer {
     display: flex;
     justify-content: center;
@@ -19,14 +25,6 @@
 
 .inputGroup {
     margin: 1rem 0;
-}
-
-.inputGroup input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
 }
 
 .authButton {
@@ -85,12 +83,6 @@
     text-decoration: underline;
 }
 
-.buttonsWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-}
 .background {
     position: absolute;
     top: 0;
