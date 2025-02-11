@@ -6,6 +6,7 @@ interface AuthState {
     level: IProfileLevelDto;
     xp: number;
     logs: number;
+    url?: string;
 }
 
 export { type AuthState };

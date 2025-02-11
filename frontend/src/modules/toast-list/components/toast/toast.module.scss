@@ -1,0 +1,118 @@
+@use "@/styles/variables/color-variables" as c;
+@use "@/styles/variables/font-variables" as t;
+
+.toast {
+  padding: 8px 20px 12px;
+
+  display: flex;
+  gap: 12px;
+  align-items: start;
+
+  animation: toast-in-bottom 400ms;
+  background-image: url('@/resources/toast.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &.small {
+    align-items: center;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.icon {
+  display: flex;
+}
+
+.toastInfo {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  // & > .large {
+  //   @include t.headline-600-heavy;
+  //   color: c.$text-icon-primary-black;
+  // }
+
+  & > .small {
+    @include t.label-medium;
+    color: c.$primary;
+  }
+
+  // & > p {
+  //   font: t.$paragraph-300-light;
+  //   color: c.$text-icon-secondary-black;
+  // }
+}
+
+// .INFO {
+
+//   & > .icon {
+//     color: c.$primary;
+//   }
+
+//   &:hover {
+//     background: c.light(c.$primary, 5);
+//   }
+// }
+
+// .SUCCESS {
+//   background: c.light(c.$success, 6);
+
+//   & > .icon {
+//     color: c.$success;
+//   }
+
+//   &:hover {
+//     background: c.light(c.$success, 5);
+//   }
+// }
+
+// .WARNING {
+//   background: c.light(c.$warning, 6);
+
+//   & > .icon {
+//     color: c.$warning;
+//   }
+
+//   &:hover {
+//     background: c.light(c.$warning, 5);
+//   }
+// }
+
+// .ERROR {
+//   background: c.light(c.$danger, 6);
+
+//   & > .icon {
+//     color: c.$danger;
+//   }
+
+//   &:hover {
+//     background: c.light(c.$danger, 5);
+//   }
+// }
+
+.closeIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: c.$primary;
+
+  &:hover {
+    color: mix(c.$primary, #000, 50%);
+    cursor: pointer;
+  }
+}
+
+@keyframes toast-in-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
