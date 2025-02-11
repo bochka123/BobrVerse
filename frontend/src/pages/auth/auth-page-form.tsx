@@ -2,9 +2,9 @@ import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { InputTypes } from '@/common';
+import { InputTypes, ToastModeEnum } from '@/common';
 import { BaseButton, BaseInput } from '@/components';
-import { useAuth } from '@/hooks';
+import { useAuth, useToast } from '@/hooks';
 import { IAuthRequestDto } from '@/models/requests';
 import { useLoginMutation, useRegisterMutation } from '@/services';
 
@@ -24,7 +24,8 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
     const [logIn] = useLoginMutation();
     const [signUp] = useRegisterMutation();
     const { logIn: setAuthenticated } = useAuth();
-    
+    const { addToast } = useToast();
+
     const navigate = useNavigate();
 
     const { handleSubmit, control } = useForm<FormNames>();
@@ -42,18 +43,18 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                     setAuthenticated();
                     navigate('/');
                 })
-                .catch((error) => { console.error('Failed to log in:', error); })
+                .catch(() => addToast(ToastModeEnum.ERROR, 'Faled to log in'))
             : signUp(requestData)
                 .unwrap()
                 .then(() => {
                     setAuthenticated();
                     navigate('/');
                 })
-                .catch((error) => { console.error('Failed to register:', error); });
+                .catch(() => addToast(ToastModeEnum.ERROR, 'Faled to register'));
     };
-    
+
     const onError = (error: any): void => {
-        console.error('Form validation failed:', error);
+        addToast(ToastModeEnum.ERROR, `Form validation failed: ${error}`);
     };
 
     return (
