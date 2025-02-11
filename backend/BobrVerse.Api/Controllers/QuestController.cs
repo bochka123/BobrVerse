@@ -13,5 +13,8 @@ namespace BobrVerse.Api.Controllers
     {
         [HttpPost("create")]
         public async Task<ApiResponse<AuthorQuestDTO>> Create(CreateQuestDTO dto) => new ApiResponse<AuthorQuestDTO>(await service.CreateAsync(dto));
+
+        [HttpGet("my")]
+        public async Task<ApiResponse<ICollection<AuthorQuestDTO>>> GetMyQuests() => new ApiResponse<ICollection<AuthorQuestDTO>>(await service.GetMyQuests());
     }
 }

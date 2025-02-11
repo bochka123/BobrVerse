@@ -9,5 +9,6 @@ namespace BobrVerse.Common.Models.DTO.BobrProfile
         public BobrLevelDTO Level { get; set; } = null!;
         public int XP { get; set; }
         public int Logs { get; set; }
+        public string? Url { get; set; }
     }
 }

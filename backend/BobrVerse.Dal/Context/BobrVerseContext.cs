@@ -17,6 +17,7 @@ namespace BobrVerse.Dal.Context
         public DbSet<QuizTaskStatus> QuizTaskStatuses { get; set; }
         public DbSet<QuizTask> QuizTasks { get; set; }
         public DbSet<Resource> Resources { get; set; }
+        public DbSet<QuestRating> QuestRatings { get; set; } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -50,6 +51,30 @@ namespace BobrVerse.Dal.Context
                 .WithOne(t => t.Quest)
                 .HasForeignKey(t => t.QuestId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<QuestRating>()
+                .HasOne(qr => qr.QuestResponse)
+                .WithOne(qr => qr.QuestRating)
+                .HasForeignKey<QuestRating>(qr => qr.QuestResponseId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<QuestResponse>()
+                .HasOne(qr => qr.QuestRating)
+                .WithOne(qr => qr.QuestResponse)
+                .HasForeignKey<QuestResponse>(qr => qr.QuestRatingId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<QuestRating>()
+                .HasOne(qr => qr.BobrProfile)
+                .WithMany(bp => bp.QuestRatings)
+                .HasForeignKey(qr => qr.BobrProfileId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<QuestRating>()
+                .HasOne(qr => qr.Quest)
+                .WithMany(q => q.QuestRatings)
+                .HasForeignKey(qr => qr.QuestId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

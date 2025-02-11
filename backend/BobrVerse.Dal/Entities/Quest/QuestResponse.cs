@@ -15,5 +15,7 @@
         public int TotalXp { get; set; } = 0;
         public DateTime? CompletedAt { get; set; }
         public DateTime StartedAt { get; set; } = DateTime.UtcNow;
+        public Guid? QuestRatingId { get; set; }
+        public QuestRating? QuestRating { get; set; }
     }
 }

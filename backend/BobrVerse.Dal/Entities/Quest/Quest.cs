@@ -15,6 +15,7 @@ namespace BobrVerse.Dal.Entities.Quest
 
         public ICollection<QuizTask> Tasks { get; set; } = [];
         public ICollection<QuestResponse> QuestResponses {  get; set; } = [];
+        public ICollection<QuestRating> QuestRatings { get; set; } = [];
         public int XpForComplete { get; set; }
         public int XpForSuccess { get; set; }
         public QuestStatusEnum Status { get; set; }

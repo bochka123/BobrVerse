@@ -12,9 +12,15 @@ namespace BobrVerse.Api.Controllers
     public class QuizTaskController(IQuizTaskService service) : ControllerBase
     {
         [HttpPost]
-        public async Task<ApiResponse> Create(CreateTaskDTO dto)
+        public async Task<ApiResponse<QuizTaskDTO>> Create(CreateTaskDTO dto) => new ApiResponse<QuizTaskDTO>(await service.CreateAsync(dto));
+
+        [HttpPut]
+        public async Task<ApiResponse<QuizTaskDTO>> Update(QuizTaskDTO dto) => new ApiResponse<QuizTaskDTO>(await service.UpdateAsync(dto));
+
+        [HttpDelete("{id}")]
+        public async Task<ApiResponse> Delete(Guid id)
         {
-            await service.CreateAsync(dto);
+            await service.DeleteAsync(id);
             return new ApiResponse(true);
         }
     }
