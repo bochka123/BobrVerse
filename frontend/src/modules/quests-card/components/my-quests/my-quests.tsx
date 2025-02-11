@@ -1,53 +1,22 @@
 import { FC } from 'react';
 
-import { IQuestDto } from '@/models/responses';
+import { Loader } from '@/components';
+import { useGetMyQuestsQuery } from '@/services';
 
 import styles from './my-quests.module.scss';
 import { MyQuestsItem } from './my-quests-item';
 
 const MyQuests: FC = () => {
-
-    const quests: IQuestDto[] = [
-        {
-            title: 'Quest 1',
-            description: '',
-            id: '1',
-            createdAt: '',
-            updatedAt: '',
-            tasks: [],
-            questResponses: [],
-            xpForComplete: 0,
-            xpForSuccess: 0
-        },
-        {
-            title: 'Quest 2',
-            description: '',
-            id: '2',
-            createdAt: '',
-            updatedAt: '',
-            tasks: [],
-            questResponses: [],
-            xpForComplete: 0,
-            xpForSuccess: 0
-        },
-        {
-            title: 'Quest 3',
-            description: '',
-            id: '3',
-            createdAt: '',
-            updatedAt: '',
-            tasks: [],
-            questResponses: [],
-            xpForComplete: 0,
-            xpForSuccess: 0
-        }
-    ];
+    
+    const { data: questsData, isLoading: isQuestsLoading } = useGetMyQuestsQuery();
 
     return (
         <div className={styles.myQuestsWrapper}>
             <div className={styles.myQuestsContainer}>
                 {
-                    quests.map((x, key) => <MyQuestsItem quest={x} key={key} />)
+                    isQuestsLoading
+                    ? <Loader size={30} />
+                    : questsData?.data.map((x, key) => <MyQuestsItem quest={x} key={`my-quest-${key}`} />)
                 }
             </div>
         </div>

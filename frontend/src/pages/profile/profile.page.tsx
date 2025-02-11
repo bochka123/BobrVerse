@@ -1,14 +1,14 @@
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import { BaseButton, IconButton } from '@/components';
+import { BaseButton, IconButton, Loader } from '@/components';
 import { ButtonSizeEnum } from '@/components/primitives/buttons/common';
 import { useProfileHook } from '@/hooks';
-import { EditProfile, QuestsCardModule } from '@/modules';
+import { EditProfileModal, QuestsCardModule } from '@/modules';
 import logImage from '@/resources/log.png';
 import img from '@/resources/profile.png';
 
+import { CreateQuestModal } from './components';
 import { useProfilePageHook } from './hooks';
 import styles from './profile.page.module.scss';
 
@@ -16,11 +16,11 @@ const ProfilePage: FC = () => {
 
     const { isProfileLoading } = useProfilePageHook();
     const { name, logs, url } = useProfileHook();
-    const navigate = useNavigate();
     const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
+    const [createQuestModalVisible, setCreateQuestModalVisible] = useState<boolean>(false);
 
     if (isProfileLoading) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     return (
@@ -48,7 +48,8 @@ const ProfilePage: FC = () => {
                                 <BaseButton
                                     size={ButtonSizeEnum.LARGE}
                                     buttonClasses={styles.createButton}
-                                    onClick={() => navigate('quests/create')}
+                                    enableHover={false}
+                                    onClick={() => setCreateQuestModalVisible(true)}
                                 >
                                     Create
                                 </BaseButton>
@@ -63,7 +64,9 @@ const ProfilePage: FC = () => {
             <div className={styles.settingsButton}>
                 <IconButton icon={faGear} onClick={() => setSettingsVisible(true)} />
             </div>
-           <EditProfile visible={settingsVisible} setVisible={setSettingsVisible} />
+
+            <EditProfileModal visible={settingsVisible} setVisible={setSettingsVisible} />
+            <CreateQuestModal visible={createQuestModalVisible} setVisible={setCreateQuestModalVisible} />
         </>
     );
 };

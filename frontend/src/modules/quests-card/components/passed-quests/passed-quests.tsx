@@ -16,7 +16,8 @@ const PassedQuests: FC = () => {
             tasks: [],
             questResponses: [],
             xpForComplete: 0,
-            xpForSuccess: 0
+            xpForSuccess: 0,
+            status: ''
         },
         {
             title: 'Quest 2',
@@ -27,7 +28,8 @@ const PassedQuests: FC = () => {
             tasks: [],
             questResponses: [],
             xpForComplete: 0,
-            xpForSuccess: 0
+            xpForSuccess: 0,
+            status: ''
         }
     ];
 
@@ -35,7 +37,7 @@ const PassedQuests: FC = () => {
         <div className={styles.passedQuestsWrapper}>
             <div className={styles.passedQuestsContainer}>
                 {
-                    quests.map((x, key) => <PassedQuestsItem quest={x} key={key} />)
+                    quests.map((x, key) => <PassedQuestsItem quest={x} key={`quest-${key}`} />)
                 }
             </div>
         </div>

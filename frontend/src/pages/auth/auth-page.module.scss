@@ -1,3 +1,12 @@
+@use "@/styles/variables/color-variables.scss" as c;
+@use '@/styles/variables/shadow-variables.scss' as sh;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .authContainer {
     display: flex;
     justify-content: center;
@@ -6,6 +15,17 @@
     max-height: 100%;
     position: relative;
     overflow: hidden;
+
+    & h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: c.$primary;
+        @include sh.text-primary-medium;
+    }
+}
+
+.container {
+    width: 500px;
 }
 
 .authCard {
@@ -13,32 +33,10 @@
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 350px;
-    width: 100%;
 }
 
 .inputGroup {
     margin: 1rem 0;
-}
-
-.inputGroup input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.authButton {
-    width: 100%;
-    padding: 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s;
 }
 
 .authButton:hover {
@@ -73,7 +71,13 @@
 
 .authFooter {
     margin-top: 1rem;
-    font-size: 14px;
+    font-size: 20px;
+    color: c.$primary;
+
+    & a {
+        color: c.$primary !important;
+        font-weight: bold;
+    }
 }
 
 .authFooter a {
@@ -85,12 +89,6 @@
     text-decoration: underline;
 }
 
-.buttonsWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-}
 .background {
     position: absolute;
     top: 0;

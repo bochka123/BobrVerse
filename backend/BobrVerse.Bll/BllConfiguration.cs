@@ -17,6 +17,7 @@ namespace BobrVerse.Bll
             services.AddScoped<IQuizTaskService, QuizTaskService>();
             services.AddScoped<IQuestRatingService, QuestRatingService>();
             services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
+            services.AddScoped<IQuestResponseService, QuestResponseService>();
             services.AddAutoMapper(typeof(MapperProfile));
             return services;
         }

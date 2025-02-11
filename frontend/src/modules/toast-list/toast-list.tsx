@@ -19,7 +19,7 @@ const ToastList: FC<ToastListProps> = ({
             <div className={styles.toastList}>
                 {
                     toasts.map(toast => {
-                        return <Toast toast={toast} key={toast.id} removeToast={removeToast}/>;
+                        return <Toast toast={toast} key={`toast-${toast.id}`} removeToast={removeToast}/>;
                     })
                 }
             </div>

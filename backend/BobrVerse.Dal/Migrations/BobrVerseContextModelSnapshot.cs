@@ -189,9 +189,6 @@ namespace BobrVerse.Dal.Migrations
                     b.Property<DateTime?>("CompletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uniqueidentifier");
 
@@ -211,6 +208,9 @@ namespace BobrVerse.Dal.Migrations
 
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("TotalXp")
                         .HasColumnType("int");

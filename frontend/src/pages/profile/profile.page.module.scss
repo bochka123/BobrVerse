@@ -72,6 +72,7 @@
     color: c.$white;
     @include sh.button-bottom-medium-gray;
     @include sh.text-gray;
+    border: none;
 
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 

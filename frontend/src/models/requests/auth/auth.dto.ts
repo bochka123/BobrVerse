@@ -4,7 +4,7 @@ interface IAuthRequestDto {
 }
 
 interface IGoogleAuthRequestDto {
-    credential: string;
+    accessToken: string;
 }
 
 export { type IAuthRequestDto, type IGoogleAuthRequestDto };

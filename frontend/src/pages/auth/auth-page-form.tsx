@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { InputTypes, ToastModeEnum } from '@/common';
-import { BaseButton } from '@/components';
+import { BaseButton, BaseInput } from '@/components';
+import { getFormErrorMessage } from '@/helpers';
 import { useAuth, useToast } from '@/hooks';
 import { IAuthRequestDto } from '@/models/requests';
 import { useLoginMutation, useRegisterMutation } from '@/services';
@@ -43,18 +44,18 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                     setAuthenticated();
                     navigate('/');
                 })
-                .catch(() => addToast(ToastModeEnum.ERROR, 'Faled to log in'))
+                .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to log in'))
             : signUp(requestData)
                 .unwrap()
                 .then(() => {
                     setAuthenticated();
                     navigate('/');
                 })
-                .catch(() => addToast(ToastModeEnum.ERROR, 'Faled to register'));
+                .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to register'));
     };
 
-    const onError = (error: any): void => {
-        addToast(ToastModeEnum.ERROR, `Form validation failed: ${error}`);
+    const onError: SubmitErrorHandler<FormNames> = (error): void => {
+        addToast(ToastModeEnum.ERROR, getFormErrorMessage(error));
     };
 
     return (
@@ -62,11 +63,15 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
             <Controller
                 control={control}
                 name="email"
-                rules={{ required: 'Email field is required', pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ }}
+                rules={{
+                    required: 'Email field is required',
+                    pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: 'Invalid email format',
+                    }
+                }}
                 render={({ field: { onChange, value } }) => (
-                    <div className={styles.inputGroup}>
-                        <input value={value} onChange={onChange} type={InputTypes.EMAIL} placeholder="Email" />
-                    </div>
+                    <BaseInput value={value} onChange={onChange} placeholder={'Email'} type={InputTypes.TEXT}/>
                 )}
             />
             <Controller
@@ -74,17 +79,14 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                 name="password"
                 rules={{ required: 'Password field is required' }}
                 render={({ field: { onChange, value } }) => (
-                    <div className={styles.inputGroup}>
-                        <input value={value} onChange={onChange} type={InputTypes.PASSWORD} placeholder="Password" />
-                    </div>
+                    <BaseInput value={value} onChange={onChange} placeholder={'Password'} type={InputTypes.PASSWORD}/>
                 )}
             />
-            <div className={styles.buttonsWrapper}>
-                <BaseButton type={'submit'} className={styles.authButton}>
-                    {authType === 'signIn' ? 'Login' : 'Register'}
-                </BaseButton>
-                <GoogleAuthButton />
-            </div>
+
+            <BaseButton type={'submit'}>
+                {authType === 'signIn' ? 'Login' : 'Register'}
+            </BaseButton>
+            <GoogleAuthButton/>
         </form>
     );
 };

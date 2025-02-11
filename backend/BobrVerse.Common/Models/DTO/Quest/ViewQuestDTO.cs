@@ -1,7 +1,7 @@
 ﻿namespace BobrVerse.Common.Models.DTO.Quest
 {
-    public class ViewQuestDTO: AuthorQuestDTO
+    public class ViewQuestDTO : QuestDTO
     {
-        public ICollection<Guid> Tasks { get; set; } = [];
+        public string UserStatus { get; set; }
     }
 }

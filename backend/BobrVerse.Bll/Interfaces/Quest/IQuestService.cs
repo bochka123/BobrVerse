@@ -4,7 +4,9 @@ namespace BobrVerse.Bll.Interfaces.Quest
 {
     public interface IQuestService
     {
-        Task<AuthorQuestDTO> CreateAsync(CreateQuestDTO dto);
-        Task<ICollection<AuthorQuestDTO>> GetMyQuests();
+        Task<QuestDTO> CreateAsync(CreateQuestDTO dto);
+        Task<ICollection<QuestDTO>> GetMyQuests();
+        Task<ICollection<ViewQuestDTO>> GetActiveQuests();
+        Task<QuestDTO> UpdateAsync(QuestDTO dto);
     }
 }

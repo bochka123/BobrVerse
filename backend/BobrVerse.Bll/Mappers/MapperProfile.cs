@@ -3,6 +3,7 @@ using BobrVerse.Common.Models.DTO.BobrLevel;
 using BobrVerse.Common.Models.DTO.BobrProfile;
 using BobrVerse.Common.Models.DTO.Quest;
 using BobrVerse.Common.Models.DTO.Quest.Task;
+using BobrVerse.Common.Models.Quest.Enums;
 using BobrVerse.Common.Models.Quiz.Enums;
 using BobrVerse.Dal.Entities;
 using BobrVerse.Dal.Entities.Quest;
@@ -22,11 +23,21 @@ namespace BobrVerse.Bll.Mappers
             CreateMapForQuizTask();
 
             CreateMapForQuestRating();
+
+            CreateMapForQuestResponse();
+        }
+
+        public void CreateMapForQuestResponse()
+        {
+            CreateMap<QuestResponse, QuestResponseDTO>();
         }
 
         public void CreateMapForQuestRating()
         {
             CreateMap<CreateQuestRatingDTO, QuestRating>();
+
+            CreateMap<QuestRating, QuestRatingDTO>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.BobrProfile != null ? src.BobrProfile.Name : "Anonymous"));
         }
 
         public void CreateMapForBobrProfile()
@@ -47,9 +58,21 @@ namespace BobrVerse.Bll.Mappers
             .ForMember(dest => dest.TimeLimit, opt => opt.MapFrom(src =>
                 src.TimeLimitInSeconds.HasValue ? TimeSpan.FromSeconds(src.TimeLimitInSeconds.Value) : (TimeSpan?)null));
 
-            CreateMap<Quest, AuthorQuestDTO>()
+            CreateMap<Quest, QuestDTO>()
                 .ForMember(dest => dest.TimeLimitInSeconds, opt => opt.MapFrom(src =>
-                    src.TimeLimit.HasValue ? (int?)src.TimeLimit.Value.TotalSeconds : null));
+                    src.TimeLimit.HasValue ? (int?)src.TimeLimit.Value.TotalSeconds : null))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+
+            CreateMap<QuestDTO, Quest>()
+                .ForMember(dest => dest.TimeLimit,
+                           opt => opt.MapFrom(src => src.TimeLimitInSeconds.HasValue
+                               ? TimeSpan.FromSeconds(src.TimeLimitInSeconds.Value)
+                               : (TimeSpan?) null))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<QuestStatusEnum>(src.Status)));
+
+
+            CreateMap<Quest, ViewQuestDTO>()
+                .IncludeBase<Quest, QuestDTO>();
         }
 
         public void CreateMapForQuizTask()
@@ -75,7 +98,7 @@ namespace BobrVerse.Bll.Mappers
 
             CreateMap<ICollectResourcesTask, QuizTaskDTO>()
                 .Include<QuizTask, QuizTaskDTO>();
-                
+
         }
     }
 }
