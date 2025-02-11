@@ -14,6 +14,8 @@ interface IQuestDto {
     questResponses: IQuestResponseDto[];
     xpForComplete: number;
     xpForSuccess: number;
+    status: string;
+    timeLimitInSeconds?: number;
     url?: string;
 }
 
