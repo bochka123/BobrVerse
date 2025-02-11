@@ -12,9 +12,9 @@ namespace BobrVerse.Api.Controllers
     public class QuestController(IQuestService service) : ControllerBase
     {
         [HttpPost("create")]
-        public async Task<ApiResponse<AuthorQuestDTO>> Create(CreateQuestDTO dto) => new ApiResponse<AuthorQuestDTO>(await service.CreateAsync(dto));
+        public async Task<ApiResponse<QuestDTO>> Create(CreateQuestDTO dto) => new ApiResponse<QuestDTO>(await service.CreateAsync(dto));
 
         [HttpGet("my")]
-        public async Task<ApiResponse<ICollection<AuthorQuestDTO>>> GetMyQuests() => new ApiResponse<ICollection<AuthorQuestDTO>>(await service.GetMyQuests());
+        public async Task<ApiResponse<ICollection<QuestDTO>>> GetMyQuests() => new ApiResponse<ICollection<QuestDTO>>(await service.GetMyQuests());
     }
 }
