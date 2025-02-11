@@ -11,7 +11,7 @@ const BackButton: FC<BackButtonProps> = () => {
     const navigate = useNavigate();
     
     return (
-        <FontAwesomeIcon className={styles.button} icon={faArrowLeft} onClick={() => navigate(-1)} />
+        <FontAwesomeIcon className={styles.button} icon={faArrowLeft} onClick={() => navigate('/')} />
     );
 };
 

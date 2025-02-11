@@ -16,9 +16,9 @@ const AuthButton: FC<AuthButtonProps> = () => {
     const navigate = useNavigate();
     const { logIn: setAuthenticated } = useAuth();
     
-    const onSuccess = (response: any): void => {
+    const onSuccess = (response: any): void => { 
         const requestData: IGoogleAuthRequestDto = {
-            credential: response.credential
+            accessToken: response.access_token
         };
 
         googleLogIn(requestData)

@@ -1,12 +1,12 @@
 import { FC, ReactNode, useState } from 'react';
 
-import { QuestCreatingContext } from './quest-creating.context.tsx';
-import { QuestType } from './types';
+import { QuestUpdatingContext } from './quest-updating.context.tsx';
+import { QuestType } from './types/index.ts';
 
-type QuestCreatingProviderProps = {
+type QuestUpdatingProviderProps = {
     children: ReactNode
 }
-const QuestCreatingProvider: FC<QuestCreatingProviderProps> = ({ children }) => {
+const QuestUpdatingProvider: FC<QuestUpdatingProviderProps> = ({ children }) => {
 
     const [questSlides, setQuestSlides] = useState<QuestType[]>([]);
 
@@ -23,7 +23,7 @@ const QuestCreatingProvider: FC<QuestCreatingProviderProps> = ({ children }) => 
     };
 
     return (
-        <QuestCreatingContext.Provider value={
+        <QuestUpdatingContext.Provider value={
             {
                 addSlide,
                 removeSlide,
@@ -32,8 +32,8 @@ const QuestCreatingProvider: FC<QuestCreatingProviderProps> = ({ children }) => 
             }
         }>
             {children}
-        </QuestCreatingContext.Provider>
+        </QuestUpdatingContext.Provider>
     );
 };
 
-export { QuestCreatingProvider };
+export { QuestUpdatingProvider };

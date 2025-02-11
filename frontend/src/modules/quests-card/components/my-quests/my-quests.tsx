@@ -16,7 +16,7 @@ const MyQuests: FC = () => {
                 {
                     isQuestsLoading
                     ? <Loader size={30} />
-                    : questsData?.data.map((x, key) => <MyQuestsItem quest={x} key={key} />)
+                    : questsData?.data.map((x, key) => <MyQuestsItem quest={x} key={`my-quest-${key}`} />)
                 }
             </div>
         </div>

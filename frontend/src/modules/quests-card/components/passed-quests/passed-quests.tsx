@@ -35,7 +35,7 @@ const PassedQuests: FC = () => {
         <div className={styles.passedQuestsWrapper}>
             <div className={styles.passedQuestsContainer}>
                 {
-                    quests.map((x, key) => <PassedQuestsItem quest={x} key={key} />)
+                    quests.map((x, key) => <PassedQuestsItem quest={x} key={`quest-${key}`} />)
                 }
             </div>
         </div>
