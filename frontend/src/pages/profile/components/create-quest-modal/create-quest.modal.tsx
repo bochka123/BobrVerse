@@ -1,9 +1,13 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-import { InputTypes } from '@/common';
+import { InputTypes, ToastModeEnum } from '@/common';
 import { Modal } from '@/components';
-import { BaseInput } from '@/components/primitives';
+import { BaseButton, BaseInput } from '@/components/primitives';
+import { useToast } from '@/hooks';
+import { ICreateQuestDto } from '@/models/requests';
+import { useCreateQuestMutation } from '@/services';
 
 import styles from './create-quest.modal.module.scss';
 
@@ -21,13 +25,27 @@ type CreateQuestModalProps = {
 }
 const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) => {
 
-    // const navigate = useNavigate();
-    //navigate('quests/create')
+    const [createQuest] = useCreateQuestMutation();
+    const navigate = useNavigate();
+    const { addToast } = useToast();
 
     const { handleSubmit, control } = useForm<FormNames>();
 
     const onSubmit: SubmitHandler<FormNames> = (data): void => {
-        console.log(data);
+        const requestData: ICreateQuestDto = {
+            title: data.title,
+            description: data.description,
+            xpForComplete: data.xpForComplete,
+            xpForSuccess: data.xpForSuccess,
+            timeLimitInSeconds: data.timeLimitInSeconds,
+        };
+
+        createQuest(requestData)
+            .unwrap()
+            .then((data) => {
+                navigate(`quests/edit/${data.data.id}`);
+            })
+            .catch(() => addToast(ToastModeEnum.ERROR, 'Faled to create quest'));
     };
 
     const onError = (error: any): void => {
@@ -79,7 +97,7 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
                         />
                     )}
                 />
-                
+
                 <Controller
                     control={control}
                     name={'xpForSuccess'}
@@ -94,7 +112,7 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
                         />
                     )}
                 />
-                
+
                 <Controller
                     control={control}
                     name={'timeLimitInSeconds'}
@@ -108,6 +126,10 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
                         />
                     )}
                 />
+
+                <BaseButton type={'submit'}>
+                    Create
+                </BaseButton>
             </form>
         </Modal>
     );
