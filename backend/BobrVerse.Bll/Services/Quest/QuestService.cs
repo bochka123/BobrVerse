@@ -7,7 +7,6 @@ using BobrVerse.Common.Models.DTO.Quest;
 using BobrVerse.Common.Models.Quest.Enums;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities;
-using BobrVerse.Dal.Entities.Quest;
 using Microsoft.EntityFrameworkCore;
 using QuestDb = BobrVerse.Dal.Entities.Quest.Quest;
 
@@ -79,8 +78,8 @@ namespace BobrVerse.Bll.Services.Quest
             var questsDto = quests.Select(x =>
             {
                 var quest = mapper.Map<ViewQuestDTO>(x);
-                quest.UserStatus = x.QuestResponses.Any() ? 
-                    x.QuestResponses.OrderBy(x => x.Status).First().Status.GetDescription() : 
+                quest.UserStatus = x.QuestResponses.Any() ?
+                    x.QuestResponses.OrderBy(x => x.Status).First().Status.GetDescription() :
                     QuestResponseStatusEnum.NotStarted.GetDescription();
                 return quest;
             }).ToList();
