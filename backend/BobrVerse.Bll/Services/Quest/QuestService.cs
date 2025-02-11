@@ -2,6 +2,7 @@
 using BobrVerse.Auth.Interfaces;
 using BobrVerse.Bll.Interfaces.Quest;
 using BobrVerse.Common.Exceptions;
+using BobrVerse.Common.Extenions;
 using BobrVerse.Common.Models.DTO.Quest;
 using BobrVerse.Common.Models.Quest.Enums;
 using BobrVerse.Dal.Context;
@@ -64,7 +65,7 @@ namespace BobrVerse.Bll.Services.Quest
             return mapper.Map<ICollection<QuestDb>, ICollection<QuestDTO>>(quests);
         }
 
-        public async Task<ICollection<QuestDTO>> GetActiveQuests()
+        public async Task<ICollection<ViewQuestDTO>> GetActiveQuests()
         {
             var profile = await GetProfileAsync();
 
@@ -72,9 +73,19 @@ namespace BobrVerse.Bll.Services.Quest
                 .Where(x =>
                 x.AuthorId != profile.Id &&
                 x.Status == QuestStatusEnum.Active)
+                .Include(x => x.QuestResponses.Where(x => x.ProfileId == profile.Id))
                 .ToListAsync();
 
-            return mapper.Map<ICollection<QuestDb>, ICollection<QuestDTO>>(quests);
+            var questsDto = quests.Select(x =>
+            {
+                var quest = mapper.Map<ViewQuestDTO>(x);
+                quest.UserStatus = x.QuestResponses.Any() ? 
+                    x.QuestResponses.OrderBy(x => x.Status).First().Status.GetDescription() : 
+                    QuestResponseStatusEnum.NotStarted.GetDescription();
+                return quest;
+            }).ToList();
+
+            return mapper.Map<ICollection<QuestDb>, ICollection<ViewQuestDTO>>(quests);
         }
 
     }

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useGetMyProfileQuery } from '@/services';
-import { setProfile } from '@/store/auth';
+import { setProfile, setUrl } from '@/store/auth';
 
 type ReturnType = {
     isProfileLoading: boolean;
@@ -13,8 +13,10 @@ const useProfilePageHook = (): ReturnType => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (profileData?.data) 
+        if (profileData?.data){
             dispatch(setProfile(profileData.data));
+            dispatch(setUrl(profileData.data));
+        }
         
     }, [profileData]);
 

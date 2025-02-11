@@ -1,4 +1,6 @@
-﻿namespace BobrVerse.Dal.Entities.Quest
+﻿using BobrVerse.Common.Models.Quest.Enums;
+
+namespace BobrVerse.Dal.Entities.Quest
 {
     public class QuestResponse
     {
@@ -10,7 +12,7 @@
         public string QuestTitle { get; set; } = string.Empty;
         public string QuestDescription { get; set; } = string.Empty;
         public int XpEarned { get; set; } = 0;
-        public bool IsCompleted { get; set; } = false;
+        public QuestResponseStatusEnum Status { get; set; } 
         public ICollection<QuizTaskStatus> TaskStatuses { get; set; } = [];
         public int TotalXp { get; set; } = 0;
         public DateTime? CompletedAt { get; set; }

@@ -27,6 +27,9 @@ namespace BobrVerse.Bll.Mappers
         public void CreateMapForQuestRating()
         {
             CreateMap<CreateQuestRatingDTO, QuestRating>();
+
+            CreateMap<QuestRating, QuestRatingDTO>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.BobrProfile != null ? src.BobrProfile.Name : "Anonymous"));
         }
 
         public void CreateMapForBobrProfile()
@@ -52,6 +55,9 @@ namespace BobrVerse.Bll.Mappers
                     src.TimeLimit.HasValue ? (int?)src.TimeLimit.Value.TotalSeconds : null))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.ToString()))
                 .ReverseMap();
+
+            CreateMap<Quest, ViewQuestDTO>()
+                .IncludeBase<Quest, QuestDTO>();
         }
 
         public void CreateMapForQuizTask()
