@@ -1,6 +1,6 @@
 ﻿namespace BobrVerse.Bll.Interfaces.Quest
 {
-    public interface IQuizTaskAnswerService
+    public interface IQuestTaskResponseService
     {
     }
 }
