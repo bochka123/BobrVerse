@@ -40,8 +40,8 @@ namespace BobrVerse.Bll.Services.Quest
 
             var questResponseDto = mapper.Map<QuestResponseDTO>(questResponse);
 
-            questResponseDto.FirstTask = await quizTaskService.GetByOrderAsync(questId, 1);
-            questResponseDto.SecondTask = await quizTaskService.GetByOrderAsync(questId, 2);
+            questResponseDto.CurrentTask = await quizTaskService.GetByOrderAsync(questId, 0);
+            questResponseDto.NextTask = await quizTaskService.GetByOrderAsync(questId, 1);
 
             return questResponseDto;
         }

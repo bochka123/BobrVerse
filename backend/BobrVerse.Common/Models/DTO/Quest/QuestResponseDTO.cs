@@ -10,7 +10,7 @@ namespace BobrVerse.Common.Models.DTO.Quest
         public string QuestDescription { get; set; } = string.Empty;
         public DateTime? StartedAt { get; set; }
         public DateTime? CompletedAt { get; set; }
-        public QuizTaskDTO? FirstTask { get; set; }
-        public QuizTaskDTO? SecondTask { get; set; }
+        public QuizTaskDTO? CurrentTask { get; set; }
+        public QuizTaskDTO? NextTask { get; set; }
     }
 }
