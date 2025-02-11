@@ -1,5 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
+import styles from './base-input.module.scss';
+
 type BaseInputProps = {
     value: string;
     onChange: (value: string) => void;
@@ -17,7 +19,13 @@ const BaseInput: FC<BaseInputProps> = ({ value, onChange, labelText, placeholder
         <div>
             { labelText && <span>{labelText}</span>}
             <div>
-                <input value={value} onChange={handleChange} placeholder={placeholder} type={type} />
+                <input
+                    className={styles.button}
+                    value={value}
+                    onChange={handleChange}
+                    placeholder={placeholder}
+                    type={type}
+                />
             </div>
         </div>
     );
