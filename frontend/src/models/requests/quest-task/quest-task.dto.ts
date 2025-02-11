@@ -1,9 +1,10 @@
-import { IResourceDto } from '@/models/requests';
+import { TaskTypeEnum } from '@/common';
 
-interface IQuestTaskDto {
-    id: string;
-    taskType: string;
-    url?: string;
+import { IResourceDto } from '../resource';
+
+interface ICreateQuestTaskDto {
+    questId: string;
+    taskType: TaskTypeEnum;
     shortDescription?: string;
     description: string;
     isRequiredForNextStage: boolean;
@@ -14,4 +15,5 @@ interface IQuestTaskDto {
     codeTemplate?: string;
 }
 
-export { type IQuestTaskDto };
+
+export { type ICreateQuestTaskDto };
