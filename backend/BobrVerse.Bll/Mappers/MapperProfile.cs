@@ -55,6 +55,9 @@ namespace BobrVerse.Bll.Mappers
                     src.TimeLimit.HasValue ? (int?)src.TimeLimit.Value.TotalSeconds : null))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.ToString()))
                 .ReverseMap();
+
+            CreateMap<Quest, ViewQuestDTO>()
+                .IncludeBase<Quest, QuestDTO>();
         }
 
         public void CreateMapForQuizTask()
