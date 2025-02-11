@@ -57,7 +57,7 @@ namespace BobrVerse.Bll.Services.Quest
         {
             if (task.TaskType == Common.Models.Quiz.Enums.TaskTypeEnum.CollectResources)
             {
-                if (task.RequiredResources.Count == 0 || string.IsNullOrEmpty(task.CodeTemplate))
+                if (task.RequiredResources.Count == 0)
                 {
                     throw new BobrException("Invlid arguments for creating task.");
                 }

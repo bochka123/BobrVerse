@@ -4,8 +4,7 @@
     {
         public Guid QuestResponseId { get; set; }
         public Guid QuestTaskId { get; set; }
-
+        public int Attempt = 1;
         public string? Text { get; set; }
-        public List<ResourceDTO>? Resources { get; set; }
     }
 }
