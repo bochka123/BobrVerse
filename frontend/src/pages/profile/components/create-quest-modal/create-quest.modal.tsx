@@ -41,6 +41,7 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
                             labelText={'Quest name:'}
                             value={value}
                             onChange={onChange}
+                            placeholder={'Enter quest name...'}
                         />
                     )}
                 />
