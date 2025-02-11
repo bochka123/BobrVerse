@@ -2,6 +2,7 @@
 {
     public class AuthSettings
     {
+        public GoogleSettings Google {  get; set; }
         public RedisSettings Redis { get; set; }
         public CookieSettings Cookie { get; set; }
         public JwtSettings Jwt { get; set; }
