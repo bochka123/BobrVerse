@@ -23,11 +23,21 @@ namespace BobrVerse.Bll.Mappers
             CreateMapForQuizTask();
 
             CreateMapForQuestRating();
+
+            CreateMapForQuestResponse();
+        }
+
+        public void CreateMapForQuestResponse()
+        {
+            CreateMap<QuestResponse, QuestResponseDTO>();
         }
 
         public void CreateMapForQuestRating()
         {
             CreateMap<CreateQuestRatingDTO, QuestRating>();
+
+            CreateMap<QuestRating, QuestRatingDTO>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.BobrProfile != null ? src.BobrProfile.Name : "Anonymous"));
         }
 
         public void CreateMapForBobrProfile()

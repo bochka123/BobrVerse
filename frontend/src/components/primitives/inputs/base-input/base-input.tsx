@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { ChangeEvent, FC } from 'react';
 
 import { InputTypes } from '@/common';
@@ -5,8 +6,8 @@ import { InputTypes } from '@/common';
 import styles from './base-input.module.scss';
 
 type BaseInputProps = {
-    value: string;
-    onChange: (value: string) => void;
+    value: string | number | undefined;
+    onChange: (value: string | number | undefined) => void;
     labelText?: string;
     placeholder?: string;
     type?: InputTypes;

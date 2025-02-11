@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
                         element: <QuestPage />
                     },
                     {
-                        path: 'quests/create',
+                        path: 'quests/edit/:questId',
                         element: <QuestCreatingPage />
                     },
                 ]

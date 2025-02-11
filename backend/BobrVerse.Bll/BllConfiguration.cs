@@ -21,6 +21,7 @@ namespace BobrVerse.Bll
             services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
             services.AddTransient<IQuestTaskResponseService, QuestTaskResponseService>();
             services.AddTransient<IQuestTaskValidatorFactory, QuestTaskValidatorFactory>();
+            services.AddScoped<IQuestResponseService, QuestResponseService>();
             services.AddAutoMapper(typeof(MapperProfile));
             return services;
         }

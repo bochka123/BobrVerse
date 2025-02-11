@@ -7,5 +7,6 @@ namespace BobrVerse.Bll.Interfaces.Quest
         Task<QuizTaskDTO> CreateAsync(CreateTaskDTO dto);
         Task<QuizTaskDTO> UpdateAsync(QuizTaskDTO dto);
         Task DeleteAsync(Guid Id);
+        Task<QuizTaskDTO> GetByOrderAsync(Guid questId, int order);
     }
 }

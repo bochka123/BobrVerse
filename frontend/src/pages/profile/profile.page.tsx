@@ -1,7 +1,7 @@
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { FC, useState } from 'react';
 
-import { BaseButton, IconButton } from '@/components';
+import { BaseButton, IconButton, Loader } from '@/components';
 import { ButtonSizeEnum } from '@/components/primitives/buttons/common';
 import { useProfileHook } from '@/hooks';
 import { EditProfile, QuestsCardModule } from '@/modules';
@@ -20,7 +20,7 @@ const ProfilePage: FC = () => {
     const [createQuestModalVisible, setCreateQuestModalVisible] = useState<boolean>(false);
 
     if (isProfileLoading) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     return (
@@ -48,6 +48,7 @@ const ProfilePage: FC = () => {
                                 <BaseButton
                                     size={ButtonSizeEnum.LARGE}
                                     buttonClasses={styles.createButton}
+                                    enableHover={false}
                                     onClick={() => setCreateQuestModalVisible(true)}
                                 >
                                     Create
