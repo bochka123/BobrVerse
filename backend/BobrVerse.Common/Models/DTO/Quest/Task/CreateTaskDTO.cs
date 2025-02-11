@@ -13,5 +13,6 @@
 
         public List<ResourceDTO> RequiredResources { get; set; } = [];
         public string? CodeTemplate { get; set; } = string.Empty;
+        public int Order { get; set; }
     }
 }
