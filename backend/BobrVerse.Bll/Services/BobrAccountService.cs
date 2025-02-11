@@ -85,7 +85,7 @@ namespace BobrVerse.Bll.Services
 
             profile.Url = fileDto.Url;
             await context.SaveChangesAsync();
-            return mapper.Map<FileDto>(profile);
+            return fileDto;
         }
 
         public async Task<bool> DeletePhotoAsync()
