@@ -26,7 +26,7 @@ const Ratings: FC = () => {
         <div className={styles.ratingsWrapper}>
             <div className={styles.ratingsContainer}>
                 {
-                    profiles.map((x, key) => <RatingItem profile={x} key={key} />)
+                    profiles.map((x, key) => <RatingItem profile={x} key={`profile-${key}`} />)
                 }
             </div>
         </div>

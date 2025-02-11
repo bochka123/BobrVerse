@@ -18,9 +18,9 @@ const AuthButton: FC<AuthButtonProps> = () => {
     const { logIn: setAuthenticated } = useAuth();
     const { addToast } = useToast();
     
-    const onSuccess = (response: any): void => {
+    const onSuccess = (response: any): void => { 
         const requestData: IGoogleAuthRequestDto = {
-            credential: response.credential
+            accessToken: response.access_token
         };
 
         googleLogIn(requestData)

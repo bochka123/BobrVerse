@@ -1,3 +1,5 @@
 export * from './auth';
 export * from './profile';
-export * from './quests';
+export * from './quest';
+export * from './quest-task';
+export * from './resource';

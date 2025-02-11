@@ -1,6 +1,6 @@
 import { IProfileDto } from '../profile';
 import { IQuestResponseDto } from '../quest-response';
-import { IQuizTaskDto } from '../quiz-task';
+import { IQuestTaskDto } from '../quest-task';
 
 interface IQuestDto {
     id: string;
@@ -10,7 +10,7 @@ interface IQuestDto {
     description: string;
     createdAt: string;
     updatedAt: string;
-    tasks: IQuizTaskDto[];
+    tasks: IQuestTaskDto[];
     questResponses: IQuestResponseDto[];
     xpForComplete: number;
     xpForSuccess: number;

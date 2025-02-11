@@ -22,7 +22,7 @@ const MyQuestsItem: FC<MyQuestsItemProps> = ({ quest }) => {
                 <p className={styles.title}>{quest.title}</p>
 
                 <div>
-                    <IconButton icon={faArrowRight} onClick={() => navigate(`/quests/${quest.id}`)} />
+                    <IconButton icon={faArrowRight} onClick={() => navigate(`/quests/edit/${quest.id}`)} />
                 </div>
             </div>
         </div>
