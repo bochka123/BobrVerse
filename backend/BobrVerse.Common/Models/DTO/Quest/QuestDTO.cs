@@ -1,6 +1,6 @@
 ﻿namespace BobrVerse.Common.Models.DTO.Quest
 {
-    public class AuthorQuestDTO
+    public class QuestDTO
     {
         public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;

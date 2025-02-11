@@ -1,7 +1,10 @@
-﻿namespace BobrVerse.Common.Models.DTO.Quest
+﻿using BobrVerse.Common.Models.DTO.Quest.Task;
+
+namespace BobrVerse.Common.Models.DTO.Quest
 {
-    public class ViewQuestDTO: AuthorQuestDTO
+    public class ViewQuestDTO: QuestDTO
     {
-        public ICollection<Guid> Tasks { get; set; } = [];
+        public QuizTaskDTO CurrentTask { get; set; } = null!;
+        public QuizTaskDTO? NextQuestion { get; set; }
     }
 }
