@@ -5,7 +5,9 @@ namespace BobrVerse.Bll.Interfaces.Quest
     public interface IQuestRatingService
     {
         Task CreateAsync(CreateQuestRatingDTO dto);
-        Task<double> GetUserRatingAsync();
-        Task<double> GetQuestRatingAsync(Guid questId);
+        Task<double> GetAverageUserRatingAsync();
+        Task<double> GetAverageQuestRatingAsync(Guid questId);
+        Task<ICollection<QuestRatingDTO>> GetQuestRatingsAsync(Guid questId, int start, int end);
+        Task<ICollection<QuestRatingDTO>> GetUserRatingsAsync(int start, int end);
     }
 }
