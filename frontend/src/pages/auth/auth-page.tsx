@@ -13,7 +13,7 @@ const AuthPage: FC = () => {
         <div className={styles.authContainer}>
             <div className={styles.background} />
             <div className={styles.backgroundOverlay} />
-            <WoodenContainer>
+            <WoodenContainer className={styles.container}>
                 <div className={styles.authCard}>
                     {authType === 'signIn' ? <h2>Sign In</h2> : <h2>Sign Up</h2>}
                     <AuthPageForm authType={authType}/>
