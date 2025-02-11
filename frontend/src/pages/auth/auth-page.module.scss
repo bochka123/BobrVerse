@@ -24,13 +24,15 @@
     }
 }
 
+.container {
+    width: 500px;
+}
+
 .authCard {
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 350px;
-    width: 100%;
 }
 
 .inputGroup {
@@ -69,7 +71,8 @@
 
 .authFooter {
     margin-top: 1rem;
-    font-size: 14px;
+    font-size: 20px;
+    color: c.$primary;
 }
 
 .authFooter a {
