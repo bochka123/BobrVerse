@@ -25,6 +25,8 @@
   background: url('src/resources/wood.jpg');
   background-size: cover;
 
+  order: 100;
+
   @include b.wood-darker-background-with-hover;
 
   &:hover {
