@@ -3,3 +3,13 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.inputGroup {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+
+    p {
+        font-weight: 900;
+    }
+}

@@ -3,6 +3,7 @@ enum InputTypes {
     PASSWORD = 'password',
     TEXT = 'text',
     NUMBER = 'number',
+    TIME = 'time',
 }
 
 export { InputTypes };
