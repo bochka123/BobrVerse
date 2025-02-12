@@ -46,7 +46,7 @@ namespace BobrVerse.Bll.Services.Quest
         public async Task DeleteAsync(Guid Id)
         {
             var dbModel = await context.QuizTasks.FirstOrDefaultAsync(x => x.Id == Id)
-                ?? throw new BobrException($"Task with id {Id} not found."); ;
+                ?? throw new BobrException($"Task with id {Id} not found.");
 
             if (dbModel.TaskStatuses.Count != 0)
             {
