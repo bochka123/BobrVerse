@@ -32,6 +32,10 @@ const QuestUpdatingProvider: FC<QuestUpdatingProviderProps> = ({ children }) => 
         ));
     };
 
+    const getTaskById = (taskId: string): IQuestTaskDto | undefined => {
+        return questTasks.find(task => task.id === taskId)?.task;
+    };
+
     return (
         <QuestUpdatingContext.Provider value={
             {
@@ -39,6 +43,7 @@ const QuestUpdatingProvider: FC<QuestUpdatingProviderProps> = ({ children }) => 
                 addTask,
                 removeTask,
                 updateTask,
+                getTaskById,
                 questTasks,
             }
         }>

@@ -20,7 +20,11 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible, result, callback }) =>
 
   return (
     <div className={styles.resultsWrapper}>
-        <p className={styles.description}>You finished this quest!</p>
+        {result?.success ? (
+            <p className={styles.description}>You answered right on all questions! Congratulations!</p>
+        ) : (
+            <p className={styles.description}>You finished this quest!</p>
+        )}
         <p className={styles.description}>You've gained <span className={styles.xp}>{result?.xpGained || 0}XP</span></p>
         <BaseButton onClick={onClick}>Ok</BaseButton>
     </div>

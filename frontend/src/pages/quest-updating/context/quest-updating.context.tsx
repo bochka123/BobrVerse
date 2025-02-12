@@ -11,6 +11,7 @@ interface QuestUpdatingContextValues {
     removeTask: (taskId: string) => void;
     updateTask: (taskId: string, updatedQuest: IQuestTaskDto) => void;
     questTasks: TaskWithIdType[];
+    getTaskById: (taskId: string) => IQuestTaskDto | undefined;
 }
 
 const QuestUpdatingContext = createContext<QuestUpdatingContextValues | undefined>(undefined);

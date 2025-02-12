@@ -52,6 +52,8 @@ namespace BobrVerse.Bll.Services.Quest
                 {
                     throw new BobrException($"Your log balance is {profile.Logs}, but must be greater than {cost} to create quest.");
                 }
+                profile.Logs -= cost;
+                context.BobrProfiles.Update(profile);
             }
 
             await context.SaveChangesAsync();

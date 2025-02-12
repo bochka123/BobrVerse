@@ -1,13 +1,52 @@
-.wrapper {
-  display: flex;
-  gap: 20px
-}
+@use '@/styles/variables/color-variables.scss' as c;
 
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  height: 100%;
+
+  gap: 20px;
 
   padding: 15px;
   flex-grow: 1;
+}
+
+.wrapper {
+  flex-grow: 1;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  align-self: end;
+  width: 230px;
+}
+
+.photoPickerWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  & > button {
+    width: 230px;
+  }
+}
+
+.infoWrapper {
+  display: flex;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  border-radius: 20px;
+  border: 5px solid c.$primary;
+
+  padding: 10px;
 }

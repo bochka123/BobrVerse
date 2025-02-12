@@ -39,3 +39,8 @@
     @include t.label-medium;
     @include sh.text-primary-medium;
 }
+
+.buttonsWrapper {
+    display: flex;
+    gap: 10px;
+}
