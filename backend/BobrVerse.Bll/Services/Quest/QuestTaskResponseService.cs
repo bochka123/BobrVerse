@@ -147,6 +147,7 @@ namespace BobrVerse.Bll.Services.Quest
             await context.SaveChangesAsync();
 
             response.IsFinished = true;
+            response.XpGained = xpGained;
             return response;
         }
     }
