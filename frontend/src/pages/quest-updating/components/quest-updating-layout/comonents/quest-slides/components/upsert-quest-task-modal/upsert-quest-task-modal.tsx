@@ -6,10 +6,10 @@ import { BaseButton, BaseInput, CheckboxInput, Modal, SelectInput } from '@/comp
 import { getFormErrorMessage } from '@/helpers';
 import { useToast } from '@/hooks';
 import { ICreateQuestTaskDto } from '@/models/requests';
+import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 import { useCreateQuestTaskMutation } from '@/services';
 
 import styles from './upsert-quest-task-modal.module.scss';
-import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 
 type FormNames = {
     taskType: string;
@@ -78,10 +78,7 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
                             labelText={'Task type:'}
                             value={value}
                             onChange={onChange}
-                            options={Object.entries(TaskTypeEnum).map(([key, value]) => ({
-                                name: value,
-                                value: key,
-                            }))}
+                            options={Object.entries(TaskTypeEnum).map(([_, value]) => value )}
                         />
                     )}
                 />
