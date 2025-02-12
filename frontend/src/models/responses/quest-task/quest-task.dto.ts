@@ -10,9 +10,10 @@ interface IQuestTaskDto {
     maxAttempts?: number;
     timeLimitInSeconds?: number;
     isTemplate: boolean;
-    requiredResources: IResourceDto[];
-    codeTemplate?: string;
     order: number;
+    requiredResources: IResourceDto[];
+    maxCollectCalls?: number;
+    nextTaskId?: string;
 }
 
 export { type IQuestTaskDto };

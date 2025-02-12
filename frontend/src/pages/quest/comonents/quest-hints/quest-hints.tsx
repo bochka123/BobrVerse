@@ -9,10 +9,9 @@ type QuestHintsProps = {
     task: IQuestTaskDto;
     fetchNextTask: () => void;
     isNextTaskExists: boolean;
-    finishQuest: () => void;
 }
 
-const QuestHints: FC<QuestHintsProps> = ({ task, fetchNextTask, isNextTaskExists, finishQuest }) => {
+const QuestHints: FC<QuestHintsProps> = ({ task, fetchNextTask, isNextTaskExists }) => {
     return (
         <WoodenContainer className={styles.hintsContainer}>
             <div className={styles.hintsWrapper}>
@@ -22,7 +21,7 @@ const QuestHints: FC<QuestHintsProps> = ({ task, fetchNextTask, isNextTaskExists
                         task.requiredResources.map((res, key) => <li key={`resource-${key}`}>{res.name} - {res.quantity}</li>)
                     }
                 </ul>
-                <BaseButton buttonClasses={styles.button} onClick={() => isNextTaskExists ? fetchNextTask() : finishQuest()}>
+                <BaseButton buttonClasses={styles.button} onClick={fetchNextTask}>
                     {isNextTaskExists ? 'Next' : 'Finish'}
                 </BaseButton>
             </div>
