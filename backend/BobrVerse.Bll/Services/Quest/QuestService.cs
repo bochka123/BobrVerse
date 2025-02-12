@@ -60,8 +60,26 @@ namespace BobrVerse.Bll.Services.Quest
         public async Task<ICollection<QuestDTO>> GetMyQuests()
         {
             var profile = await GetProfileAsync();
-            var quests = await context.Quests.Where(x => x.AuthorId == profile.Id).AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<QuestDb>, ICollection<QuestDTO>>(quests);
+
+            var quests = await context.Quests
+                .Where(x => x.AuthorId == profile.Id)
+                .AsNoTracking()
+                .ToListAsync();
+
+            var questIds = quests.Select(q => q.Id).ToList();
+            var tasksCounts = await context.QuizTasks
+                .Where(t => questIds.Contains(t.QuestId))
+                .GroupBy(t => t.QuestId)
+                .Select(g => new { QuestId = g.Key, Count = g.Count() })
+                .ToDictionaryAsync(x => x.QuestId, x => x.Count);
+
+            var questDtos = mapper.Map<ICollection<QuestDb>, ICollection<QuestDTO>>(quests);
+            foreach (var questDto in questDtos)
+            {
+                questDto.NumberOfTasks = tasksCounts.TryGetValue(questDto.Id, out var count) ? count : 0;
+            }
+
+            return questDtos;
         }
 
         public async Task<ICollection<ViewQuestDTO>> GetActiveQuests()
