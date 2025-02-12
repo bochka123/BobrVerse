@@ -9,6 +9,7 @@ using BobrVerse.Common.Models.Quiz.Enums;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities.Quest;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace BobrVerse.Bll.Services.Quest
 {
@@ -27,80 +28,80 @@ namespace BobrVerse.Bll.Services.Quest
                 .FirstOrDefaultAsync(x => x.Id == dto.QuestTaskId)
                 ?? throw new BobrException($"Task with id {dto.QuestTaskId} not found.");
 
-            var validator = validatorFactory.GetValidator(task.TaskType);
+            var validator = validatorFactory.GetValidator(task.TaskType); 
+            var taskStatus = await context.QuizTaskStatuses
+                .FirstOrDefaultAsync(x => x.QuizTaskId == task.Id && x.QuestResponseId == dto.QuestResponseId);
 
-            var existingTaskStatus = await context.QuizTaskStatuses
-                .FirstOrDefaultAsync(x => x.QuizTaskId == task.Id && x.QuestResponseId == dto.QuestResponseId)
-                ?? throw new BobrException($"Task response not found.");
+            if (taskStatus != null && task.MaxAttempts != null && taskStatus.CurrentAttempt > task.MaxAttempts)
+            {
+                throw new BobrException("Maximum attempts reached.");
+            }
+
+            if (taskStatus == null)
+            {
+                taskStatus = new QuizTaskStatus
+                {
+                    QuizTaskId = task.Id,
+                    QuestResponseId = dto.QuestResponseId,
+                    CompletedAt = DateTime.UtcNow,
+                    CurrentAttempt = 1
+                };
+                await context.QuizTaskStatuses.AddAsync(taskStatus);
+            }
+
+            QuestTaskResponseDTO response;
 
             if (task.TimeLimit.HasValue && dto.SpentTime > task.TimeLimit.Value.TotalSeconds)
             {
-                existingTaskStatus.EarnedXp = 0;
-                existingTaskStatus.CompletedAt = DateTime.UtcNow;
-                existingTaskStatus.Status = QuestTaskStatusEnum.Failed;
-
-                await context.SaveChangesAsync();
-
-                return new QuestTaskResponseDTO
+                response = new QuestTaskResponseDTO
                 {
                     Success = false,
-                    IsFinished = true,
-                    CurrentTask = mapper.Map<QuizTaskDTO>(task)
+                    ErrorMessage = "Timer exceed"
                 };
-            }
-
-            if (existingTaskStatus != null)
-            {
-                if (task.MaxAttempts != null && existingTaskStatus.CurrentAttempt >= task.MaxAttempts)
-                {
-                    throw new BobrException("Maximum attempts reached.");
-                }
-
-                existingTaskStatus.CurrentAttempt += 1;
-                await context.SaveChangesAsync();
-
-                return new QuestTaskResponseDTO
-                {
-                    Success = false,
-                    IsFinished = false,
-                    CurrentTask = mapper.Map<QuizTaskDTO>(task)
-                };
-            }
-
-            var taskResponse = new QuizTaskStatus
-            {
-                QuizTaskId = task.Id,
-                QuestResponseId = dto.QuestResponseId,
-                CompletedAt = DateTime.UtcNow,
-                CurrentAttempt = 1
-            };
-
-
-            var status = validator.Validate(dto, task);
-            var response = new QuestTaskResponseDTO
-            {
-                Success = status.Success,
-                ErrorMessage = status.ErrorMessage,
-            };
-
-            if (!status.Success && task.IsRequiredForNextStage)
-            {
-                var questResponse = await context.QuestResponses
-                        .FirstAsync(x => x.Id == dto.QuestResponseId);
-
-                questResponse.Status = QuestResponseStatusEnum.Completed;
-                return await HandleFinishQuest(dto.QuestResponseId, task.Quest, response);
-            }
-
-            if (status.Success)
-            {
-                taskResponse.Status = QuestTaskStatusEnum.Completed;
             }
             else
             {
-                taskResponse.Status = QuestTaskStatusEnum.Failed;
+                var status = validator.Validate(dto, task);
+                response = new QuestTaskResponseDTO
+                {
+                    Success = status.Success,
+                    ErrorMessage = status.ErrorMessage,
+                };
+
+                if (!status.Success)
+                {
+                    if (taskStatus != null && task.MaxAttempts != null && task.MaxAttempts > taskStatus.CurrentAttempt)
+                    {
+                        taskStatus.CurrentAttempt++;
+                        await context.SaveChangesAsync();
+
+                        return new QuestTaskResponseDTO
+                        {
+                            Success = false,
+                            IsFinished = false,
+                            CurrentTask = mapper.Map<QuizTaskDTO>(task)
+                        };
+                    }
+
+                    if (task.IsRequiredForNextStage)
+                    {
+                        var questResponse = await context.QuestResponses
+                                .FirstAsync(x => x.Id == dto.QuestResponseId);
+
+                        questResponse.Status = QuestResponseStatusEnum.Completed;
+                        return await HandleFinishQuest(dto.QuestResponseId, task.Quest, response);
+                    }
+                }
+            }   
+
+            if (response.Success)
+            {
+                taskStatus.Status = QuestTaskStatusEnum.Completed;
             }
-            await context.QuizTaskStatuses.AddAsync(taskResponse);
+            else
+            {
+                taskStatus.Status = QuestTaskStatusEnum.Failed;
+            }
 
             var nextTask = await quizTaskService.GetByOrderAsync(task.QuestId, task.Order + 1);
             if (nextTask != null)
