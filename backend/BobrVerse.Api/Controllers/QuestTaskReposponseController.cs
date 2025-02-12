@@ -1,4 +1,5 @@
 ﻿using BobrVerse.Bll.Interfaces.Quest;
+using BobrVerse.Common.Models.Api;
 using BobrVerse.Common.Models.DTO.Quest.Task;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,6 @@ namespace BobrVerse.Api.Controllers
     public class QuestTaskReposponseController(IQuestTaskResponseService service) : ControllerBase
     {
         [HttpPost("create")]
-        public async Task CreateAsync(CreateQuestTaskResponseDTO dto) => await service.AnswerAsync(dto);
+        public async Task<ApiResponse<QuestTaskResponseDTO>> CreateAsync(CreateQuestTaskResponseDTO dto) => new ApiResponse<QuestTaskResponseDTO>(await service.AnswerAsync(dto));
     }
 }
