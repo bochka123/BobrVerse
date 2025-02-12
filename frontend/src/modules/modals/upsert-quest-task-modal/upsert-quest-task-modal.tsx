@@ -34,10 +34,10 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
 
     const { addToast } = useToast();
     
-    const [createTask] = useCreateQuestTaskMutation();
-    const [updateTask] = useUpdateQuestTaskMutation();
+    const [createTaskTrigger] = useCreateQuestTaskMutation();
+    const [updateTaskTrigger] = useUpdateQuestTaskMutation();
 
-    const { addTask } = useQuestUpdating();
+    const { addTask, updateTask } = useQuestUpdating();
 
     const { handleSubmit, control } = useForm<UpsertQuestTaskModalFormNames>({
         defaultValues: taskForEditing ? {
@@ -68,8 +68,8 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
         };
 
         const trigger = taskForEditing
-            ? () => updateTask({ ...requestData, id: taskForEditing.id  })
-            : () => createTask(requestData);
+            ? () => updateTaskTrigger({ ...requestData, id: taskForEditing.id  })
+            : () => createTaskTrigger(requestData);
 
         trigger()
             .unwrap()
@@ -78,7 +78,10 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
                     ? 'Quest task updated successfully'
                     : 'Quest task created successfully'
                 );
-                addTask({ id: data.data.id, task: data.data });
+                taskForEditing
+                    ? updateTask(data.data.id, data.data)
+                    : addTask({ id: data.data.id, task: data.data });
+
                 setVisible(false);
             })
             .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to create quest'));

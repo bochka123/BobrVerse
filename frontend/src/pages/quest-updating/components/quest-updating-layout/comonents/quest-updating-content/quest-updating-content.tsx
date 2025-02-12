@@ -2,27 +2,21 @@ import { faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ToastModeEnum } from '@/common';
 import { IconButton, Loader, WoodenContainer } from '@/components';
-import { useToast } from '@/hooks';
 import { PhotoPicker } from '@/modules';
 import { UpsertQuestTaskModal } from '@/modules/modals/upsert-quest-task-modal';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 import defaultImg from '@/resources/background.jpg';
 import {
-    useDeleteQuestTaskPhotoMutation,
     useLazyGetQuestTaskByIdQuery,
-    useUploadQuestTaskPhotoMutation
 } from '@/services';
 
+import { useQuestUpdatingPhoto } from './hooks';
 import styles from './quest-updating.module.scss';
 
 const QuestUpdatingContent: FC = () => {
     const { taskId, questId } = useParams<{ questId: string, taskId: string }>();
     const { updateTask, getTaskById } = useQuestUpdating();
-
-    const [uploadPhoto] = useUploadQuestTaskPhotoMutation();
-    const [deletePhoto] = useDeleteQuestTaskPhotoMutation();
 
     const [taskTrigger, { isLoading: isTaskLoading }] = useLazyGetQuestTaskByIdQuery();
 
@@ -38,38 +32,16 @@ const QuestUpdatingContent: FC = () => {
 
     const task = useMemo(() => getTaskById(taskId as string), [taskId, getTaskById]);
 
+    useEffect(() => setImageUrl(task?.url), [task?.url]);
+
+    const { uploadPhoto, deletePhoto } = useQuestUpdatingPhoto(task);
+
     const [imageUrl, setImageUrl] = useState<string | undefined>(task?.url);
     const [file, setFile] = useState<File | null>(null);
 
-    useEffect(() => {
-        setImageUrl(task?.url);
-    }, [task?.url]);
-
-    const { addToast } = useToast();
-
     const onSave = (): void => {
-        if (task && imageUrl && file && imageUrl !== task?.url) {
-            const formData = new FormData();
-            formData.append(file.name, file, `/${file.name}`);
-
-            uploadPhoto({ taskId: taskId as string, photoDto: formData })
-                .unwrap()
-                .then(() => {
-                    updateTask(taskId as string, { ...task, url: imageUrl });
-                    addToast(ToastModeEnum.SUCCESS, 'Successfully updated task image');
-                })
-                .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to update task image'));
-        }
-
-        if (task?.url && !imageUrl) {
-            deletePhoto(taskId as string)
-                .unwrap()
-                .then(() => {
-                    updateTask(taskId as string, { ...task, url: '' });
-                    addToast(ToastModeEnum.SUCCESS, 'Successfully deleted task image');
-                })
-                .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to delete task image'));
-        }
+        if (task && imageUrl && file && imageUrl !== task?.url) uploadPhoto(file, imageUrl);
+        if (task?.url && !imageUrl) deletePhoto();
     };
 
     const onDeletePhoto = (): void => {
