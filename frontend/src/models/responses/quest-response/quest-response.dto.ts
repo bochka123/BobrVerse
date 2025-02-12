@@ -1,20 +1,14 @@
-import { IProfileDto } from '../profile';
-import { IQuestDto } from '../quests';
+import { IQuestTaskDto } from '../quest-task';
 
 interface IQuestResponseDto {
     id: string;
     questId: string;
-    quest: IQuestDto;
-    profileId: string;
-    profile: IProfileDto;
     questTitle: string;
     questDescription: string;
-    xpEarned: number;
-    isCompleted: boolean;
-    taskStatuses: []; //change
-    totalXp: number;
-    startedAt: string;
+    startedAt?: string;
     completedAt?: string;
+    firstTask?: IQuestTaskDto;
+    secondTask?: IQuestTaskDto;
 }
 
 export { type IQuestResponseDto };

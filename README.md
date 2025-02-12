@@ -15,6 +15,7 @@ Backend:
 - Database: MS SQL Server/Entity Framework Core
 - Cloud: Azure
 - Authentication: OAuth/Basic
+- WebSockets: SignalR
 - Other: Redis Cache/Docker
 
 Frontend:
@@ -212,6 +213,7 @@ dotnet user-secrets set {SecretName} {SecretValue}
 |----------------------------|--------------------------------|-------------|
 | VITE_API_URL               | your-backend-url       | The base URL of the backend API. Replace with the actual API URL in production. |
 | VITE_GOOGLE_CLIENT_ID      | your-google-client-id | The Google OAuth client ID used for authentication. |
+| VITE_HUB_URL               | /hubs/quests | Endpoint for websocket negotiation |
 
 ### Build & Run with Docker (Backend)
 
