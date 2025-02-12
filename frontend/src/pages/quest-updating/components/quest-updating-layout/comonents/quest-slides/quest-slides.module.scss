@@ -1,4 +1,3 @@
-@use '@/styles/variables/color-variables' as c;
 @use '@/styles/mixins/scrollbar-mixin' as scrollbar;
 @use "@/styles/variables/background-variables.scss" as b;
 
@@ -21,14 +20,5 @@
     overflow-y: auto;
 
     @include scrollbar.scrollbar-style;
-
-    .slide {
-      width: 100%;
-      border: 5px solid c.$primary;
-      border-radius: 10%;
-      transition: background-color 0.3s ease;
-      background: url("@/resources/background.jpg") no-repeat center;
-      background-size: cover;
-    }
   }
 }

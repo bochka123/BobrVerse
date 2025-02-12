@@ -1,11 +1,12 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FC } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { IconButton, WoodenContainer } from '@/components';
 import { uuid } from '@/helpers';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 
+import { QuestSlidesItem } from './components';
 import styles from './quest-slides.module.scss';
 
 type QuestSlidesProps = {}
@@ -28,10 +29,12 @@ const QuestSlides: FC<QuestSlidesProps> = () => {
                 <div className={styles.slidesColumn}>
                     {
                         questSlides.map((slide, index) => (
-                            <Link key={`slide-${slide.id}`} to={`/quests/edit/${questId}/task/${slide.id}`}
-                                  className={styles.slide}>
-                                <h2>{index + 1}</h2>
-                            </Link>
+                            <QuestSlidesItem
+                                questId={questId as string}
+                                slideId={slide.id}
+                                slideNumber={index + 1}
+                                key={`slide-${slide.id}`}
+                            />
                         ))
                     }
                 </div>

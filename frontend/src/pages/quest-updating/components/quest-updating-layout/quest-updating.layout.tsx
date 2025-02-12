@@ -11,13 +11,8 @@ const QuestUpdatingLayout: FC<QuestUpdatingLayoutProps> = () => {
     return (
         <div className={styles.main}>
             <QuestSlides />
-
-            <div className={styles.mainContentWrapper}>
-                <Outlet />
-            </div>
-            <div className={styles.rightPanelWrapper}>
-                <QuestHints />
-            </div>
+            <Outlet />
+            <QuestHints />
         </div>
     );
 };
