@@ -187,7 +187,7 @@ dotnet user-secrets set {SecretName} {SecretValue}
 
 ### Table of backend user secrets
 | Secret Name                                 | Secret Value | Description |
-|---------------------------------------------|-------------|-------------|
+|---------------|-----------|------------------------------|
 | AzureBlobStorageSettings:ConnectionString  | (your_blob_connection_string) | Connection string for Azure Blob Storage. Replace with your actual credentials. |
 | AzureBlobStorageSettings:BlobContainerName | files | Name of the blob container where files are stored. |
 | AllowedOrigins                              | http://localhost:3001/ | Allowed origins for CORS configuration. |
