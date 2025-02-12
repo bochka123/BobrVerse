@@ -11,5 +11,6 @@ namespace BobrVerse.Bll.Interfaces
         Task<MyBobrProfileDTO> UpdateProfileAsync(UpdateBobrProfileDTO dto);
         Task<FileDto> UploadPhotoAsync(IFormCollection formCollection);
         Task<bool> DeletePhotoAsync();
+        Task AddXPAsync(int xp, bool save = false);
     }
 }
