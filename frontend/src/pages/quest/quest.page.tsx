@@ -96,8 +96,6 @@ const QuestPage: FC<QuestPageProps> = () => {
                 .unwrap()
                 .then((data) => {
                     if (data.data.isFinished) {
-                        console.log(data.data);
-                        
                         navigate(`response/${questResponse.id}/rate`);
                     } else {
                         setCurrentTask(nextTask);
