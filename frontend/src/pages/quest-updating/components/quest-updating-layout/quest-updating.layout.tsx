@@ -14,15 +14,13 @@ const QuestUpdatingLayout: FC<QuestUpdatingLayoutProps> = () => {
     const { questId } = useParams();
     const { data: questData, isLoading: isQuestLoading } = useGetQuestByIdQuery(questId as string);
     
-    const { addTask } = useQuestUpdating();
+    const { setupTasks } = useQuestUpdating();
 
     useEffect(() => {
         if (questData?.data) {
-            for (let i = 0; i < questData.data.numberOfTasks; i++) {
-                addTask({ order: i });
-            }
+            setupTasks(questData.data.taskIds.map(taskId => ({ id: taskId })));
         }
-    }, [questData]);
+    }, [questData?.data.taskIds]);
 
     if (isQuestLoading) return <Loader size={30} />;
     

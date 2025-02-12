@@ -120,7 +120,7 @@ namespace BobrVerse.Bll.Services.Quest
 
             var tasksCount = await context.QuizTasks
                 .AsNoTracking()
-                .Where(x => x.Id == questId)
+                .Where(x => x.QuestId == questId)
                 .Select(x => x.Id)
                 .ToListAsync();
 
