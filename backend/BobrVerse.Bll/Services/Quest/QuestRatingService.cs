@@ -23,7 +23,7 @@ namespace BobrVerse.Bll.Services.Quest
             var quest = await context.Quests.FirstOrDefaultAsync(q => q.Id == questResponse.QuestId)
                 ?? throw new BobrException($"QuestResponse is not found with id {questResponse.QuestId}");
 
-            var bobrProfile = await context.BobrProfiles.FirstOrDefaultAsync(q => q.Id == userContextService.UserId)
+            var bobrProfile = await context.BobrProfiles.FirstOrDefaultAsync(q => q.UserId == userContextService.UserId)
                 ?? throw new BobrException($"BobrProfile is not found with id {userContextService.UserId}");
 
             questRating.QuestResponseId = questResponse.Id;

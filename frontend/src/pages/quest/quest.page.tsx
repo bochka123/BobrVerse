@@ -63,7 +63,11 @@ const QuestPage: FC<QuestPageProps> = () => {
     }, [timeLeft]);
 
     const fetchNextTask = (): void => {
-        
+
+    };
+
+    const finishQuest = (): void => {
+        // navigate to response/:responseId
     };
 
     return (
@@ -80,7 +84,7 @@ const QuestPage: FC<QuestPageProps> = () => {
                     </div>
                     <div className={styles.rightPanelWrapper}>
                         <div className={styles.timeWrapper}><h1>Time left: {formatTime(timeLeft)}</h1></div>
-                        <QuestHints task={currentTask} fetchNextTask={fetchNextTask} />
+                        <QuestHints task={currentTask} fetchNextTask={fetchNextTask} isNextTaskExists={nextTask != null} finishQuest={finishQuest} />
                     </div>
                 </div>
             }

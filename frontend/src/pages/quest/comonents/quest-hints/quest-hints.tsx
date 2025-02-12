@@ -8,9 +8,11 @@ import styles from './quest-hints.module.scss';
 type QuestHintsProps = {
     task: IQuestTaskDto;
     fetchNextTask: () => void;
+    isNextTaskExists: boolean;
+    finishQuest: () => void;
 }
 
-const QuestHints: FC<QuestHintsProps> = ({ task, fetchNextTask }) => {
+const QuestHints: FC<QuestHintsProps> = ({ task, fetchNextTask, isNextTaskExists, finishQuest }) => {
     return (
         <WoodenContainer className={styles.hintsContainer}>
             <div className={styles.hintsWrapper}>
@@ -20,8 +22,8 @@ const QuestHints: FC<QuestHintsProps> = ({ task, fetchNextTask }) => {
                         task.requiredResources.map((res, key) => <li key={`resource-${key}`}>{res.name} - {res.quantity}</li>)
                     }
                 </ul>
-                <BaseButton buttonClasses={styles.button} onClick={fetchNextTask}>
-                    Save
+                <BaseButton buttonClasses={styles.button} onClick={() => isNextTaskExists ? fetchNextTask() : finishQuest()}>
+                    {isNextTaskExists ? 'Next' : 'Finish'}
                 </BaseButton>
             </div>
         </WoodenContainer>
