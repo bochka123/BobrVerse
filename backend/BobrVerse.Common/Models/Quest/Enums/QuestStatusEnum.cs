@@ -3,6 +3,7 @@
     public enum QuestStatusEnum
     {
         Draft,
-        Active
+        Active,
+        Finished
     }
 }

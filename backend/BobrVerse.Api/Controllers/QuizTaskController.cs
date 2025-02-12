@@ -1,7 +1,9 @@
 ﻿using BobrVerse.Auth.Attributes;
 using BobrVerse.Bll.Interfaces.Quest;
+using BobrVerse.Bll.Services;
 using BobrVerse.Common.Exceptions;
 using BobrVerse.Common.Models.Api;
+using BobrVerse.Common.Models.DTO.File;
 using BobrVerse.Common.Models.DTO.Quest.Task;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,5 +30,11 @@ namespace BobrVerse.Api.Controllers
         [HttpGet("getQuestTask/{questId:guid}/{order:int}")]
         public async Task<ApiResponse<QuizTaskDTO>> GetByOrder(Guid questId, int order) 
             => new ApiResponse<QuizTaskDTO>(await service.GetByOrderAsync(questId, order) ?? throw new BobrException($"Task related to quest with id {questId} and with order {order} not found."));
+
+        [HttpPut("uploadPhoto/{questTaskId:guid}")]
+        public async Task<ApiResponse<FileDto>> UploadPhoto([FromRoute] Guid questTaskId) => new ApiResponse<FileDto>(await service.UploadPhotoAsync(await Request.ReadFormAsync(), questTaskId));
+
+        [HttpDelete("deletePhoto/{questTaskId:guid}")]
+        public async Task<ApiResponse> DeletePhoto([FromRoute] Guid questTaskId) => new ApiResponse(await service.DeletePhotoAsync(questTaskId));
     }
 }
