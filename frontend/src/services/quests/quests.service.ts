@@ -1,6 +1,6 @@
 
 import { HttpType } from '@/common';
-import { ICreateQuestDto } from '@/models/requests';
+import { ICreateQuestDto, IUpdateQuestDto } from '@/models/requests';
 import { IApiResponseDto, IQuestDto } from '@/models/responses';
 import { apiSlice } from '@/services';
 
@@ -19,10 +19,23 @@ export const questsApiSlice = apiSlice.injectEndpoints({
                 body: requestDto
             }),
         }),
+        updateQuest: builder.mutation<IApiResponseDto<IQuestDto>, IUpdateQuestDto>({
+            query: (requestDto: IUpdateQuestDto) => ({
+                url: '/api/Quest/update',
+                method: HttpType.PUT,
+                body: requestDto
+            }),
+        }),
         getQuestById: builder.query<IApiResponseDto<IQuestDto>, string>({
             query: (questId: string) => ({ url: `/api/Quest/getQuestById/${questId}` }),
         }),
     })
 });
 
-export const { useGetMyQuestsQuery, useGetAvailableQuestsQuery, useCreateQuestMutation, useGetQuestByIdQuery } = questsApiSlice;
+export const {
+    useGetMyQuestsQuery,
+    useGetAvailableQuestsQuery,
+    useCreateQuestMutation,
+    useUpdateQuestMutation,
+    useGetQuestByIdQuery
+} = questsApiSlice;

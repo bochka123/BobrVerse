@@ -1,9 +1,10 @@
 import { faArrowRight,faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconButton } from '@/components';
 import { IQuestDto } from '@/models/responses';
+import { UpsertQuestModal } from '@/modules/modals';
 
 import styles from './my-quests-item.module.scss';
 
@@ -15,6 +16,8 @@ const MyQuestsItem: FC<MyQuestsItemProps> = ({ quest }) => {
 
     const navigate = useNavigate();
 
+    const [editModalVisible, setEditModalVisible] = useState(false);
+
     return (
         <div className={styles.itemWrapper}>
             <div className={styles.backgroundOverlay} />
@@ -22,10 +25,16 @@ const MyQuestsItem: FC<MyQuestsItemProps> = ({ quest }) => {
                 <p className={styles.title}>{quest.title}</p>
 
                 <div className={styles.buttonsWrapper}>
-                    <IconButton icon={faEdit} onClick={() => {}} />
+                    <IconButton icon={faEdit} onClick={() => setEditModalVisible(true)} />
                     <IconButton icon={faArrowRight} onClick={() => navigate(`/quests/edit/${quest.id}`)} />
                 </div>
             </div>
+
+            <UpsertQuestModal
+                visible={editModalVisible}
+                setVisible={setEditModalVisible}
+                questForEditing={quest}
+            />
         </div>
     );
 };

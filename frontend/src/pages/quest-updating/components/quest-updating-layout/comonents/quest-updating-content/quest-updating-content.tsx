@@ -7,9 +7,7 @@ import { PhotoPicker } from '@/modules';
 import { UpsertQuestTaskModal } from '@/modules/modals/upsert-quest-task-modal';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 import defaultImg from '@/resources/background.jpg';
-import {
-    useLazyGetQuestTaskByIdQuery,
-} from '@/services';
+import { useLazyGetQuestTaskByIdQuery } from '@/services';
 
 import { useQuestUpdatingPhoto } from './hooks';
 import styles from './quest-updating.module.scss';

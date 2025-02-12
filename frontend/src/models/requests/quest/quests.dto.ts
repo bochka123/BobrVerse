@@ -1,3 +1,5 @@
+import { QuestStatusEnum } from '@/common';
+
 interface ICreateQuestDto {
     title: string;
     description: string;
@@ -6,4 +8,9 @@ interface ICreateQuestDto {
     timeLimitInSeconds?: number;
 }
 
-export { type ICreateQuestDto };
+interface IUpdateQuestDto extends ICreateQuestDto {
+    id: string;
+    status: QuestStatusEnum;
+}
+
+export { type ICreateQuestDto, type IUpdateQuestDto };
