@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 
 import { TaskTypeEnum, ToastModeEnum } from '@/common';
-import { BaseInput, Modal, SelectInput } from '@/components';
+import { BaseInput, CheckboxInput, Modal, SelectInput } from '@/components';
 import { getFormErrorMessage } from '@/helpers';
 import { useToast } from '@/hooks';
 
@@ -54,14 +54,39 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
                 />
                 <Controller
                     control={control}
-                    name={'taskType'}
-                    rules={{ required: 'Task type field is required' }}
+                    name={'shortDescription'}
+                    rules={{ required: 'Short description field is required' }}
                     render={({ field: { onChange, value } }) => (
                         <BaseInput
-                            labelText={'Task type:'}
+                            labelText={'Short description:'}
                             value={value}
                             onChange={onChange}
-                            placeholder={'Enter quest title...'}
+                            placeholder={'Enter quest short description...'}
+                        />
+                    )}
+                />
+                <Controller
+                    control={control}
+                    name={'description'}
+                    rules={{ required: 'Description field is required' }}
+                    render={({ field: { onChange, value } }) => (
+                        <BaseInput
+                            labelText={'Description:'}
+                            value={value}
+                            onChange={onChange}
+                            placeholder={'Enter quest description...'}
+                        />
+                    )}
+                />
+                <Controller
+                    control={control}
+                    name={'isRequiredForNextStage'}
+                    rules={{ required: 'Is required for next stage field is required' }}
+                    render={({ field: { onChange, value } }) => (
+                        <CheckboxInput
+                            labelText={'Is required for next stage:'}
+                            value={value}
+                            onChange={onChange}
                         />
                     )}
                 />
