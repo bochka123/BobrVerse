@@ -4,6 +4,6 @@ namespace BobrVerse.Bll.Interfaces.Quest
 {
     public interface IQuestTaskResponseService
     {
-        Task AnswerAsync(CreateQuestTaskResponseDTO dto);
+        Task<QuestTaskResponseDTO> AnswerAsync(CreateQuestTaskResponseDTO dto);
     }
 }
