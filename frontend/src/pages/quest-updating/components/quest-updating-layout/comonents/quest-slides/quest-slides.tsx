@@ -15,7 +15,7 @@ const QuestSlides: FC<QuestSlidesProps> = () => {
 
     const [addTaskModalVisible, setAddTaskModalVisible  ] = useState(false);
 
-    const { questTask } = useQuestUpdating();
+    const { questTasks } = useQuestUpdating();
     
     return (
         <>
@@ -23,12 +23,12 @@ const QuestSlides: FC<QuestSlidesProps> = () => {
                 <div className={styles.slidesWrapper}>
                     <div className={styles.slidesColumn}>
                         {
-                            questTask.map((slide, index) => (
+                            questTasks.map((task, index) => (
                                 <QuestSlidesItem
                                     questId={questId as string}
-                                    slideId={slide.id}
+                                    slideId={task.id}
                                     slideNumber={index + 1}
-                                    key={`slide-${slide.id}`}
+                                    key={`task-${task.id}`}
                                 />
                             ))
                         }

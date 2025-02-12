@@ -4,23 +4,28 @@ import { IQuestTaskDto } from '@/models/responses';
 
 import { QuestUpdatingContext } from './quest-updating.context.tsx';
 
+type TaskWithIdType = { order: number, task?: IQuestTaskDto };
+
 type QuestUpdatingProviderProps = {
     children: ReactNode
 }
 const QuestUpdatingProvider: FC<QuestUpdatingProviderProps> = ({ children }) => {
 
-    const [questTasks, setQuestTasks] = useState<IQuestTaskDto[]>([]);
+    const [questTasks, setQuestTasks] = useState<TaskWithIdType[]>([]);
 
-    const addTask = (quest: IQuestTaskDto): void => {
-        setQuestTasks([...questTasks, quest]);
+    const addTask = (task: TaskWithIdType): void => {
+        setQuestTasks([...questTasks, task]);
     };
 
-    const removeTask = (questId: string): void => {
-        setQuestTasks(questTasks.filter((slide) => slide.id!== questId));
+    const removeTask = (taskOrder: number): void => {
+        setQuestTasks(questTasks.filter(task => task.order !== taskOrder));
     };
 
-    const updateTask = (questId: string, updatedQuest: IQuestTaskDto): void => {
-        setQuestTasks(questTasks.map((slide) => slide.id === questId ? updatedQuest : slide));
+    const updateTask = (taskOrder: number, updatedQuest: IQuestTaskDto): void => {
+        setQuestTasks(questTasks.map(task => task.order === taskOrder
+            ? { order: taskOrder, task: updatedQuest }
+            : task
+        ));
     };
 
     return (

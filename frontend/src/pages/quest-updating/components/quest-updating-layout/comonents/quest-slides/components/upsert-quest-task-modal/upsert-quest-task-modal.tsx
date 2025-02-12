@@ -58,11 +58,7 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
         createTask(requestData)
             .unwrap()
             .then((data) => {
-                addTask({
-                    id: data.data.id,
-                    title: data.data.shortDescription,
-                    content: data.data.description,
-                });
+                addTask({ id: data.data.id, task: data.data });
                 setVisible(false);
             })
             .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to create quest'));

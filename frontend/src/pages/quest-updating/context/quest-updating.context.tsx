@@ -3,11 +3,13 @@ import { createContext } from 'react';
 
 import { IQuestTaskDto } from '@/models/responses';
 
+type TaskWithIdType = { order: number, task?: IQuestTaskDto };
+
 interface QuestUpdatingContextValues {
-    addTask: (quest: IQuestTaskDto) => void;
-    removeTask: (questId: string) => void;
-    updateTask: (questId: string, updatedQuest: IQuestTaskDto) => void;
-    questTasks: IQuestTaskDto[];
+    addTask: (task: TaskWithIdType) => void
+    removeTask: (taskOrder: number) => void;
+    updateTask: (taskOrder: number, updatedQuest: IQuestTaskDto) => void;
+    questTasks: TaskWithIdType[];
 }
 
 const QuestUpdatingContext = createContext<QuestUpdatingContextValues | undefined>(undefined);

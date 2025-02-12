@@ -19,8 +19,8 @@ export const questsApiSlice = apiSlice.injectEndpoints({
                 body: requestDto
             }),
         }),
-        getQuestById: builder.query<IApiResponseDto<IQuestDto>, number>({
-            query: (questId: number) => ({ url: `/api/Quest/getQuestById/${questId}` }),
+        getQuestById: builder.query<IApiResponseDto<IQuestDto>, string>({
+            query: (questId: string) => ({ url: `/api/Quest/getQuestById/${questId}` }),
         }),
     })
 });
