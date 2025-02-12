@@ -70,15 +70,20 @@ const QuestUpdatingContent: FC = () => {
                     <IconButton icon={faSave} onClick={onSave}/>
                 </div>
                 <div className={styles.infoWrapper}>
-                    <p>Task type: {task.taskType}</p>
-                    <p>Short description: {task.shortDescription}</p>
-                    <p>Description: {task.description}</p>
-                    <p>Max attempts: {task.maxAttempts}</p>
-                    <p>Time limit in seconds: {task.timeLimitInSeconds}</p>
-                    <p>Is required for next stage: {task.isRequiredForNextStage ? 'Yes' : 'No'}</p>
-                    <p>Is temple: {task.isTemplate ? 'Yes' : 'No'}</p>
-                    <p>Resources: {task.requiredResources.map(resource => resource.name).join(', ')}</p>
+                    <div className={styles.infoBlock}>
+                        <p>Task type: {task.taskType}</p>
+                        <p>Short description: {task.shortDescription}</p>
+                        <p>Description: {task.description}</p>
+                        <p>Max attempts: {task.maxAttempts}</p>
+                    </div>
+                    <div className={styles.infoBlock}>
+                        <p>Time limit in seconds: {task.timeLimitInSeconds}</p>
+                        <p>Is required for next stage: {task.isRequiredForNextStage ? 'Yes' : 'No'}</p>
+                        <p>Is temple: {task.isTemplate ? 'Yes' : 'No'}</p>
+                        <p>Resources: {task.requiredResources.map(resource => resource.name).join(', ')}</p>
+                    </div>
                 </div>
+
                 <div className={styles.buttonWrapper}>
                     <IconButton icon={faEdit} onClick={() => setEditModalVisible(true)}/>
                 </div>
