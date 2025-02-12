@@ -38,7 +38,7 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
 
     const { handleSubmit, control } = useForm<UpsertQuestTaskModalFormNames>({
         defaultValues: {
-            requiredResources: [{ id: uuid(), name: 'Wood', quantity: 5, length: 10, weigth: 2 }],
+            requiredResources: [{ id: uuid(), name: 'Wood', quantity: 5 }],
         }
     });
 
