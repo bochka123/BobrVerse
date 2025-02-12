@@ -1,0 +1,37 @@
+.hintsContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 15px;
+  width: 300px;
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.hintsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  & > h2 {
+    align-self: center;
+  }
+
+  & li {
+    list-style: none;
+  }
+
+  & li:before {
+    content: '· '
+  }
+}
+
+.button {
+  margin-top: auto;
+}
