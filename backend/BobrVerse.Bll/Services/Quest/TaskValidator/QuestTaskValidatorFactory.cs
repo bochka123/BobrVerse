@@ -11,6 +11,7 @@ namespace BobrVerse.Bll.Services.Quest.TaskValidator
             return taskType switch
             {
                 TaskTypeEnum.CollectResources => new CollectResourcesTaskValidator(),
+                TaskTypeEnum.CutTreesInForest => new CutTreesInForestTaskValidator(),
                 _ => throw new BobrException($"Unsupported task type {taskType}.")
             };
         }
