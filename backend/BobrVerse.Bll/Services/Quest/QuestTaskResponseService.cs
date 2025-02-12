@@ -30,7 +30,24 @@ namespace BobrVerse.Bll.Services.Quest
             var validator = validatorFactory.GetValidator(task.TaskType);
 
             var existingTaskStatus = await context.QuizTaskStatuses
-                .FirstOrDefaultAsync(x => x.QuizTaskId == task.Id && x.QuestResponseId == dto.QuestResponseId);
+                .FirstOrDefaultAsync(x => x.QuizTaskId == task.Id && x.QuestResponseId == dto.QuestResponseId)
+                ?? throw new BobrException($"Task response not found.");
+
+            if (task.TimeLimit.HasValue && dto.SpentTime > task.TimeLimit.Value.TotalSeconds)
+            {
+                existingTaskStatus.EarnedXp = 0;
+                existingTaskStatus.CompletedAt = DateTime.UtcNow;
+                existingTaskStatus.Status = QuestTaskStatusEnum.Failed;
+
+                await context.SaveChangesAsync();
+
+                return new QuestTaskResponseDTO
+                {
+                    Success = false,
+                    IsFinished = true,
+                    CurrentTask = mapper.Map<QuizTaskDTO>(task)
+                };
+            }
 
             if (existingTaskStatus != null)
             {
