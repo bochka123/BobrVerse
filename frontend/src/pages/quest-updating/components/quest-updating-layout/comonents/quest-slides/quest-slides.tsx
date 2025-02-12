@@ -3,7 +3,6 @@ import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { IconButton, WoodenContainer } from '@/components';
-import { uuid } from '@/helpers';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 
 import { QuestSlidesItem, UpsertQuestTaskModal } from './components';
@@ -16,12 +15,7 @@ const QuestSlides: FC<QuestSlidesProps> = () => {
 
     const [addTaskModalVisible, setAddTaskModalVisible  ] = useState(false);
 
-    const { addSlide, questSlides } = useQuestUpdating();
-
-    const handleAddSlide = (): void => {
-        setAddTaskModalVisible(true);
-        // addSlide({ id: uuid(), content: '' });
-    };
+    const { questSlides } = useQuestUpdating();
     
     return (
         <>
@@ -39,11 +33,15 @@ const QuestSlides: FC<QuestSlidesProps> = () => {
                             ))
                         }
                     </div>
-                    <IconButton icon={faPlus} onClick={handleAddSlide}/>
+                    <IconButton icon={faPlus} onClick={() => setAddTaskModalVisible(true)}/>
                 </div>
             </WoodenContainer>
 
-            <UpsertQuestTaskModal visible={addTaskModalVisible} setVisible={setAddTaskModalVisible} />
+            <UpsertQuestTaskModal
+                visible={addTaskModalVisible}
+                setVisible={setAddTaskModalVisible}
+                questId={questId as string}
+            />
         </>
     );
 };
