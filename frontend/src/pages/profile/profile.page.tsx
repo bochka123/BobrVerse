@@ -5,10 +5,10 @@ import { BaseButton, IconButton, Loader } from '@/components';
 import { ButtonSizeEnum } from '@/components/primitives/buttons/common';
 import { useProfileHook } from '@/hooks';
 import { EditProfileModal, QuestsCardModule } from '@/modules';
+import { UpsertQuestModal } from '@/modules/modals';
 import logImage from '@/resources/log.png';
 import img from '@/resources/profile.png';
 
-import { CreateQuestModal } from './components';
 import { useProfilePageHook } from './hooks';
 import styles from './profile.page.module.scss';
 
@@ -67,7 +67,7 @@ const ProfilePage: FC = () => {
             </div>
 
             <EditProfileModal visible={settingsVisible} setVisible={setSettingsVisible} />
-            <CreateQuestModal visible={createQuestModalVisible} setVisible={setCreateQuestModalVisible} />
+            <UpsertQuestModal visible={createQuestModalVisible} setVisible={setCreateQuestModalVisible} />
         </>
     );
 };

@@ -10,7 +10,7 @@ import { useConnection, useToast } from '@/hooks';
 import { ICreateQuestDto } from '@/models/requests';
 import { useCreateQuestMutation } from '@/services';
 
-import styles from './create-quest.modal.module.scss';
+import styles from './upsert-quest.modal.module.scss';
 
 type FormNames = {
     title: string;
@@ -21,11 +21,11 @@ type FormNames = {
     timeLimitSeconds?: number;
 }
 
-type CreateQuestModalProps = {
+type UpsertQuestModalProps = {
     visible: boolean;
     setVisible: Dispatch<SetStateAction<boolean>>;
 }
-const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) => {
+const UpsertQuestModal: FC<UpsertQuestModalProps> = ({ visible, setVisible }) => {
 
     const [createQuest] = useCreateQuestMutation();
     const navigate = useNavigate();
@@ -162,4 +162,4 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
     );
 };
 
-export { CreateQuestModal };
+export { UpsertQuestModal };
