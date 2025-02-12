@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { ToastModeEnum } from '@/common';
 import { BaseButton, BaseInput, UploadPhoto } from '@/components';
@@ -8,7 +9,7 @@ import { getFormErrorMessage } from '@/helpers';
 import { useProfileHook, useToast } from '@/hooks';
 import { IUpdateProfileRequestDto } from '@/models/requests';
 import img from '@/resources/profile.png';
-import { useDeletePhotoMutation, useUpdateMutation, useUploadPhotoMutation } from '@/services';
+import { useDeletePhotoMutation, useLogOutMutation, useUpdateMutation, useUploadPhotoMutation } from '@/services';
 import { setProfile, setUrl } from '@/store/auth';
 
 import { DeletePhotoButton } from './components';
@@ -28,8 +29,10 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
     const [updateProfile] = useUpdateMutation();
     const [uploadPhoto] = useUploadPhotoMutation();
     const [deletePhoto] = useDeletePhotoMutation();
+    const [logoutMutation] = useLogOutMutation();
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { addToast } = useToast();
 
     const [imageUrl, setImageUrl] = useState<string | undefined>(url);
@@ -49,7 +52,7 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
 
     const onSubmit: SubmitHandler<FormNames> = (data): void => {
 
-        if (file && imageUrl!== url) {
+        if (file && imageUrl !== url) {
             const formData = new FormData();
             formData.append(file.name, file, `/${file.name}`);
 
@@ -94,12 +97,22 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
         addToast(ToastModeEnum.ERROR, getFormErrorMessage(error));
     };
 
+    const logout = (): void => {
+        logoutMutation()
+            .unwrap()
+            .then(() => {
+                navigate('/auth');
+                addToast(ToastModeEnum.SUCCESS, 'Successfully logout');
+            })
+            .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to logout'));
+    };
+
     return (
         <form onSubmit={handleSubmit(onSubmit, onError)} className={styles.form}>
 
             <div className={styles.photoWrapper}>
-                <img src={imageUrl || img} alt="Selected Image" className={styles.imagePreview}/>
-                <UploadPhoto setImageUrl={setImageUrl} setFile={setFile}/>
+                <img src={imageUrl || img} alt="Selected Image" className={styles.imagePreview} />
+                <UploadPhoto setImageUrl={setImageUrl} setFile={setFile} />
                 <DeletePhotoButton onClick={onDeletePhoto} />
             </div>
 
@@ -117,6 +130,7 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
             />
 
             <BaseButton type={'submit'}>Update</BaseButton>
+            <BaseButton onClick={logout}>Log Out</BaseButton>
         </form>
     );
 };

@@ -22,7 +22,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         logOut: builder.mutation<IApiResponseDto<null>, void>({
             query: () => ({
-                url: '/api/auth/register',
+                url: '/api/auth/logout',
                 method: HttpType.POST,
             }),
         }),
