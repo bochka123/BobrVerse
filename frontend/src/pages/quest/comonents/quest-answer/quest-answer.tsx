@@ -15,7 +15,16 @@ type QuestAnswerProps = {
     requiredResources?: IResourceDto[];
 }
 
-const QuestAnswer: FC<QuestAnswerProps> = ({ code, setCode, taskType, requiredResources }) => {
+const areEqual = (prevProps: QuestAnswerProps, nextProps: QuestAnswerProps) => {
+    return (
+        prevProps.code === nextProps.code &&
+        prevProps.setCode === nextProps.setCode &&
+        JSON.stringify(prevProps.taskType) === JSON.stringify(nextProps.taskType) &&
+        JSON.stringify(prevProps.requiredResources) === JSON.stringify(nextProps.requiredResources)
+    );
+};
+
+const QuestAnswer: FC<QuestAnswerProps> = React.memo(({ code, setCode, taskType, requiredResources }) => {
     return (
         <WoodenContainer className={styles.answerContainer}>
             <div className={styles.editorWrapper}>
@@ -33,6 +42,6 @@ const QuestAnswer: FC<QuestAnswerProps> = ({ code, setCode, taskType, requiredRe
             </div>
         </WoodenContainer>
     );
-};
+}, areEqual);
 
 export { QuestAnswer };

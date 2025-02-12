@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import { WoodenContainer } from '@/components';
 import { IQuestTaskDto, IQuestTaskTypeInfoDto } from '@/models/responses';
@@ -10,7 +10,14 @@ type QuestQuestionProps = {
     taskType?: IQuestTaskTypeInfoDto;
 }
 
-const QuestQuestion: FC<QuestQuestionProps> = ({ task, taskType }) => {
+const areEqual = (prevProps: QuestQuestionProps, nextProps: QuestQuestionProps) => {
+    return (
+        JSON.stringify(prevProps.task) === JSON.stringify(nextProps.task) &&
+        JSON.stringify(prevProps.taskType) === JSON.stringify(nextProps.taskType)
+    );
+};
+
+const QuestQuestion: FC<QuestQuestionProps> = React.memo(({ task, taskType }) => {
     return (
         <WoodenContainer className={styles.questionContainer}>
             <div className={styles.questionImage}>
@@ -24,6 +31,6 @@ const QuestQuestion: FC<QuestQuestionProps> = ({ task, taskType }) => {
             </div>
         </WoodenContainer>
     );
-};
+}, areEqual);
 
 export { QuestQuestion };

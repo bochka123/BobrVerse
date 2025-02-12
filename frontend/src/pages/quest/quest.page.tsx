@@ -1,4 +1,4 @@
-import { FC, useCallback,useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { clearInterval, setInterval } from 'worker-timers';
 
@@ -37,8 +37,9 @@ const QuestPage: FC = () => {
     const navigate = useNavigate();
 
     const { data: taskTypesData, isLoading: isTaskTypeDataLoading } = useGetTaskTypeInfosQuery();
-    const currentTaskType = taskTypesData?.data
-        .find((info) => info.taskType === currentTask?.taskType);
+    const currentTaskType = useMemo(() => {
+        return taskTypesData?.data.find((info) => info.taskType === currentTask?.taskType);
+    }, [taskTypesData, currentTask]);
 
     useEffect(() => {
         if (questId != null) {
