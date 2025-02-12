@@ -55,6 +55,9 @@
 }
   
 .cardBody {
+    display: flex;
+    flex-direction: column;
+    max-height: 50vh;
     border-radius: 30px;
     border: 10px solid c.$primary;
 
