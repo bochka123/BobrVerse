@@ -1,7 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using BobrVerse.Api.Hubs;
 using BobrVerse.Api.Models.Settings;
-using BobrVerse.Api.Seeders;
+using BobrVerse.Dal.Seeders;
 using BobrVerse.Api.Services;
 using BobrVerse.Auth;
 using BobrVerse.Bll;

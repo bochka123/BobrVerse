@@ -54,6 +54,9 @@ namespace BobrVerse.Dal.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
+                    b.Property<int>("LogsToAdd")
+                        .HasColumnType("int");
+
                     b.Property<int>("RequiredXP")
                         .HasColumnType("int");
 
@@ -317,8 +320,9 @@ namespace BobrVerse.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Order")
                         .HasColumnType("int");

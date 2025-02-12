@@ -40,20 +40,6 @@ const RequiredResourcesInput: FC<RequiredResourcesInputProps> = ({ control }) =>
                                     <BaseInput labelText="Quantity:" type={InputTypes.NUMBER} {...field} min={0}/>
                                 )}
                             />
-                            <Controller
-                                control={control}
-                                name={`requiredResources.${index}.length`}
-                                render={({ field }) => (
-                                    <BaseInput labelText="Length:" type={InputTypes.NUMBER} {...field} min={0}/>
-                                )}
-                            />
-                            <Controller
-                                control={control}
-                                name={`requiredResources.${index}.weigth`}
-                                render={({ field }) => (
-                                    <BaseInput labelText="Weight:" type={InputTypes.NUMBER} {...field} min={0}/>
-                                )}
-                            />
                             <IconButton icon={faRemove} onClick={() => remove(index)}/>
                         </div>
                     ))
@@ -66,8 +52,7 @@ const RequiredResourcesInput: FC<RequiredResourcesInputProps> = ({ control }) =>
                     id: uuid(),
                     name: '',
                     quantity: 0,
-                    length: 0,
-                    weigth: 0
+                    order: fields.length
                 })}
             />
         </div>

@@ -12,3 +12,9 @@
     font: normal 350 20px / 130% 'KirangHaerang';
     letter-spacing: 0.01em;
 }
+
+
+@mixin label-extra-small {
+    font: normal 350 12px / 130% 'KirangHaerang';
+    letter-spacing: 0.01em;
+}

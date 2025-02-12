@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { AuthPage, MainPage, ProfilePage, QuestPage, QuestUpdatingPage } from '@/pages';
+import { AuthPage, MainPage, ProfilePage, QuestPage, QuestUpdatingPage, RateQuestPage } from '@/pages';
 import { QuestUpdatingContent, QuestUpdatingContentEmpty } from '@/pages/quest-updating/components';
 import { ProtectedRoute } from '@/router/protected-route.tsx';
 
@@ -18,6 +18,10 @@ export const router = createBrowserRouter([
                     {
                         path: 'quests/:questId',
                         element: <QuestPage />
+                    },
+                    {
+                        path: 'quests/:questId/response/:responseId/rate',
+                        element: <RateQuestPage />,
                     },
                     {
                         path: 'quests/edit/:questId',
