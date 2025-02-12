@@ -1,9 +1,13 @@
+@use '@/styles/variables/color-variables.scss' as c;
+
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   height: 100%;
+
+  gap: 20px;
 
   padding: 15px;
   flex-grow: 1;
@@ -24,7 +28,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  flex-grow: 1;
 
   & > button {
     width: 230px;
@@ -33,7 +36,17 @@
 
 .infoWrapper {
   display: flex;
-  flex-direction: column;
   gap: 10px;
   flex-grow: 1;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  border-radius: 20px;
+  border: 5px solid c.$primary;
+
+  padding: 10px;
 }
