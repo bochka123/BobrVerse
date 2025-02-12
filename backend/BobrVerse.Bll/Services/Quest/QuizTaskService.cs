@@ -172,11 +172,8 @@ namespace BobrVerse.Bll.Services.Quest
                 {
                     TaskType = "CollectResources",
                     Description = "This task requires the collection of resources (e.g., Rock, Wood) in specific quantities and order. The 'collect()' method can be used to collect resources in the correct sequence and quantity as specified. Use c# syntax. Cycles are also suuported.",
-                    Parameters = Enum.GetValues(typeof(ResourceNameEnum))
-                                 .Cast<ResourceNameEnum>()
-                                 .Select(r => r.ToString())
-                                 .AsEnumerable()
-        }
+                    Parameters = []
+                }
             ];
         }
     }
