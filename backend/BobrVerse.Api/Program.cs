@@ -1,4 +1,5 @@
 using BobrVerse.Api.Extensions;
+using BobrVerse.Api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,10 @@ app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<QuestsHub>("/hubs/quests", options =>
+{
+    options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.LongPolling;
+}).RequireCors("SignalRCorsPolicy");
 
 app.SeedDatabase();
 
