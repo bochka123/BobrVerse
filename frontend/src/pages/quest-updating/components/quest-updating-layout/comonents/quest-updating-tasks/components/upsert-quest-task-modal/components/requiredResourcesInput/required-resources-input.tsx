@@ -52,6 +52,7 @@ const RequiredResourcesInput: FC<RequiredResourcesInputProps> = ({ control }) =>
                     id: uuid(),
                     name: '',
                     quantity: 0,
+                    order: fields.length
                 })}
             />
         </div>
