@@ -22,5 +22,8 @@ namespace BobrVerse.Api.Controllers
 
         [HttpGet("active")]
         public async Task<ApiResponse<ICollection<ViewQuestDTO>>> GetActiveQuests() => new ApiResponse<ICollection<ViewQuestDTO>>(await service.GetActiveQuests());
+
+        [HttpGet("getQuestById/{questId:guid}")]
+        public async Task<ApiResponse<QuestDTO>> GetQuestById([FromRoute]Guid questId) => new ApiResponse<QuestDTO>(await service.GetQuestByIdAsync(questId));
     }
 }
