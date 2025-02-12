@@ -1,6 +1,6 @@
 # INT20H | 2025 | BobrVerse
 
-**This project is a test project for INT20H Hackaton and restricted for commercial purposes.**
+**This project is a test project for INT20H Hackaton. Read LICENSE for usage details.**
 
 ## Links:
 
@@ -156,3 +156,19 @@ erDiagram
     User ||--o{ Role : "hasRoles"
     
 ```
+
+## Start app on your local machine
+
+Setup environment
+
+1. Make sure you have [Docker](https://www.docker.com)
+2. Pull this repo to your machine.
+3. Download and install [.NET 8 SDK](https://dotnet.microsoft.com/download).
+4. Add user secrets to .Net project (watch 'User secrets')
+5. Download and install LTS version of [Node.js](https://nodejs.org/en/)
+
+User secrets
+
+1. Set BobrVerse.Api as active directory.
+2. Run `dotnet user-secrets --project BobrVerse.Api init`. This will generate UserSecretsId in Api.csproj. Note that secrets.json has not been created yet.
+3. Run `dotnet user-secrets --project Api set {SecretName} {SecretValue}` secrets.json will be created at %APPDATA%\Microsoft\UserSecrets\<Replace This With UserSecretsId>
