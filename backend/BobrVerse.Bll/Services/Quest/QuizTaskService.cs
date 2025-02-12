@@ -183,7 +183,7 @@ namespace BobrVerse.Bll.Services.Quest
                 new QuestTaskTypeInfoDTO{
                     Name = TaskTypeEnum.CollectResources.GetDescription(),
                     TaskType = TaskTypeEnum.CutTreesInForest.ToString(),
-                    Description = "This task requires cutting down a specified number of trees in a forest. The user will specify the total forest size and the number of trees to cut, choosing whether to cut the largest or smallest trees. Use the `cut_trees()` method to perform the action.",
+                    Description = "This task requires cutting down a specified number of trees in a forest. The user will specify the total forest size and the number of trees to cut, choosing whether to cut the largest or smallest trees. Use the `cut()` method to perform the action. Array of trees is variable 'Forest', every tree has property 'Length'.",
                     Parameters = new Dictionary<string, string>
                     {
                         { nameof(QuizTask.ForestSize), "The total number of trees in the forest." },
