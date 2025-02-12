@@ -9,7 +9,7 @@ export const questResponseApiSlice = apiSlice.injectEndpoints({
             query: (requestData: { startIndex: number, endIndex: number }) => 
                 ({ url: `/api/QuestResponse/getUserQuestResponses/${requestData.startIndex}/${requestData.endIndex}` }),
         }),
-        createQuestTaskResponse: builder.mutation<IApiResponseDto<IQuestResponseDto>, string>({
+        createQuestResponse: builder.mutation<IApiResponseDto<IQuestResponseDto>, string>({
             query: (questId: string) => ({ 
                 url: `/api/QuestResponse/create?questId=${questId}`,
                 method: HttpType.POST
@@ -18,4 +18,4 @@ export const questResponseApiSlice = apiSlice.injectEndpoints({
     })
 });
 
-export const { useGetUserQuestResponsesQuery, useCreateQuestTaskResponseMutation } = questResponseApiSlice;
+export const { useGetUserQuestResponsesQuery, useCreateQuestResponseMutation } = questResponseApiSlice;

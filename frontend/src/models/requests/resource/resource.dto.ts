@@ -3,8 +3,7 @@ interface IResourceDto
     id: string;
     name: string;
     quantity: number;
-    length?: number;
-    weigth?: number;
+    order: number;
 }
 
 export { type IResourceDto };
