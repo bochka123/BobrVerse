@@ -2,7 +2,7 @@ import { FC, ReactNode, useState } from 'react';
 
 import { QuestCardTypes } from '@/common';
 
-import { MyQuests, PassedQuests, Ratings } from './components';
+import { AvaiableQuests, MyQuests, PassedQuests, Ratings } from './components';
 import styles from './quests-card.module.module.scss';
 
 const QuestsCardModule: FC = () => {
@@ -14,6 +14,8 @@ const QuestsCardModule: FC = () => {
                 return <MyQuests />;
             case QuestCardTypes.PASSED_QUESTS:
                 return <PassedQuests />;
+            case QuestCardTypes.AVAILABLE_QUESTS:
+                return <AvaiableQuests />;
             case QuestCardTypes.RATINGS:
                 return <Ratings />;
         }
@@ -37,6 +39,14 @@ const QuestsCardModule: FC = () => {
                             onClick={() => setActiveTab(QuestCardTypes.PASSED_QUESTS)}
                         >
                             Passed quests
+                        </button>
+                    </li>
+                    <li className={styles.navItem}>
+                        <button
+                            className={`${styles.navLink} ${activeTab === QuestCardTypes.AVAILABLE_QUESTS ? styles.active : ''}`}
+                            onClick={() => setActiveTab(QuestCardTypes.AVAILABLE_QUESTS)}
+                        >
+                            Available quests
                         </button>
                     </li>
                     <li className={styles.navItem}>

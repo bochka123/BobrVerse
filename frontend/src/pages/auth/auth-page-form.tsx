@@ -1,13 +1,15 @@
 import { FC } from 'react';
 import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { InputTypes, ToastModeEnum } from '@/common';
 import { BaseButton, BaseInput } from '@/components';
 import { getFormErrorMessage } from '@/helpers';
-import { useAuth, useToast } from '@/hooks';
+import { useToast } from '@/hooks';
 import { IAuthRequestDto } from '@/models/requests';
-import { useLoginMutation, useRegisterMutation } from '@/services';
+import { useLazyGetMyProfileQuery, useLoginMutation, useRegisterMutation } from '@/services';
+import { setProfile, setUrl } from '@/store/auth';
 
 import styles from './auth-page.module.scss';
 import { GoogleAuthButton } from './components';
@@ -24,8 +26,9 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
 
     const [logIn] = useLoginMutation();
     const [signUp] = useRegisterMutation();
-    const { logIn: setAuthenticated } = useAuth();
+    const [fetchProfile] = useLazyGetMyProfileQuery();
     const { addToast } = useToast();
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -41,15 +44,25 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
             ? logIn(requestData)
                 .unwrap()
                 .then(() => {
-                    setAuthenticated();
-                    navigate('/');
+                    fetchProfile()
+                        .unwrap()
+                        .then(profileData => {
+                            dispatch(setProfile(profileData.data));
+                            dispatch(setUrl(profileData.data));
+                            navigate('/');
+                        });
                 })
                 .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to log in'))
             : signUp(requestData)
                 .unwrap()
                 .then(() => {
-                    setAuthenticated();
-                    navigate('/');
+                    fetchProfile()
+                        .unwrap()
+                        .then(profileData => {
+                            dispatch(setProfile(profileData.data));
+                            dispatch(setUrl(profileData.data));
+                            navigate('/');
+                        });
                 })
                 .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to register'));
     };
@@ -71,7 +84,7 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                     }
                 }}
                 render={({ field: { onChange, value } }) => (
-                    <BaseInput value={value} onChange={onChange} placeholder={'Email'} type={InputTypes.TEXT}/>
+                    <BaseInput value={value} onChange={onChange} placeholder={'Email'} type={InputTypes.TEXT} />
                 )}
             />
             <Controller
@@ -79,14 +92,14 @@ const AuthPageForm: FC<AuthPageFormProps> = ({ authType }) => {
                 name="password"
                 rules={{ required: 'Password field is required' }}
                 render={({ field: { onChange, value } }) => (
-                    <BaseInput value={value} onChange={onChange} placeholder={'Password'} type={InputTypes.PASSWORD}/>
+                    <BaseInput value={value} onChange={onChange} placeholder={'Password'} type={InputTypes.PASSWORD} />
                 )}
             />
 
             <BaseButton type={'submit'}>
                 {authType === 'signIn' ? 'Login' : 'Register'}
             </BaseButton>
-            <GoogleAuthButton/>
+            <GoogleAuthButton />
         </form>
     );
 };
