@@ -18,7 +18,13 @@ namespace BobrVerse.Dal.Entities.Quest.Tasks
         public bool IsTemplate { get; set; } = false;
         public int Order { get; set; }
 
+        // Collect Resources
         public int? MaxCollectCalls { get; set; }
         public ICollection<Resource> RequiredResources { get; set; } = [];
+
+        // Cut Trees In Forest
+        public int? ForestSize { get; set; }
+        public int? TreesToCut { get; set; }
+        public bool? CutLargest { get; set; }
     }
 }
