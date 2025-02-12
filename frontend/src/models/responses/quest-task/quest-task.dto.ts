@@ -14,6 +14,9 @@ interface IQuestTaskDto {
     requiredResources: IResourceDto[];
     maxCollectCalls?: number;
     nextTaskId?: string;
+    forestSize?: number;
+    treesToCut?: number;
+    cutLargest?: boolean;
 }
 
 interface IQuestTaskTypeInfoDto {
