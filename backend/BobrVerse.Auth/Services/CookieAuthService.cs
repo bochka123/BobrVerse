@@ -64,8 +64,21 @@ namespace BobrVerse.Auth.Services
                 return;
             }
 
-            context.Response.Cookies.Delete(cookieSettings.RefreshTokenName);
-            context.Response.Cookies.Delete(cookieSettings.AccessTokenName);
+            context.Response.Cookies.Delete(cookieSettings.RefreshTokenName, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Path = "/"
+            });
+
+            context.Response.Cookies.Delete(cookieSettings.AccessTokenName, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Path = "/"
+            });
         }
 
         public void SetupAuth(Guid userId)

@@ -7,7 +7,6 @@ import styles from './quest-updating.layout.module.scss';
 type QuestUpdatingLayoutProps = {}
 const QuestUpdatingLayout: FC<QuestUpdatingLayoutProps> = () => {
 
-
     return (
         <div className={styles.main}>
             <QuestSlides />

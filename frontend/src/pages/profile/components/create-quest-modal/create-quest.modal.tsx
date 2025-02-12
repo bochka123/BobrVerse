@@ -6,7 +6,7 @@ import { InputTypes, ToastModeEnum } from '@/common';
 import { Modal } from '@/components';
 import { BaseButton, BaseInput } from '@/components/primitives';
 import { getFormErrorMessage } from '@/helpers';
-import { useToast } from '@/hooks';
+import { useConnection, useToast } from '@/hooks';
 import { ICreateQuestDto } from '@/models/requests';
 import { useCreateQuestMutation } from '@/services';
 
@@ -17,7 +17,8 @@ type FormNames = {
     description: string;
     xpForComplete: number;
     xpForSuccess: number;
-    timeLimitInSeconds?: number;
+    timeLimitMinutes?: number;
+    timeLimitSeconds?: number;
 }
 
 type CreateQuestModalProps = {
@@ -29,22 +30,29 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
     const [createQuest] = useCreateQuestMutation();
     const navigate = useNavigate();
     const { addToast } = useToast();
+    const { connection } = useConnection();
 
     const { handleSubmit, control } = useForm<FormNames>();
 
     const onSubmit: SubmitHandler<FormNames> = (data): void => {
+        const minutes = Number(data.timeLimitMinutes) || 0;
+        const seconds = Number(data.timeLimitSeconds) || 0;
+        const timeLimitInSeconds = minutes * 60 + seconds;
+
         const requestData: ICreateQuestDto = {
             title: data.title,
             description: data.description,
             xpForComplete: data.xpForComplete,
             xpForSuccess: data.xpForSuccess,
-            timeLimitInSeconds: data.timeLimitInSeconds,
+            timeLimitInSeconds,
         };
 
         createQuest(requestData)
             .unwrap()
             .then((data) => {
                 navigate(`quests/edit/${data.data.id}`);
+                if(connection != null)
+                    connection.invoke('notifyCreated', data.data);
             })
             .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to create quest'));
     };
@@ -87,7 +95,7 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
                 <Controller
                     control={control}
                     name={'xpForComplete'}
-                    rules={{ required: 'XP for complete is required' }}
+                    rules={{ required: 'XP for complete is required', min: 0 }}
                     render={({ field: { onChange, value } }) => (
                         <BaseInput
                             labelText={'Quest XP for complete:'}
@@ -102,7 +110,7 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
                 <Controller
                     control={control}
                     name={'xpForSuccess'}
-                    rules={{ required: 'XP for success is required' }}
+                    rules={{ required: 'XP for success is required', min: 0 }}
                     render={({ field: { onChange, value } }) => (
                         <BaseInput
                             labelText={'Quest XP for success:'}
@@ -113,20 +121,38 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
                         />
                     )}
                 />
-
-                <Controller
-                    control={control}
-                    name={'timeLimitInSeconds'}
-                    render={({ field: { onChange, value } }) => (
-                        <BaseInput
-                            labelText={'Quest time limit:'}
-                            type={InputTypes.NUMBER}
-                            value={value}
-                            onChange={onChange}
-                            placeholder={'Enter quest time limit (in seconds)'}
-                        />
-                    )}
-                />
+                
+                <div className={styles.inputGroup}>
+                    <Controller
+                        control={control}
+                        name={'timeLimitMinutes'}
+                        rules={{ min: 0, max: 60 }}
+                        render={({ field: { onChange, value } }) => (
+                            <BaseInput
+                                labelText={'Minutes limit:'}
+                                type={InputTypes.NUMBER}
+                                value={value}
+                                onChange={onChange}
+                                placeholder={'00'}
+                            />
+                        )}
+                    />
+                    <p>:</p>
+                    <Controller
+                        control={control}
+                        name={'timeLimitSeconds'}
+                        rules={{ min: 0, max: 60 }}
+                        render={({ field: { onChange, value } }) => (
+                            <BaseInput
+                                labelText={'Seconds limit:'}
+                                type={InputTypes.NUMBER}
+                                value={value}
+                                onChange={onChange}
+                                placeholder={'00'}
+                            />
+                        )}
+                    />
+                </div>
 
                 <BaseButton type={'submit'}>
                     Create

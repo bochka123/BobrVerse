@@ -1,0 +1,39 @@
+@use "@/styles/variables/color-variables.scss" as c;
+@use "@/styles/variables/font-variables.scss" as t;
+@use '@/styles/mixins/scrollbar-mixin.scss' as scrollbar;
+
+.resourcesContainer {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 302px;
+
+  & > button {
+    margin-top: 10px;
+  }
+}
+
+.resourceItemsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 470px;
+  overflow-y: auto;
+
+  @include scrollbar.scrollbar-style;
+}
+
+.resourceItemWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 10px;
+
+  border-radius: 10px;
+  border: c.$primary solid 5px;
+}
+
+.label {
+  @include t.label-small;
+}

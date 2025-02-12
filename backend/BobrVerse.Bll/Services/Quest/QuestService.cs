@@ -7,7 +7,9 @@ using BobrVerse.Common.Models.DTO.Quest;
 using BobrVerse.Common.Models.Quest.Enums;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities;
+using BobrVerse.Dal.Entities.Quest;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using QuestDb = BobrVerse.Dal.Entities.Quest.Quest;
 
 namespace BobrVerse.Bll.Services.Quest
@@ -60,8 +62,26 @@ namespace BobrVerse.Bll.Services.Quest
         public async Task<ICollection<QuestDTO>> GetMyQuests()
         {
             var profile = await GetProfileAsync();
-            var quests = await context.Quests.Where(x => x.AuthorId == profile.Id).AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<QuestDb>, ICollection<QuestDTO>>(quests);
+
+            var quests = await context.Quests
+                .Where(x => x.AuthorId == profile.Id)
+                .AsNoTracking()
+                .ToListAsync();
+
+            var questIds = quests.Select(q => q.Id).ToList();
+            var tasksCounts = await context.QuizTasks
+                .Where(t => questIds.Contains(t.QuestId))
+                .GroupBy(t => t.QuestId)
+                .Select(g => new { QuestId = g.Key, Count = g.Count() })
+                .ToDictionaryAsync(x => x.QuestId, x => x.Count);
+
+            var questDtos = mapper.Map<ICollection<QuestDb>, ICollection<QuestDTO>>(quests);
+            foreach (var questDto in questDtos)
+            {
+                questDto.NumberOfTasks = tasksCounts.TryGetValue(questDto.Id, out var count) ? count : 0;
+            }
+
+            return questDtos;
         }
 
         public async Task<ICollection<ViewQuestDTO>> GetActiveQuests()
@@ -87,5 +107,20 @@ namespace BobrVerse.Bll.Services.Quest
             return mapper.Map<ICollection<QuestDb>, ICollection<ViewQuestDTO>>(quests);
         }
 
+        public async Task<QuestDTO> GetQuestByIdAsync(Guid questId)
+        {
+            var quest = await context.Quests
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == questId) ?? throw new BobrException("Quest not found.");
+
+            var tasksCount = await context.QuizTasks
+                .AsNoTracking()
+                .CountAsync(x => x.QuestId == questId);
+
+            var questDto = mapper.Map<QuestDb, QuestDTO>(quest);
+
+            questDto.NumberOfTasks = tasksCount;
+            return questDto;
+        }
     }
 }
