@@ -34,7 +34,7 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
     
     const [createTask] = useCreateQuestTaskMutation();
 
-    const { addSlide } = useQuestUpdating();
+    const { addTask } = useQuestUpdating();
 
     const { handleSubmit, control } = useForm<UpsertQuestTaskModalFormNames>({
         defaultValues: {
@@ -58,7 +58,7 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
         createTask(requestData)
             .unwrap()
             .then((data) => {
-                addSlide({
+                addTask({
                     id: data.data.id,
                     title: data.data.shortDescription,
                     content: data.data.description,

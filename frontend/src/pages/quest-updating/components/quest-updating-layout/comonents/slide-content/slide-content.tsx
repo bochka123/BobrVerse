@@ -8,16 +8,16 @@ import styles from './slide-content.module.scss';
 
 const SlideContent: FC = () => {
     const { slideId } = useParams<{ slideId: string }>();
-    const { questSlides, updateSlide } = useContext(QuestUpdatingContext) as QuestUpdatingContextValues;
+    const { questTask, updateTask } = useContext(QuestUpdatingContext) as QuestUpdatingContextValues;
 
-    const slide = questSlides.find(slide => slide.id === slideId);
+    const slide = questTask.find(slide => slide.id === slideId);
 
     if (!slide) {
         return <WoodenContainer className={styles.container}>Slide not found</WoodenContainer>;
     }
 
     const handleUpdateSlide = (updatedContent: string): void => {
-        updateSlide(String(slideId), { ...slide, content: updatedContent });
+        updateTask(String(slideId), { ...slide, content: updatedContent });
     };
 
     return (

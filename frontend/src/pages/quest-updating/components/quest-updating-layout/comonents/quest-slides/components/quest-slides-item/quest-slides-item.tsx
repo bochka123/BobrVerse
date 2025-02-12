@@ -15,7 +15,7 @@ type QuestSlidesItemProps = {
 const QuestSlidesItem: FC<QuestSlidesItemProps> = ({ slideId, questId, slideNumber }) => {
     const slideRef = useRef<HTMLAnchorElement>(null);
 
-    const { removeSlide } = useQuestUpdating();
+    const { removeTask } = useQuestUpdating();
 
     const onDeleteClick: MouseEventHandler<SVGSVGElement> = (event) => {
         event?.preventDefault();
@@ -27,7 +27,7 @@ const QuestSlidesItem: FC<QuestSlidesItemProps> = ({ slideId, questId, slideNumb
         slideRef.current.style.opacity = '0';
 
         setTimeout(() => {
-            removeSlide(slideId);
+            removeTask(slideId);
         }, 300);
     };
 
