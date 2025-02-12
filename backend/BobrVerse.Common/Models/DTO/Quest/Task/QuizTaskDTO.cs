@@ -15,5 +15,6 @@
         public List<ResourceDTO> RequiredResources { get; set; } = [];
         public string? CodeTemplate { get; set; }
         public int Order { get; set; }
+        public Guid? NextTaskId { get; set; }
     }
 }
