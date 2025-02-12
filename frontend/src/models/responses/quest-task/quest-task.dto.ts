@@ -24,6 +24,7 @@ interface IQuestTaskTypeInfoDto {
     taskType: string;
     description: string;
     parameters: Record<string, string>;
+    keywords: string[];
 }
 
 export { type IQuestTaskDto, type IQuestTaskTypeInfoDto };

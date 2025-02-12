@@ -22,9 +22,7 @@ const formatTime = (seconds: number | string): string => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-type QuestPageProps = {};
-
-const QuestPage: FC<QuestPageProps> = () => {
+const QuestPage: FC = () => {
     const { questId } = useParams();
     const [createQuestResponse] = useCreateQuestResponseMutation();
     const [createQuestTaskResponse] = useCreateQuestTaskResponseMutation();
@@ -139,7 +137,12 @@ const QuestPage: FC<QuestPageProps> = () => {
                     <div className={styles.leftPanelWrapper}>
                         <h1>{questResponse.questTitle}</h1>
                         <QuestQuestion task={currentTask} taskType={currentTaskType} />
-                        <QuestAnswer code={code} setCode={setCode} />
+                        <QuestAnswer
+                            code={code}
+                            setCode={setCode}
+                            requiredResources={currentTask.requiredResources}
+                            taskType={currentTaskType}
+                        />
                     </div>
                     <div className={styles.rightPanelWrapper}>
                         <div className={styles.timeWrapper}>
