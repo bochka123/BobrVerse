@@ -1,4 +1,4 @@
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight,faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,8 +21,9 @@ const MyQuestsItem: FC<MyQuestsItemProps> = ({ quest }) => {
             <div className={styles.itemInfo}>
                 <p className={styles.title}>{quest.title}</p>
 
-                <div>
-                    <IconButton icon={faEdit} onClick={() => navigate(`/quests/edit/${quest.id}`)} />
+                <div className={styles.buttonsWrapper}>
+                    <IconButton icon={faEdit} onClick={() => {}} />
+                    <IconButton icon={faArrowRight} onClick={() => navigate(`/quests/edit/${quest.id}`)} />
                 </div>
             </div>
         </div>
