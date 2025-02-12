@@ -9,7 +9,6 @@ using BobrVerse.Common.Models.Quiz.Enums;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities.Quest;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace BobrVerse.Bll.Services.Quest
 {
@@ -28,7 +27,7 @@ namespace BobrVerse.Bll.Services.Quest
                 .FirstOrDefaultAsync(x => x.Id == dto.QuestTaskId)
                 ?? throw new BobrException($"Task with id {dto.QuestTaskId} not found.");
 
-            var validator = validatorFactory.GetValidator(task.TaskType); 
+            var validator = validatorFactory.GetValidator(task.TaskType);
             var taskStatus = await context.QuizTaskStatuses
                 .FirstOrDefaultAsync(x => x.QuizTaskId == task.Id && x.QuestResponseId == dto.QuestResponseId);
 
@@ -92,7 +91,7 @@ namespace BobrVerse.Bll.Services.Quest
                         return await HandleFinishQuest(dto.QuestResponseId, task.Quest, response);
                     }
                 }
-            }   
+            }
 
             if (response.Success)
             {
