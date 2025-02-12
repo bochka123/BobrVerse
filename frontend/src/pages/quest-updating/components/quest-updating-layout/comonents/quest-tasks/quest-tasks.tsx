@@ -6,10 +6,10 @@ import { IconButton, WoodenContainer } from '@/components';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 
 import { QuestTasksItem, UpsertQuestTaskModal } from './components';
-import styles from './quest-slides.module.scss';
+import styles from './quest-tasks.module.scss';
 
 type QuestSlidesProps = {}
-const QuestSlides: FC<QuestSlidesProps> = () => {
+const QuestTasks: FC<QuestSlidesProps> = () => {
 
     const { questId } = useParams();
 
@@ -46,4 +46,4 @@ const QuestSlides: FC<QuestSlidesProps> = () => {
     );
 };
 
-export { QuestSlides };
+export { QuestTasks };
