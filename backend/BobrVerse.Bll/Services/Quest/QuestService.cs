@@ -7,7 +7,9 @@ using BobrVerse.Common.Models.DTO.Quest;
 using BobrVerse.Common.Models.Quest.Enums;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities;
+using BobrVerse.Dal.Entities.Quest;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using QuestDb = BobrVerse.Dal.Entities.Quest.Quest;
 
 namespace BobrVerse.Bll.Services.Quest
@@ -105,5 +107,20 @@ namespace BobrVerse.Bll.Services.Quest
             return mapper.Map<ICollection<QuestDb>, ICollection<ViewQuestDTO>>(quests);
         }
 
+        public async Task<QuestDTO> GetQuestByIdAsync(Guid questId)
+        {
+            var quest = await context.Quests
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == questId) ?? throw new BobrException("Quest not found.");
+
+            var tasksCount = await context.QuizTasks
+                .AsNoTracking()
+                .CountAsync(x => x.QuestId == questId);
+
+            var questDto = mapper.Map<QuestDb, QuestDTO>(quest);
+
+            questDto.NumberOfTasks = tasksCount;
+            return questDto;
+        }
     }
 }
