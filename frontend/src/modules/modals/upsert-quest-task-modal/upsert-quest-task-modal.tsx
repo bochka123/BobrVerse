@@ -50,7 +50,7 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
             shortDescription: taskForEditing.shortDescription,
             timeLimitInSeconds: taskForEditing.timeLimitInSeconds,
         } : {
-            requiredResources: [{ id: uuid(), name: 'wood', quantity: 5, length: 10, weigth: 2 }],
+            requiredResources: [{ id: uuid(), name: 'wood', quantity: 5 }],
         }
     });
 
