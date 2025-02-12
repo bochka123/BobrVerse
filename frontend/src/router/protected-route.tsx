@@ -1,14 +1,17 @@
 import { FC } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-import { useAuth } from '@/hooks';
+import { Loader } from '@/components';
+import { useGetMyProfileQuery } from '@/services';
 
-// TODO: Relocate
 const ProtectedRoute: FC = () => {
-    const { isAuthenticated } = useAuth();
-        
+    const { data: profileData, isLoading: isProfileLoading } = useGetMyProfileQuery();
+
     return (
-        isAuthenticated ? <Outlet /> : <Navigate to={'/auth'} />
+        isProfileLoading
+            ? <Loader />
+            : profileData?.data.id
+                ? <Outlet /> : <Navigate to={'/auth'} />
     );
 };
 

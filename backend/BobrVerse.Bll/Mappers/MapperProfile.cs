@@ -8,7 +8,6 @@ using BobrVerse.Common.Models.Quiz.Enums;
 using BobrVerse.Dal.Entities;
 using BobrVerse.Dal.Entities.Quest;
 using BobrVerse.Dal.Entities.Quest.Tasks;
-using BobrVerse.Dal.Interfaces.Tasks;
 
 namespace BobrVerse.Bll.Mappers
 {
@@ -67,7 +66,7 @@ namespace BobrVerse.Bll.Mappers
                 .ForMember(dest => dest.TimeLimit,
                            opt => opt.MapFrom(src => src.TimeLimitInSeconds.HasValue
                                ? TimeSpan.FromSeconds(src.TimeLimitInSeconds.Value)
-                               : (TimeSpan?) null))
+                               : (TimeSpan?)null))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<QuestStatusEnum>(src.Status)));
 
 
@@ -95,10 +94,6 @@ namespace BobrVerse.Bll.Mappers
             CreateMap<QuizTaskDTO, QuizTask>()
                 .ForMember(dest => dest.TaskType, opt => opt.MapFrom(src => Enum.Parse<TaskTypeEnum>(src.TaskType)))
                 .ForMember(dest => dest.RequiredResources, opt => opt.Ignore());
-
-            CreateMap<ICollectResourcesTask, QuizTaskDTO>()
-                .Include<QuizTask, QuizTaskDTO>();
-
         }
     }
 }

@@ -14,6 +14,7 @@ namespace BobrVerse.Dal.Entities.Quest
 
         public TaskTypeEnum TaskType { get; set; }
         public QuestTaskStatusEnum Status { get; set; } = QuestTaskStatusEnum.NotStarted;
+        public int CurrentAttempt = 1;
         public int? EarnedXp { get; set; }
         public DateTime? CompletedAt { get; set; }
     }

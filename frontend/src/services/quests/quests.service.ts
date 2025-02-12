@@ -9,6 +9,9 @@ export const questsApiSlice = apiSlice.injectEndpoints({
         getMyQuests: builder.query<IApiResponseDto<IQuestDto[]>, void>({
             query: () => ({ url: '/api/Quest/my' }),
         }),
+        getAvailableQuests: builder.query<IApiResponseDto<IQuestDto[]>, void>({
+            query: () => ({ url: '/api/Quest/active' }),
+        }),
         createQuest: builder.mutation<IApiResponseDto<IQuestDto>, ICreateQuestDto>({
             query: (requestDto: ICreateQuestDto) => ({ 
                 url: '/api/Quest/create',
@@ -19,4 +22,4 @@ export const questsApiSlice = apiSlice.injectEndpoints({
     })
 });
 
-export const { useGetMyQuestsQuery, useCreateQuestMutation } = questsApiSlice;
+export const { useGetMyQuestsQuery, useGetAvailableQuestsQuery, useCreateQuestMutation } = questsApiSlice;

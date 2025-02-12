@@ -1,14 +1,18 @@
 ﻿using AutoMapper;
+using BobrVerse.Auth.Services;
+using BobrVerse.Bll.Interfaces;
 using BobrVerse.Bll.Interfaces.Quest;
 using BobrVerse.Common.Exceptions;
+using BobrVerse.Common.Models.DTO.File;
 using BobrVerse.Common.Models.DTO.Quest.Task;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities.Quest.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace BobrVerse.Bll.Services.Quest
 {
-    public class QuizTaskService(BobrVerseContext context, IMapper mapper) : IQuizTaskService
+    public class QuizTaskService(BobrVerseContext context, IMapper mapper, IAzureBlobStorageService azureBlobStorageService) : IQuizTaskService
     {
         public async Task<QuizTaskDTO> CreateAsync(CreateTaskDTO dto)
         {
@@ -57,7 +61,7 @@ namespace BobrVerse.Bll.Services.Quest
         {
             if (task.TaskType == Common.Models.Quiz.Enums.TaskTypeEnum.CollectResources)
             {
-                if (task.RequiredResources.Count == 0 || string.IsNullOrEmpty(task.CodeTemplate))
+                if (task.RequiredResources.Count == 0)
                 {
                     throw new BobrException("Invlid arguments for creating task.");
                 }
@@ -99,6 +103,50 @@ namespace BobrVerse.Bll.Services.Quest
             var dbModel = await context.QuizTasks.Include(x => x.RequiredResources).FirstOrDefaultAsync(x => x.QuestId == questId && x.Order == order);
 
             return dbModel is null ? null : mapper.Map<QuizTaskDTO>(dbModel);
+        }
+
+        public async Task<FileDto> UploadPhotoAsync(IFormCollection formCollection, Guid questTaskId)
+        {
+            var file = formCollection.Files.FirstOrDefault();
+            var newFileDto = new NewFileDto()
+            {
+                Stream = file.OpenReadStream(),
+                FileName = file.FileName
+            };
+
+            var questTask = await context.QuizTasks.FirstOrDefaultAsync(x => x.Id == questTaskId)
+                ?? throw new InvalidOperationException("Quest task doesn't exists.");
+
+            if (!string.IsNullOrEmpty(questTask.Url))
+            {
+                var oldFile = new FileDto()
+                {
+                    Url = questTask.Url
+                };
+
+                await azureBlobStorageService.DeleteFromBlob(oldFile);
+            }
+
+            var fileDto = await azureBlobStorageService.AddFileToBlobStorage(newFileDto);
+
+            questTask.Url = fileDto.Url;
+            await context.SaveChangesAsync();
+            return fileDto;
+        }
+
+        public async Task<bool> DeletePhotoAsync(Guid questTaskId)
+        {
+            var questTask = await context.QuizTasks.FirstOrDefaultAsync(x => x.Id == questTaskId)
+                ?? throw new InvalidOperationException("Quest task doesn't exists.");
+
+            var oldFile = new FileDto()
+            {
+                Url = questTask.Url
+            };
+
+            await azureBlobStorageService.DeleteFromBlob(oldFile);
+
+            return true;
         }
     }
 }
