@@ -54,6 +54,9 @@ namespace BobrVerse.Dal.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
+                    b.Property<int>("LogsToAdd")
+                        .HasColumnType("int");
+
                     b.Property<int>("RequiredXP")
                         .HasColumnType("int");
 
@@ -283,6 +286,9 @@ namespace BobrVerse.Dal.Migrations
                     b.Property<int?>("MaxAttempts")
                         .HasColumnType("int");
 
+                    b.Property<int?>("MaxCollectCalls")
+                        .HasColumnType("int");
+
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
@@ -314,10 +320,11 @@ namespace BobrVerse.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Length")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Name")
+                    b.Property<int>("Order")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -325,9 +332,6 @@ namespace BobrVerse.Dal.Migrations
 
                     b.Property<Guid?>("QuizTaskId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("Weigth")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -442,7 +446,8 @@ namespace BobrVerse.Dal.Migrations
                 {
                     b.HasOne("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask", null)
                         .WithMany("RequiredResources")
-                        .HasForeignKey("QuizTaskId");
+                        .HasForeignKey("QuizTaskId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrProfile", b =>

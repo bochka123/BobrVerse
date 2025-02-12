@@ -105,7 +105,7 @@ namespace BobrVerse.Bll.Services
 
         public async Task AddXPAsync(int xp, bool save = false)
         {
-            var profile = await context.BobrProfiles.FirstAsync(x => x.UserId == x.Id);
+            var profile = await context.BobrProfiles.FirstAsync(x => x.UserId == userContextService.UserId);
             profile.XP += xp;
 
             var nextLevel = await context.BobrLevels

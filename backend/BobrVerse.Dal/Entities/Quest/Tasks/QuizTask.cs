@@ -16,8 +16,9 @@ namespace BobrVerse.Dal.Entities.Quest.Tasks
         public int? MaxAttempts { get; set; }
         public TimeSpan? TimeLimit { get; set; }
         public bool IsTemplate { get; set; } = false;
-
-        public ICollection<Resource> RequiredResources { get; set; } = [];
         public int Order { get; set; }
+
+        public int? MaxCollectCalls { get; set; }
+        public ICollection<Resource> RequiredResources { get; set; } = [];
     }
 }

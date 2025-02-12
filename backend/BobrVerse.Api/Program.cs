@@ -1,10 +1,12 @@
 using BobrVerse.Api.Extensions;
+using BobrVerse.Api.HostedServices;
 using BobrVerse.Api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBobrVerseServices(builder.Configuration);
 builder.Services.AddBobrVerseAzureBlobStorage(builder.Configuration);
+builder.Services.AddHostedService<DailyLogsService>();
 
 var app = builder.Build();
 

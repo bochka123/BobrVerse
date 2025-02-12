@@ -15,7 +15,7 @@ import styles from './profile.page.module.scss';
 const ProfilePage: FC = () => {
 
     const { isProfileLoading } = useProfilePageHook();
-    const { name, logs, url } = useProfileHook();
+    const { name, logs, url, xp } = useProfileHook();
     const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
     const [createQuestModalVisible, setCreateQuestModalVisible] = useState<boolean>(false);
 
@@ -34,6 +34,7 @@ const ProfilePage: FC = () => {
                     <div className={styles.profileInfo}>
                         <div>
                             <p className={styles.name}>{name || 'Unknown'}</p>
+                            <p className={styles.xp}>{xp} XP</p>
                         </div>
                         <div className={styles.statsInfo}>
                             <div className={styles.logsInfo}>

@@ -83,7 +83,6 @@ namespace BobrVerse.Bll.Mappers
                     : (TimeSpan?)null));
 
             CreateMap<ResourceDTO, Resource>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => Enum.Parse<ResourceNameEnum>(src.Name)))
                 .ReverseMap();
 
             CreateMap<QuizTask, QuizTaskDTO>()

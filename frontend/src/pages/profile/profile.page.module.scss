@@ -46,6 +46,12 @@
     @include sh.text-primary-large;
 }
 
+.xp {
+    color: c.$primary;
+    @include t.label-medium;
+    @include sh.text-primary-medium;
+}
+
 .profileInfo {
     display: flex;
     flex-direction: column;

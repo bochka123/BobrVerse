@@ -118,8 +118,8 @@
   //     @include icon-button-hover-style(c.$text-icon-primary-black);
   //   }
 
-  //   &.disabled {
-  //     pointer-events: none;
-  //     @include icon-button-main-style(c.$gray);
-  //   }
+    &.disabled {
+      pointer-events: none;
+      background-color: c.$light-gray;
+    }
 }

@@ -15,6 +15,7 @@ Backend:
 - Database: MS SQL Server/Entity Framework Core
 - Cloud: Azure
 - Authentication: OAuth/Basic
+- WebSockets: SignalR
 - Other: Redis Cache/Docker
 
 Frontend:

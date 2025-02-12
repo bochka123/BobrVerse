@@ -22,6 +22,11 @@ namespace BobrVerse.Dal.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<QuizTask>()
+                .HasMany(qt => qt.RequiredResources)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<BobrProfile>()
                 .HasOne(bp => bp.User)
                 .WithOne()

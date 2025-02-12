@@ -15,7 +15,7 @@ interface IQuestDto {
     status: string;
     timeLimitInSeconds?: number;
     url?: string;
-    numberOfTasks: number;
+    taskIds: string[];
 }
 
 export { type IQuestDto };

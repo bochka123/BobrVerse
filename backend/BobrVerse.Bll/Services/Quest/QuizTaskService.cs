@@ -5,6 +5,7 @@ using BobrVerse.Bll.Interfaces.Quest;
 using BobrVerse.Common.Exceptions;
 using BobrVerse.Common.Models.DTO.File;
 using BobrVerse.Common.Models.DTO.Quest.Task;
+using BobrVerse.Common.Models.Quiz.Enums;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities.Quest.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -46,7 +47,7 @@ namespace BobrVerse.Bll.Services.Quest
         public async Task DeleteAsync(Guid Id)
         {
             var dbModel = await context.QuizTasks.FirstOrDefaultAsync(x => x.Id == Id)
-                ?? throw new BobrException($"Task with id {Id} not found."); ;
+                ?? throw new BobrException($"Task with id {Id} not found.");
 
             if (dbModel.TaskStatuses.Count != 0)
             {
@@ -105,6 +106,20 @@ namespace BobrVerse.Bll.Services.Quest
             return dbModel is null ? null : mapper.Map<QuizTaskDTO>(dbModel);
         }
 
+        public async Task<QuizTaskDTO> GetByIdAsync(Guid taskId)
+        {
+            var dbModel = await context.QuizTasks.AsNoTracking().Include(x => x.RequiredResources).FirstOrDefaultAsync(x => x.Id == taskId) 
+                ?? throw new BobrException("Quest task doesn't exist.");
+
+            var task = mapper.Map<QuizTaskDTO>(dbModel);
+
+            var nextTask = await context.QuizTasks.AsNoTracking().FirstOrDefaultAsync(x => x.QuestId == dbModel.QuestId && x.Order == dbModel.Order);
+
+            task.NextTaskId = nextTask?.Id;
+
+            return task;
+        }
+
         public async Task<FileDto> UploadPhotoAsync(IFormCollection formCollection, Guid questTaskId)
         {
             var file = formCollection.Files.FirstOrDefault();
@@ -115,7 +130,7 @@ namespace BobrVerse.Bll.Services.Quest
             };
 
             var questTask = await context.QuizTasks.FirstOrDefaultAsync(x => x.Id == questTaskId)
-                ?? throw new InvalidOperationException("Quest task doesn't exists.");
+                ?? throw new InvalidOperationException("Quest task doesn't exist.");
 
             if (!string.IsNullOrEmpty(questTask.Url))
             {
@@ -137,7 +152,7 @@ namespace BobrVerse.Bll.Services.Quest
         public async Task<bool> DeletePhotoAsync(Guid questTaskId)
         {
             var questTask = await context.QuizTasks.FirstOrDefaultAsync(x => x.Id == questTaskId)
-                ?? throw new InvalidOperationException("Quest task doesn't exists.");
+                ?? throw new InvalidOperationException("Quest task doesn't exist.");
 
             var oldFile = new FileDto()
             {
@@ -147,6 +162,19 @@ namespace BobrVerse.Bll.Services.Quest
             await azureBlobStorageService.DeleteFromBlob(oldFile);
 
             return true;
+        }
+
+        public ICollection<QuestTaskTypeInfoDTO> GetInfoForCreatingTasks()
+        {
+            return
+            [
+                new QuestTaskTypeInfoDTO
+                {
+                    TaskType = "CollectResources",
+                    Description = "This task requires the collection of resources (e.g., Rock, Wood) in specific quantities and order. The 'collect()' method can be used to collect resources in the correct sequence and quantity as specified. Use c# syntax. Cycles are also suuported.",
+                    Parameters = []
+                }
+            ];
         }
     }
 }

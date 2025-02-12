@@ -69,16 +69,21 @@ namespace BobrVerse.Bll.Services.Quest
                 .ToListAsync();
 
             var questIds = quests.Select(q => q.Id).ToList();
-            var tasksCounts = await context.QuizTasks
+            var tasksByQuest = await context.QuizTasks
+                .AsNoTracking()
                 .Where(t => questIds.Contains(t.QuestId))
                 .GroupBy(t => t.QuestId)
-                .Select(g => new { QuestId = g.Key, Count = g.Count() })
-                .ToDictionaryAsync(x => x.QuestId, x => x.Count);
+                .Select(g => new
+                {
+                    QuestId = g.Key,
+                    TaskIds = g.Select(t => t.Id).ToList()
+                })
+                .ToDictionaryAsync(x => x.QuestId, x => x.TaskIds);
 
             var questDtos = mapper.Map<ICollection<QuestDb>, ICollection<QuestDTO>>(quests);
             foreach (var questDto in questDtos)
             {
-                questDto.NumberOfTasks = tasksCounts.TryGetValue(questDto.Id, out var count) ? count : 0;
+                questDto.TaskIds = tasksByQuest.TryGetValue(questDto.Id, out var taskIds) ? taskIds : new List<Guid>();
             }
 
             return questDtos;
@@ -115,11 +120,13 @@ namespace BobrVerse.Bll.Services.Quest
 
             var tasksCount = await context.QuizTasks
                 .AsNoTracking()
-                .CountAsync(x => x.QuestId == questId);
+                .Where(x => x.QuestId == questId)
+                .Select(x => x.Id)
+                .ToListAsync();
 
             var questDto = mapper.Map<QuestDb, QuestDTO>(quest);
 
-            questDto.NumberOfTasks = tasksCount;
+            questDto.TaskIds = tasksCount;
             return questDto;
         }
     }
