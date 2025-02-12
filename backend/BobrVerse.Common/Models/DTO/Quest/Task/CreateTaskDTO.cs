@@ -10,9 +10,9 @@
         public int? MaxAttempts { get; set; }
         public int? TimeLimitInSeconds { get; set; }
         public bool IsTemplate { get; set; } = false;
+        public int Order { get; set; }
 
         public List<ResourceDTO> RequiredResources { get; set; } = [];
-        public string? CodeTemplate { get; set; } = string.Empty;
-        public int Order { get; set; }
+        public int? MaxCollectCalls { get; set; }
     }
 }

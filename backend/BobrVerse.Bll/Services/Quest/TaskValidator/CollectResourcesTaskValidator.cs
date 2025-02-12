@@ -1,19 +1,31 @@
 ﻿using BobrVerse.Bll.Interfaces.Quest.TaskValidator;
 using BobrVerse.Common.Models.DTO.Quest.Task;
+using BobrVerse.Common.Models.Quiz.Enums;
 using BobrVerse.Dal.Entities.Quest.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using System.Text.RegularExpressions;
 
 namespace BobrVerse.Bll.Services.Quest.TaskValidator
 {
     public class CollectResourcesTaskValidator : IQuestTaskValidator
     {
-        public bool Validate(CreateQuestTaskResponseDTO dto, QuizTask task)
+        public TaskValidationState Validate(CreateQuestTaskResponseDTO dto, QuizTask task)
         {
+            var response = new TaskValidationState();
+            if (task.MaxCollectCalls != null)
+            {
+                if (CountCollectCalls(dto.Text!) > task.MaxCollectCalls)
+                {
+                    response.Success = false;
+                    response.ErrorMessage = "Max number of calls of method collect exceeded.";
+                    return response;
+                }
+            }
             var collector = new ResourceCollector();
             var preCode = @"
-            var wood = new Wood();
-            var rock = new Rock();
+            var rock = new Resource { Name = 'Rock' };
+            var wood = new Resource { Name = 'Wood' };
             ";
             var fullScript = preCode + dto.Text;
             var scriptOptions = ScriptOptions.Default
@@ -25,46 +37,44 @@ namespace BobrVerse.Bll.Services.Quest.TaskValidator
                 var script = CSharpScript.Create(fullScript, scriptOptions, globalsType: typeof(ResourceCollector));
                 script.RunAsync(globals: collector).Wait();
             }
-            catch
+            catch(Exception ex)
             {
-                return false;
+                response.ErrorMessage = ex.Message;
+                return response;
             }
 
-            foreach (var requiredResource in task.RequiredResources)
+            var skip = 0;
+            foreach (var requiredResource in task.RequiredResources.OrderBy(x => x.Order))
             {
-                switch (requiredResource.Name)
+                var collected = collector.Resources.Skip(skip).Take(requiredResource.Quantity);
+                if (collected.Any(x => Enum.Parse<ResourceNameEnum>(x.Name) != requiredResource.Name))
                 {
-                    case Common.Models.Quiz.Enums.ResourceNameEnum.Rock:
-                        if (collector.Rocks.Count != requiredResource.Quantity)
-                            return false;
-                        break;
-
-                    case Common.Models.Quiz.Enums.ResourceNameEnum.Wood:
-                        if (collector.Woods.Count != requiredResource.Quantity)
-                            return false;
-                        break;
+                    response.ErrorMessage = $"Resources are collected in wrong count or order.";
+                    return response;
                 }
+
+                skip += requiredResource.Quantity;
             }
 
-            return true;
+            return response;
         }
 
-        
+        private int CountCollectCalls(string scriptText)
+        {
+            var regex = new Regex(@"\bcollect\b", RegexOptions.IgnoreCase);
+            var matches = regex.Matches(scriptText);
+            return matches.Count;
+        }
+
         public class ResourceCollector
         {
-            public class Rock 
+            public class Resource
             {
-                public int Weight { get; set; }
+                public string Name { get; set; } = string.Empty;
+                public int Order { get; set; }
             }
-            public class Wood 
-            {
-                public int Length { get; set; }
-            }
-            public List<Rock> Rocks { get; } = [];
-            public List<Wood> Woods { get; } = [];
-
-            public void collect(Rock rock) => Rocks.Add(rock);
-            public void collect(Wood wood) => Woods.Add(wood);
+            public List<Resource> Resources { get; } = [];
+            public void collect(Resource resource) => Resources.Add(resource);
         }
     }
 }
