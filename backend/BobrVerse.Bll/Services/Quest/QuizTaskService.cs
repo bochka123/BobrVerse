@@ -184,7 +184,8 @@ namespace BobrVerse.Bll.Services.Quest
                     {
                         { nameof(QuizTask.MaxCollectCalls), "The maximum number of times the collect method can be called." },
                         { nameof(QuizTask.RequiredResources), "A list of required resources (e.g., Rock, Wood) to be collected." }
-                    }
+                    },
+                    Keywords = ["collect"]
                 },
                 new QuestTaskTypeInfoDTO{
                     Name = TaskTypeEnum.CutTreesInForest.GetDescription(),
@@ -195,7 +196,8 @@ namespace BobrVerse.Bll.Services.Quest
                         { nameof(QuizTask.ForestSize), "The total number of trees in the forest." },
                         { nameof(QuizTask.TreesToCut), "The number of trees that need to be cut down." },
                         { nameof(QuizTask.CutLargest), "Determines whether to cut the largest (true) or smallest (false) trees." }
-                    }
+                    },
+                    Keywords = ["cut", "Forest"]
                 }
             ];
         }

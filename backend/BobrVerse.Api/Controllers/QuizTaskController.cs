@@ -1,7 +1,5 @@
 ﻿using BobrVerse.Auth.Attributes;
 using BobrVerse.Bll.Interfaces.Quest;
-using BobrVerse.Bll.Services;
-using BobrVerse.Common.Exceptions;
 using BobrVerse.Common.Models.Api;
 using BobrVerse.Common.Models.DTO.File;
 using BobrVerse.Common.Models.DTO.Quest.Task;
@@ -28,7 +26,7 @@ namespace BobrVerse.Api.Controllers
         }
 
         [HttpGet("getQuestTask/{taskId:guid}")]
-        public async Task<ApiResponse<QuizTaskDTO>> GetById(Guid taskId) 
+        public async Task<ApiResponse<QuizTaskDTO>> GetById(Guid taskId)
             => new ApiResponse<QuizTaskDTO>(await service.GetByIdAsync(taskId));
 
         [HttpPut("uploadPhoto/{questTaskId:guid}")]
