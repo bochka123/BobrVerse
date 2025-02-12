@@ -5,7 +5,7 @@ import { Loader } from '@/components';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 import { useGetQuestByIdQuery } from '@/services';
 
-import { QuestHints, QuestTasks } from './comonents';
+import { QuestUpdatingTasks } from './comonents';
 import styles from './quest-updating.layout.module.scss';
 
 type QuestUpdatingLayoutProps = {}
@@ -26,9 +26,8 @@ const QuestUpdatingLayout: FC<QuestUpdatingLayoutProps> = () => {
     
     return (
         <div className={styles.main}>
-            <QuestTasks />
+            <QuestUpdatingTasks />
             <Outlet />
-            <QuestHints />
         </div>
     );
 };

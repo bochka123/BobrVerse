@@ -5,11 +5,10 @@ import { useParams } from 'react-router-dom';
 import { IconButton, WoodenContainer } from '@/components';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 
-import { QuestTasksItem, UpsertQuestTaskModal } from './components';
-import styles from './quest-tasks.module.scss';
+import { QuestUpdatingTasksItem, UpsertQuestTaskModal } from './components';
+import styles from './quest-updating-tasks.module.scss';
 
-type QuestSlidesProps = {}
-const QuestTasks: FC<QuestSlidesProps> = () => {
+const QuestUpdatingTasks: FC = () => {
 
     const { questId } = useParams();
 
@@ -24,7 +23,7 @@ const QuestTasks: FC<QuestSlidesProps> = () => {
                     <div className={styles.slidesColumn}>
                         {
                             questTasks.map((task, index) => (
-                                <QuestTasksItem
+                                <QuestUpdatingTasksItem
                                     questId={questId as string}
                                     taskId={task.id}
                                     slideNumber={index + 1}
@@ -46,4 +45,4 @@ const QuestTasks: FC<QuestSlidesProps> = () => {
     );
 };
 
-export { QuestTasks };
+export { QuestUpdatingTasks };

@@ -3,10 +3,10 @@ import { FC } from 'react';
 
 import { IconButton, WoodenContainer } from '@/components';
 
-import styles from './quest-hints.module.scss';
+import styles from './quest-updating-hints.module.scss';
 
-type QuestHintsProps = {}
-const QuestHints: FC<QuestHintsProps> = () => {
+type QuestUpdatingHintsProps = {}
+const QuestUpdatingHints: FC<QuestUpdatingHintsProps> = () => {
     return (
         <WoodenContainer className={styles.hintsContainer}>
             <div className={styles.innerContainer}>
@@ -31,4 +31,4 @@ const QuestHints: FC<QuestHintsProps> = () => {
     );
 };
 
-export { QuestHints };
+export { QuestUpdatingHints };

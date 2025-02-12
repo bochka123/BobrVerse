@@ -8,14 +8,14 @@ import { useToast } from '@/hooks';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 import { useDeleteQuestTaskMutation } from '@/services';
 
-import styles from './quest-slides-item.module.scss';
+import styles from './quest-updating-slides-item.module.scss';
 
 type QuestTasksItemProps = {
     taskId: string;
     questId: string;
     slideNumber: number;
 }
-const QuestTasksItem: FC<QuestTasksItemProps> = ({ taskId, questId, slideNumber }) => {
+const QuestUpdatingTasksItem: FC<QuestTasksItemProps> = ({ taskId, questId, slideNumber }) => {
     const slideRef = useRef<HTMLAnchorElement>(null);
 
     const [deleteTask] = useDeleteQuestTaskMutation();
@@ -55,4 +55,4 @@ const QuestTasksItem: FC<QuestTasksItemProps> = ({ taskId, questId, slideNumber 
     );
 };
 
-export { QuestTasksItem };
+export { QuestUpdatingTasksItem };

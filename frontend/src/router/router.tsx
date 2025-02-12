@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { AuthPage, MainPage, ProfilePage, QuestPage, QuestUpdatingPage } from '@/pages';
-import { QuestContent, QuestContentEmpty } from '@/pages/quest-updating/components';
+import { QuestUpdatingContent, QuestUpdatingContentEmpty } from '@/pages/quest-updating/components';
 import { ProtectedRoute } from '@/router/protected-route.tsx';
 
 export const router = createBrowserRouter([
@@ -25,11 +25,11 @@ export const router = createBrowserRouter([
                         children: [
                             {
                                 path: '',
-                                element: <QuestContentEmpty />
+                                element: <QuestUpdatingContentEmpty />
                             },
                             {
-                                path: 'task/:slideId',
-                                element: <QuestContent />
+                                path: 'task/:taskId',
+                                element: <QuestUpdatingContent />
                             }
                         ]
                     },
