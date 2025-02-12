@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BobrVerse.Auth.Entities;
 using BobrVerse.Auth.Interfaces;
 using BobrVerse.Bll.Interfaces;
 using BobrVerse.Common.Exceptions;
@@ -32,7 +31,7 @@ namespace BobrVerse.Bll.Services
                 return;
             }
 
-            var defaultLevel = await context.BobrLevels.AsNoTracking().OrderBy(x => x.Level).FirstOrDefaultAsync() 
+            var defaultLevel = await context.BobrLevels.AsNoTracking().OrderBy(x => x.Level).FirstOrDefaultAsync()
                 ?? throw new BobrException("No levels configured.");
 
             var newProfile = new BobrProfile
@@ -51,7 +50,7 @@ namespace BobrVerse.Bll.Services
         public async Task<MyBobrProfileDTO> UpdateProfileAsync(UpdateBobrProfileDTO dto)
         {
             var userId = userContextService.UserId;
-            var profile = await context.BobrProfiles.Include(x => x.Level).FirstOrDefaultAsync(x => x.UserId == userId) 
+            var profile = await context.BobrProfiles.Include(x => x.Level).FirstOrDefaultAsync(x => x.UserId == userId)
                 ?? throw new BobrException("Profile doesn't exists.");
 
             mapper.Map(dto, profile);
@@ -102,6 +101,27 @@ namespace BobrVerse.Bll.Services
             await azureBlobStorageService.DeleteFromBlob(oldFile);
 
             return true;
+        }
+
+        public async Task AddXPAsync(int xp, bool save = false)
+        {
+            var profile = await context.BobrProfiles.FirstAsync(x => x.UserId == x.Id);
+            profile.XP += xp;
+
+            var nextLevel = await context.BobrLevels
+                .Where(l => l.RequiredXP <= profile.XP)
+                .OrderByDescending(l => l.Level)
+                .FirstOrDefaultAsync();
+
+            if (nextLevel != null && nextLevel.Id != profile.LevelId)
+            {
+                profile.LevelId = nextLevel.Id;
+            }
+
+            if (save)
+            {
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

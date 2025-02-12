@@ -98,7 +98,7 @@ namespace BobrVerse.Bll.Services.Quest
             }
         }
 
-        public async Task<QuizTaskDTO> GetByOrderAsync(Guid questId, int order)
+        public async Task<QuizTaskDTO?> GetByOrderAsync(Guid questId, int order)
         {
             var dbModel = await context.QuizTasks.Include(x => x.RequiredResources).FirstOrDefaultAsync(x => x.QuestId == questId && x.Order == order);
 
