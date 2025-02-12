@@ -28,9 +28,16 @@ namespace BobrVerse.Bll.Services.Quest.TaskValidator
                 return response;
             }
 
-            //var maxValue = task.
-            throw new NotImplementedException();
+            var take = task.TreesToCut!.Value;
+            var selectedTrees = task.CutLargest!.Value
+                ? collector.Forest.OrderByDescending(r => r.Length).Take(take).ToList()
+                : collector.Forest.OrderBy(r => r.Length).Take(take).ToList();
 
+            response.Success = collector.Resources
+                .OrderBy(r => r.Length)
+                .SequenceEqual(selectedTrees.OrderBy(r => r.Length), new ResourceComparer());
+
+            return response;
         }
 
         public class ResourceCollector(int massiveSize)
@@ -47,5 +54,14 @@ namespace BobrVerse.Bll.Services.Quest.TaskValidator
             public List<Resource> Resources { get; } = [];
             public void cut(Resource resource) => Resources.Add(resource);
         }
+
+        public class ResourceComparer : IEqualityComparer<ResourceCollector.Resource>
+        {
+            public bool Equals(ResourceCollector.Resource? x, ResourceCollector.Resource? y) =>
+                x?.Length == y?.Length;
+
+            public int GetHashCode(ResourceCollector.Resource obj) => obj.Length.GetHashCode();
+        }
+
     }
 }

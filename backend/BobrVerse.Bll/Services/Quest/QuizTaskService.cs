@@ -61,18 +61,23 @@ namespace BobrVerse.Bll.Services.Quest
 
         private void ValidateByTaskType(QuizTask task)
         {
-            if (task.TaskType == Common.Models.Quiz.Enums.TaskTypeEnum.CollectResources)
+            switch (task.TaskType)
             {
-                if (task.RequiredResources.Count == 0)
-                {
-                    throw new BobrException("Invlid arguments for creating task.");
-                }
-            }
-            else
-            {
-                throw new BobrException("Task type is invalid.");
+                case TaskTypeEnum.CollectResources:
+                    if (task.RequiredResources.Count == 0)
+                        throw new BobrException("Invalid arguments for creating task.");
+                    break;
+
+                case TaskTypeEnum.CutTreesInForest:
+                    if (task.CutLargest is null || task.TreesToCut is null || task.ForestSize is null)
+                        throw new BobrException("Invalid arguments for creating task.");
+                    break;
+
+                default:
+                    throw new BobrException("Task type is invalid.");
             }
         }
+
 
         private async void UpdateRequiredResources(ICollection<Resource> existingResources, List<ResourceDTO> dtoResources, IMapper mapper)
         {
