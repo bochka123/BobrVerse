@@ -1,6 +1,9 @@
 @use '@/styles/mixins/scrollbar-mixin.scss' as scrollbar;
 
 .passedQuestsWrapper {
+    display: flex;
+    flex-direction: column;
+
     padding: 20px 40px;
     overflow: hidden;
 }
@@ -8,8 +11,9 @@
 .passedQuestsContainer {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     gap: 20px;
-    max-height: 50vh;
+
     overflow-y: auto;
 
     @include scrollbar.scrollbar-style;

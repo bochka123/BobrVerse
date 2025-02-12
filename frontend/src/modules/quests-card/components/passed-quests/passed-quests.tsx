@@ -1,41 +1,22 @@
 import { FC } from 'react';
 
-import { IQuestDto } from '@/models/responses';
+import { Loader } from '@/components';
+import { useGetUserQuestResponsesQuery } from '@/services';
 
 import styles from './passed-quests.module.scss';
 import { PassedQuestsItem } from './passed-quests-item';
 
 const PassedQuests: FC = () => {
-    const quests: IQuestDto[] = [
-        {
-            title: 'Quest 1',
-            description: '',
-            id: '',
-            createdAt: '',
-            updatedAt: '',
-            tasks: [],
-            xpForComplete: 0,
-            xpForSuccess: 0,
-            status: ''
-        },
-        {
-            title: 'Quest 2',
-            description: '',
-            id: '',
-            createdAt: '',
-            updatedAt: '',
-            tasks: [],
-            xpForComplete: 0,
-            xpForSuccess: 0,
-            status: ''
-        }
-    ];
+    const { data: questsData, isLoading: isQuestsLoading } = useGetUserQuestResponsesQuery({ startIndex: 0, endIndex: 10 });
+    console.log(questsData);
 
     return (
         <div className={styles.passedQuestsWrapper}>
             <div className={styles.passedQuestsContainer}>
                 {
-                    quests.map((x, key) => <PassedQuestsItem quest={x} key={`quest-${key}`} />)
+                    isQuestsLoading
+                    ? <Loader size={30} />
+                    :  questsData?.data.map((x, key) => <PassedQuestsItem quest={x} key={`passed-quest-${key}`} />)
                 }
             </div>
         </div>

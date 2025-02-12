@@ -39,7 +39,7 @@ const MyQuests: FC = () => {
         <div className={styles.myQuestsWrapper}>
             <div className={styles.myQuestsContainer}>
                 {
-                    isQuestsLoading && myQuests
+                    isQuestsLoading
                     ? <Loader size={30} />
                     : myQuests?.map((x, key) => <MyQuestsItem quest={x} key={`my-quest-${key}`} />)
                 }

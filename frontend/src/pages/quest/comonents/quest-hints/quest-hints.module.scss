@@ -6,6 +6,7 @@
   .hintsWrapper {
     display: flex;
     flex-direction: column;
+    height: 100%;
     gap: 20px;
 
     & > h2 {
@@ -20,4 +21,8 @@
       content: '· '
     }
   }
+}
+
+.button {
+  margin-top: auto;
 }
