@@ -3,6 +3,7 @@ using BobrVerse.Auth.Services;
 using BobrVerse.Bll.Interfaces;
 using BobrVerse.Bll.Interfaces.Quest;
 using BobrVerse.Common.Exceptions;
+using BobrVerse.Common.Extenions;
 using BobrVerse.Common.Models.DTO.File;
 using BobrVerse.Common.Models.DTO.Quest.Task;
 using BobrVerse.Common.Models.Quiz.Enums;
@@ -171,9 +172,25 @@ namespace BobrVerse.Bll.Services.Quest
             [
                 new QuestTaskTypeInfoDTO
                 {
-                    TaskType = "CollectResources",
+                    Name = TaskTypeEnum.CollectResources.GetDescription(),
+                    TaskType = TaskTypeEnum.CollectResources.ToString(),
                     Description = "This task requires the collection of resources (e.g., Rock, Wood) in specific quantities and order. The 'collect()' method can be used to collect resources in the correct sequence and quantity as specified. Use c# syntax. Cycles are also suuported.",
-                    Parameters = []
+                    Parameters = new Dictionary<string, string>
+                    {
+                        { nameof(QuizTask.MaxCollectCalls), "The maximum number of times the collect method can be called." },
+                        { nameof(QuizTask.RequiredResources), "A list of required resources (e.g., Rock, Wood) to be collected." }
+                    }
+                },
+                new QuestTaskTypeInfoDTO{
+                    Name = TaskTypeEnum.CollectResources.GetDescription(),
+                    TaskType = TaskTypeEnum.CutTreesInForest.ToString(),
+                    Description = "This task requires cutting down a specified number of trees in a forest. The user will specify the total forest size and the number of trees to cut, choosing whether to cut the largest or smallest trees. Use the `cut()` method to perform the action. Array of trees is variable 'Forest', every tree has property 'Length'.",
+                    Parameters = new Dictionary<string, string>
+                    {
+                        { nameof(QuizTask.ForestSize), "The total number of trees in the forest." },
+                        { nameof(QuizTask.TreesToCut), "The number of trees that need to be cut down." },
+                        { nameof(QuizTask.CutLargest), "Determines whether to cut the largest (true) or smallest (false) trees." }
+                    }
                 }
             ];
         }
