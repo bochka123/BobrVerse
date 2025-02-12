@@ -11,7 +11,7 @@
 Backend:
 
 - Platform: .NET 8
-- Network: RESTFul
+- Network: RESTful
 - Database: MS SQL Server/Entity Framework Core
 - Cloud: Azure
 - Authentication: OAuth/Basic
@@ -165,10 +165,10 @@ erDiagram
 2. Pull this repo to your machine.
 3. Download and install [.NET 8 SDK](https://dotnet.microsoft.com/download).
 4. Add user secrets to .Net project (watch 'Backend user secrets').
-5. Go to frontend folder and create .env file (Not required you run with docker).
-6. Add environment variables to .env file (watch 'Table of frontend environment varibales') (Not required you run with docker).
+5. Go to frontend folder and create .env file (Not required if you run with docker).
+6. Add environment variables to .env file (watch 'Table of frontend environment varibales') (Not required if you run with docker).
 
-### Bakend user secrets
+### Baсkend user secrets
 
 1. Set BobrVerse.Api as active directory.
 2. Run 
