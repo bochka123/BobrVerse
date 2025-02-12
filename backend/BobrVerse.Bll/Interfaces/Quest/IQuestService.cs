@@ -8,5 +8,6 @@ namespace BobrVerse.Bll.Interfaces.Quest
         Task<ICollection<QuestDTO>> GetMyQuests();
         Task<ICollection<ViewQuestDTO>> GetActiveQuests();
         Task<QuestDTO> UpdateAsync(QuestDTO dto);
+        Task<QuestDTO> GetQuestByIdAsync(Guid questId);
     }
 }

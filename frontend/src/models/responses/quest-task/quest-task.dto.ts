@@ -12,6 +12,7 @@ interface IQuestTaskDto {
     isTemplate: boolean;
     requiredResources: IResourceDto[];
     codeTemplate?: string;
+    order: number;
 }
 
 export { type IQuestTaskDto };

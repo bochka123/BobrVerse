@@ -15,5 +15,7 @@
 
         public List<ResourceDTO> RequiredResources { get; set; } = [];
         public int? MaxCollectCalls { get; set; }
+        public int Order { get; set; }
+        public Guid? NextTaskId { get; set; }
     }
 }

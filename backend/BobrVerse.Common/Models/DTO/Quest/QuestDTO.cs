@@ -12,5 +12,6 @@
         public string Status { get; set; } = string.Empty;
         public int? TimeLimitInSeconds { get; set; }
         public string? Url { get; set; }
+        public ICollection<Guid> TaskIds { get; set; } = [];
     }
 }

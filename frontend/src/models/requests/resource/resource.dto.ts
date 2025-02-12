@@ -1,5 +1,6 @@
 interface IResourceDto
 {
+    id: string;
     name: string;
     quantity: number;
     length?: number;

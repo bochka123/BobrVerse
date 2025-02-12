@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, InputHTMLAttributes } from 'react';
 
 import { InputTypes } from '@/common';
 
@@ -11,8 +11,8 @@ type BaseInputProps = {
     labelText?: string;
     placeholder?: string;
     type?: InputTypes;
-}
-const BaseInput: FC<BaseInputProps> = ({ value, onChange, labelText, placeholder, type = InputTypes.TEXT }) => {
+} & InputHTMLAttributes<HTMLInputElement>
+const BaseInput: FC<BaseInputProps> = ({ value, onChange, labelText, placeholder, type = InputTypes.TEXT, ...props }) => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
         onChange && onChange(e.target.value);
@@ -21,15 +21,14 @@ const BaseInput: FC<BaseInputProps> = ({ value, onChange, labelText, placeholder
     return (
         <div>
             { labelText && <span className={styles.label}>{labelText}</span>}
-            <div>
-                <input
-                    className={styles.button}
-                    value={value}
-                    onChange={handleChange}
-                    placeholder={placeholder}
-                    type={type}
-                />
-            </div>
+            <input
+                className={styles.button}
+                value={value}
+                onChange={handleChange}
+                placeholder={placeholder}
+                type={type}
+                {...props}
+            />
         </div>
     );
 };

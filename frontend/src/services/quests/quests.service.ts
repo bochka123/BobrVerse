@@ -6,7 +6,7 @@ import { apiSlice } from '@/services';
 
 export const questsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getMyQuests: builder.query<IApiResponseDto<IQuestDto[]>, void>({
+        getMyQuests: builder.query<IApiResponseDto<IQuestDto[]>, any>({
             query: () => ({ url: '/api/Quest/my' }),
         }),
         getAvailableQuests: builder.query<IApiResponseDto<IQuestDto[]>, void>({
