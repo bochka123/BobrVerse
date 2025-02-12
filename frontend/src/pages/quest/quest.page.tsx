@@ -71,6 +71,7 @@ const QuestPage: FC<QuestPageProps> = () => {
                     return prevTime - 1;
                 } else {
                     clearInterval(timer);
+                    handleTaskResponse();
                     return 0;
                 }
             });
@@ -95,7 +96,9 @@ const QuestPage: FC<QuestPageProps> = () => {
                 .unwrap()
                 .then((data) => {
                     if (data.data.isFinished) {
-                        navigate(`response/${questResponse.id}`);
+                        console.log(data.data);
+                        
+                        navigate(`response/${questResponse.id}/rate`);
                     } else {
                         setCurrentTask(nextTask);
                         setNextTask(data.data.nextTask);
