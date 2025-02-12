@@ -442,7 +442,8 @@ namespace BobrVerse.Dal.Migrations
                 {
                     b.HasOne("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask", null)
                         .WithMany("RequiredResources")
-                        .HasForeignKey("QuizTaskId");
+                        .HasForeignKey("QuizTaskId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrProfile", b =>

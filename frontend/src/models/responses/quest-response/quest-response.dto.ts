@@ -7,8 +7,8 @@ interface IQuestResponseDto {
     questDescription: string;
     startedAt?: string;
     completedAt?: string;
-    firstTask?: IQuestTaskDto;
-    secondTask?: IQuestTaskDto;
+    currentTask?: IQuestTaskDto;
+    nextTask?: IQuestTaskDto;
 }
 
 export { type IQuestResponseDto };

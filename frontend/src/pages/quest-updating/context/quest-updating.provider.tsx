@@ -1,34 +1,45 @@
 import { FC, ReactNode, useState } from 'react';
 
+import { IQuestTaskDto } from '@/models/responses';
+
 import { QuestUpdatingContext } from './quest-updating.context.tsx';
-import { QuestType } from './types/index.ts';
+
+type TaskWithIdType = { id: string, task?: IQuestTaskDto };
 
 type QuestUpdatingProviderProps = {
     children: ReactNode
 }
 const QuestUpdatingProvider: FC<QuestUpdatingProviderProps> = ({ children }) => {
 
-    const [questSlides, setQuestSlides] = useState<QuestType[]>([]);
+    const [questTasks, setQuestTasks] = useState<TaskWithIdType[]>([]);
 
-    const addSlide = (quest: QuestType): void => {
-        setQuestSlides([...questSlides, quest]);
+    const setupTasks = (tasks: TaskWithIdType[]): void => {
+        setQuestTasks(tasks);
     };
 
-    const removeSlide = (questId: string): void => {
-        setQuestSlides(questSlides.filter((slide) => slide.id!== questId));
+    const addTask = (task: TaskWithIdType): void => {
+        setQuestTasks([...questTasks, task]);
     };
 
-    const updateSlide = (questId: string, updatedQuest: QuestType): void => {
-        setQuestSlides(questSlides.map((slide) => slide.id === questId ? updatedQuest : slide));
+    const removeTask = (taskId: string): void => {
+        setQuestTasks(questTasks.filter(task => task.id !== taskId));
+    };
+
+    const updateTask = (taskId: string, updatedQuest: IQuestTaskDto): void => {
+        setQuestTasks(questTasks.map(task => task.id === taskId
+            ? { id: taskId, task: updatedQuest }
+            : task
+        ));
     };
 
     return (
         <QuestUpdatingContext.Provider value={
             {
-                addSlide,
-                removeSlide,
-                updateSlide,
-                questSlides
+                setupTasks,
+                addTask,
+                removeTask,
+                updateTask,
+                questTasks,
             }
         }>
             {children}

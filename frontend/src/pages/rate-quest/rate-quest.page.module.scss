@@ -1,0 +1,45 @@
+@use '@/styles/variables/color-variables.scss' as c;
+
+.rateContainerWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+}
+
+.rateQuestContainer {
+    width: 500px;
+    padding: 15px;
+
+  .rateQuestWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    gap: 20px;
+
+    & > h2 {
+      align-self: center;
+    }
+
+    & li {
+      list-style: none;
+    }
+
+    & li:before {
+      content: '· '
+    }
+  }
+}
+
+.starsContainer {
+    color: c.$primary;
+    font-size: 30px;
+}
+
+.responseContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
