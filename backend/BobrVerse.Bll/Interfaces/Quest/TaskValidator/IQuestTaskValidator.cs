@@ -5,6 +5,6 @@ namespace BobrVerse.Bll.Interfaces.Quest.TaskValidator
 {
     public interface IQuestTaskValidator
     {
-        public bool Validate(CreateQuestTaskResponseDTO dto, QuizTask task);
+        public TaskValidationState Validate(CreateQuestTaskResponseDTO dto, QuizTask task);
     }
 }
