@@ -36,6 +36,7 @@ jobs:
         docker build . \
           --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} \
           --build-arg VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }} \
+          --build-arg VITE_HUB_URL=${{ secrets.VITE_HUB_URL }} \
           -t bobrverse.azurecr.io/frontend:${{ github.sha }}
         docker push bobrverse.azurecr.io/frontend:${{ github.sha }}
       
