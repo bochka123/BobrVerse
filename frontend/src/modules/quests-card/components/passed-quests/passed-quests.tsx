@@ -1,5 +1,5 @@
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 
 import { IconButton, Loader } from '@/components';
 import { useGetUserQuestResponsesQuery } from '@/services';
