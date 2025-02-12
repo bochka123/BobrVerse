@@ -21,15 +21,13 @@ const BaseInput: FC<BaseInputProps> = ({ value, onChange, labelText, placeholder
     return (
         <div>
             { labelText && <span className={styles.label}>{labelText}</span>}
-            <div>
-                <input
-                    className={styles.button}
-                    value={value}
-                    onChange={handleChange}
-                    placeholder={placeholder}
-                    type={type}
-                />
-            </div>
+            <input
+                className={styles.button}
+                value={value}
+                onChange={handleChange}
+                placeholder={placeholder}
+                type={type}
+            />
         </div>
     );
 };
