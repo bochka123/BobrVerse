@@ -5,6 +5,7 @@ using BobrVerse.Bll.Interfaces.Quest;
 using BobrVerse.Common.Exceptions;
 using BobrVerse.Common.Models.DTO.File;
 using BobrVerse.Common.Models.DTO.Quest.Task;
+using BobrVerse.Common.Models.Quiz.Enums;
 using BobrVerse.Dal.Context;
 using BobrVerse.Dal.Entities.Quest.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -161,6 +162,22 @@ namespace BobrVerse.Bll.Services.Quest
             await azureBlobStorageService.DeleteFromBlob(oldFile);
 
             return true;
+        }
+
+        public ICollection<QuestTaskTypeInfoDTO> GetInfoForCreatingTasks()
+        {
+            return
+            [
+                new QuestTaskTypeInfoDTO
+                {
+                    TaskType = "CollectResources",
+                    Description = "This task requires the collection of resources (e.g., Rock, Wood) in specific quantities and order. The 'collect()' method can be used to collect resources in the correct sequence and quantity as specified. Use c# syntax. Cycles are also suuported.",
+                    Parameters = Enum.GetValues(typeof(ResourceNameEnum))
+                                 .Cast<ResourceNameEnum>()
+                                 .Select(r => r.ToString())
+                                 .AsEnumerable()
+        }
+            ];
         }
     }
 }

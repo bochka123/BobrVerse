@@ -24,9 +24,10 @@ namespace BobrVerse.Bll.Services.Quest.TaskValidator
             }
             var collector = new ResourceCollector();
             var preCode = @"
-            var rock = new Resource { Name = 'Rock' };
-            var wood = new Resource { Name = 'Wood' };
+            var rock = new Resource { Name = ""Rock"" };
+            var wood = new Resource { Name = ""Wood"" };
             ";
+
             var fullScript = preCode + dto.Text;
             var scriptOptions = ScriptOptions.Default
                 .WithReferences(typeof(ResourceCollector).Assembly)

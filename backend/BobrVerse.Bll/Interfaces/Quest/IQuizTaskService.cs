@@ -13,5 +13,6 @@ namespace BobrVerse.Bll.Interfaces.Quest
         Task<QuizTaskDTO> GetByIdAsync(Guid taskId);
         Task<FileDto> UploadPhotoAsync(IFormCollection formCollection, Guid questTaskId);
         Task<bool> DeletePhotoAsync(Guid questTaskId);
+        ICollection<QuestTaskTypeInfoDTO> GetInfoForCreatingTasks();
     }
 }
