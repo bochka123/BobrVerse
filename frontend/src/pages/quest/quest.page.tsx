@@ -4,10 +4,10 @@ import { clearInterval, setInterval } from 'worker-timers';
 
 import { BackButton, Loader } from '@/components';
 import { ICreateQuestTaskResponseDto } from '@/models/requests';
-import { IApiResponseDto, IQuestResponseDto, IQuestTaskDto } from '@/models/responses';
+import { IApiResponseDto, IQuestResponseDto, IQuestTaskDto, IQuestTaskResponseDto } from '@/models/responses';
 import { useCreateQuestResponseMutation, useCreateQuestTaskResponseMutation } from '@/services';
 
-import { QuestAnswer, QuestHints, QuestQuestion } from './comonents';
+import { QuestAnswer, QuestHints, QuestQuestion, ResultsModal } from './comonents';
 import styles from './quest.page.module.scss';
 
 const formatTime = (seconds: number | string): string => {
@@ -28,6 +28,8 @@ const QuestPage: FC<QuestPageProps> = () => {
     const [questResponse, setQuestResponse] = useState<IQuestResponseDto>();
     const [currentTask, setCurrentTask] = useState<IQuestTaskDto>();
     const [nextTask, setNextTask] = useState<IQuestTaskDto>();
+    const [questResults, setQuestResults] = useState<IQuestTaskResponseDto>();
+    const [visible, setVisible] = useState<boolean>(false);
     const [code, setCode] = useState('');
     const [taskStartTime, setTaskStartTime] = useState<number | null>(null);
     const navigate = useNavigate();
@@ -96,7 +98,8 @@ const QuestPage: FC<QuestPageProps> = () => {
                 .unwrap()
                 .then((data) => {
                     if (data.data.isFinished) {
-                        navigate(`response/${questResponse.id}/rate`);
+                        setVisible(true);
+                        setQuestResults(data.data);
                     } else {
                         setCurrentTask(nextTask);
                         setNextTask(data.data.nextTask);
@@ -110,7 +113,13 @@ const QuestPage: FC<QuestPageProps> = () => {
         }
     }, [questResponse, currentTask, code, createQuestTaskResponse, navigate, taskStartTime, nextTask]);
 
+    const modalNavigateCallback = useCallback((): void => {
+        if(questResponse != null)
+            navigate(`response/${questResponse.id}/rate`);
+    }, [questResponse, navigate]);
+
     const fetchNextTask = useCallback((): void => handleTaskResponse(), [handleTaskResponse]);
+    const modalNavigate = useCallback((): void => modalNavigateCallback(), [modalNavigateCallback]);
 
     return (
         <>
@@ -136,6 +145,8 @@ const QuestPage: FC<QuestPageProps> = () => {
                     </div>
                 </div>
             )}
+
+            <ResultsModal visible={visible} setVisible={setVisible} result={questResults} callback={modalNavigate} />
         </>
     );
 };

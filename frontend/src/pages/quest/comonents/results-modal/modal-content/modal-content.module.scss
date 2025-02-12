@@ -1,0 +1,16 @@
+@use "@/styles/variables/font-variables" as t;
+@use '@/styles/variables/color-variables.scss' as c;
+
+.resultsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.description {
+    color: c.$primary;
+
+    .xp {
+        color: #000;
+    }
+}
