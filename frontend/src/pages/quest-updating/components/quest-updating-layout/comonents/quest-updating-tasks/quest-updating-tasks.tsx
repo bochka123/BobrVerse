@@ -3,9 +3,10 @@ import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { IconButton, WoodenContainer } from '@/components';
+import { UpsertQuestTaskModal } from '@/modules/modals/upsert-quest-task-modal';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 
-import { QuestUpdatingTasksItem, UpsertQuestTaskModal } from './components';
+import { QuestUpdatingTasksItem } from './components';
 import styles from './quest-updating-tasks.module.scss';
 
 const QuestUpdatingTasks: FC = () => {

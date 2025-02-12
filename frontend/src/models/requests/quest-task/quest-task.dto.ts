@@ -15,5 +15,8 @@ interface ICreateQuestTaskDto {
     codeTemplate?: string;
 }
 
+interface IUpdateQuestTaskDto extends ICreateQuestTaskDto {
+    id: string;
+}
 
-export { type ICreateQuestTaskDto };
+export { type ICreateQuestTaskDto, type IUpdateQuestTaskDto };

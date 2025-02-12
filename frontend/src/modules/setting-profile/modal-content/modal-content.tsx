@@ -4,16 +4,15 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ToastModeEnum } from '@/common';
-import { BaseButton, BaseInput, UploadPhoto } from '@/components';
+import { BaseButton, BaseInput } from '@/components';
 import { getFormErrorMessage } from '@/helpers';
 import { useProfileHook, useToast } from '@/hooks';
 import { IUpdateProfileRequestDto } from '@/models/requests';
-import img from '@/resources/profile.png';
 import { useDeletePhotoMutation, useLogOutMutation, useUpdateMutation, useUploadPhotoMutation } from '@/services';
 import { setProfile, setUrl } from '@/store/auth';
 
-import { DeletePhotoButton } from './components';
 import styles from './model-content.module.scss';
+import { PhotoPicker } from '@/modules';
 
 type FormNames = {
     name: string;
@@ -109,12 +108,12 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit, onError)} className={styles.form}>
-
-            <div className={styles.photoWrapper}>
-                <img src={imageUrl || img} alt="Selected Image" className={styles.imagePreview} />
-                <UploadPhoto setImageUrl={setImageUrl} setFile={setFile} />
-                <DeletePhotoButton onClick={onDeletePhoto} />
-            </div>
+            <PhotoPicker
+                setImageUrl={setImageUrl}
+                setFile={setFile}
+                imageUrl={imageUrl}
+                onDeletePhoto={onDeletePhoto}
+            />
 
             <Controller
                 control={control}

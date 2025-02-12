@@ -5,9 +5,10 @@ import { InputTypes, TaskTypeEnum, ToastModeEnum } from '@/common';
 import { BaseButton, BaseInput, CheckboxInput, Modal, SelectInput } from '@/components';
 import { getFormErrorMessage, uuid } from '@/helpers';
 import { useToast } from '@/hooks';
-import { ICreateQuestTaskDto, IResourceDto } from '@/models/requests';
+import { ICreateQuestTaskDto,IResourceDto } from '@/models/requests';
+import { IQuestTaskDto } from '@/models/responses';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
-import { useCreateQuestTaskMutation } from '@/services';
+import { useCreateQuestTaskMutation, useUpdateQuestTaskMutation } from '@/services';
 
 import { RequiredResourcesInput } from './components';
 import styles from './upsert-quest-task-modal.module.scss';
@@ -27,18 +28,29 @@ type UpsertQuestTaskModalProps = {
     visible: boolean;
     setVisible: Dispatch<SetStateAction<boolean>>;
     questId: string;
+    taskForEditing?: IQuestTaskDto;
 }
-const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisible, questId }) => {
+const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisible, questId, taskForEditing }) => {
 
     const { addToast } = useToast();
     
-    const [createTask] = useCreateQuestTaskMutation();
+    const [createTaskTrigger] = useCreateQuestTaskMutation();
+    const [updateTaskTrigger] = useUpdateQuestTaskMutation();
 
-    const { addTask } = useQuestUpdating();
+    const { addTask, updateTask } = useQuestUpdating();
 
     const { handleSubmit, control } = useForm<UpsertQuestTaskModalFormNames>({
-        defaultValues: {
-            requiredResources: [{ id: uuid(), name: 'Wood', quantity: 5 }],
+        defaultValues: taskForEditing ? {
+            requiredResources: taskForEditing.requiredResources,
+            description: taskForEditing.description,
+            isRequiredForNextStage: taskForEditing.isRequiredForNextStage.toString(),
+            isTemplate: taskForEditing.isTemplate.toString(),
+            maxAttempts: taskForEditing.maxAttempts,
+            taskType: taskForEditing.taskType,
+            shortDescription: taskForEditing.shortDescription,
+            timeLimitInSeconds: taskForEditing.timeLimitInSeconds,
+        } : {
+            requiredResources: [{ id: uuid(), name: 'wood', quantity: 5 }],
         }
     });
 
@@ -55,11 +67,21 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
             requiredResources: data.requiredResources,
         };
 
-        createTask(requestData)
+        const trigger = taskForEditing
+            ? () => updateTaskTrigger({ ...requestData, id: taskForEditing.id  })
+            : () => createTaskTrigger(requestData);
+
+        trigger()
             .unwrap()
             .then((data) => {
-                addToast(ToastModeEnum.ERROR, 'Quest task created successfully');
-                addTask({ id: data.data.id, task: data.data });
+                addToast(ToastModeEnum.ERROR, taskForEditing
+                    ? 'Quest task updated successfully'
+                    : 'Quest task created successfully'
+                );
+                taskForEditing
+                    ? updateTask(data.data.id, data.data)
+                    : addTask({ id: data.data.id, task: data.data });
+
                 setVisible(false);
             })
             .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to create quest'));
@@ -70,7 +92,7 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
     };
     
     return (
-        <Modal visible={visible} setVisible={setVisible} heading={'Create quest task'}>
+        <Modal visible={visible} setVisible={setVisible} heading={taskForEditing ? 'Update quest task' : 'Create quest task'}>
             <form onSubmit={handleSubmit(onSubmit, onError)} className={styles.form}>
                 <div className={styles.inputsWrapper}>
                     <div className={styles.baseInputsWrapper}>
@@ -170,7 +192,7 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
                 </div>
 
                 <BaseButton type={'submit'}>
-                    Create
+                    { taskForEditing ? 'Update task' : 'Create task' }
                 </BaseButton>
             </form>
         </Modal>
