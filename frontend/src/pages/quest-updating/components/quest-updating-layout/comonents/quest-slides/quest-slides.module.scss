@@ -1,0 +1,24 @@
+@use '@/styles/mixins/scrollbar-mixin' as scrollbar;
+@use "@/styles/variables/background-variables.scss" as b;
+
+.slidesContainer {
+  height: 100%;
+}
+
+.slidesWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 300px;
+  padding: 15px;
+
+  .slidesColumn {
+    display: grid;
+    grid-template-rows: repeat(auto-fit, 150px);
+    gap: 10px;
+    height: 80vh;
+    overflow-y: auto;
+
+    @include scrollbar.scrollbar-style;
+  }
+}

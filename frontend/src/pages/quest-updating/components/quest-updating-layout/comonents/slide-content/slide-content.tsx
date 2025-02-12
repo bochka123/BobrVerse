@@ -1,6 +1,7 @@
 import { FC, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { WoodenContainer } from '@/components';
 import { QuestUpdatingContext, QuestUpdatingContextValues } from '@/pages/quest-updating/context';
 
 import styles from './slide-content.module.scss';
@@ -12,7 +13,7 @@ const SlideContent: FC = () => {
     const slide = questSlides.find(slide => slide.id === slideId);
 
     if (!slide) {
-        return <div>Slide not found</div>;
+        return <WoodenContainer className={styles.container}>Slide not found</WoodenContainer>;
     }
 
     const handleUpdateSlide = (updatedContent: string): void => {
@@ -20,13 +21,13 @@ const SlideContent: FC = () => {
     };
 
     return (
-        <div className={styles.mainContentWrapper}>
+        <WoodenContainer className={styles.container}>
             <h1>Editing Slide {slide.id}</h1>
             <textarea
                 value={slide.content || ''}
                 onChange={(e) => handleUpdateSlide(e.target.value)}
             />
-        </div>
+        </WoodenContainer>
     );
 };
 
