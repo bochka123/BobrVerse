@@ -5,7 +5,11 @@ import { clearInterval, setInterval } from 'worker-timers';
 import { BackButton, Loader } from '@/components';
 import { ICreateQuestTaskResponseDto } from '@/models/requests';
 import { IApiResponseDto, IQuestResponseDto, IQuestTaskDto, IQuestTaskResponseDto } from '@/models/responses';
-import { useCreateQuestResponseMutation, useCreateQuestTaskResponseMutation } from '@/services';
+import {
+    useCreateQuestResponseMutation,
+    useCreateQuestTaskResponseMutation,
+    useGetTaskTypeInfosQuery
+} from '@/services';
 
 import { QuestAnswer, QuestHints, QuestQuestion, ResultsModal } from './comonents';
 import styles from './quest.page.module.scss';
@@ -33,6 +37,10 @@ const QuestPage: FC<QuestPageProps> = () => {
     const [code, setCode] = useState('');
     const [taskStartTime, setTaskStartTime] = useState<number | null>(null);
     const navigate = useNavigate();
+
+    const { data: taskTypesData, isLoading: isTaskTypeDataLoading } = useGetTaskTypeInfosQuery();
+    const currentTaskType = taskTypesData?.data
+        .find((info) => info.taskType === currentTask?.taskType);
 
     useEffect(() => {
         if (questId != null) {
@@ -124,13 +132,13 @@ const QuestPage: FC<QuestPageProps> = () => {
     return (
         <>
             <BackButton />
-            {!questResponse || !currentTask ? (
+            {!questResponse || !currentTask || isTaskTypeDataLoading ? (
                 <Loader />
             ) : (
                 <div className={styles.container}>
                     <div className={styles.leftPanelWrapper}>
                         <h1>{questResponse.questTitle}</h1>
-                        <QuestQuestion task={currentTask} />
+                        <QuestQuestion task={currentTask} taskType={currentTaskType} />
                         <QuestAnswer code={code} setCode={setCode} />
                     </div>
                     <div className={styles.rightPanelWrapper}>

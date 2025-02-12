@@ -16,11 +16,11 @@ interface IQuestTaskDto {
     nextTaskId?: string;
 }
 
-interface IQuestTaskTypeInfoDTO{
+interface IQuestTaskTypeInfoDto {
     name: string;
     taskType: string;
     description: string;
     parameters: Record<string, string>;
 }
 
-export { type IQuestTaskDto, type IQuestTaskTypeInfoDTO };
+export { type IQuestTaskDto, type IQuestTaskTypeInfoDto };

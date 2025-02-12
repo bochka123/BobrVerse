@@ -8,11 +8,17 @@ import { BaseButton, BaseInput } from '@/components';
 import { getFormErrorMessage } from '@/helpers';
 import { useProfileHook, useToast } from '@/hooks';
 import { IUpdateProfileRequestDto } from '@/models/requests';
-import { useDeletePhotoMutation, useLogOutMutation, useUpdateMutation, useUploadPhotoMutation } from '@/services';
+import { PhotoPicker } from '@/modules';
+import {
+    apiSlice,
+    useDeletePhotoMutation,
+    useLogOutMutation,
+    useUpdateMutation,
+    useUploadPhotoMutation
+} from '@/services';
 import { setProfile, setUrl } from '@/store/auth';
 
 import styles from './model-content.module.scss';
-import { PhotoPicker } from '@/modules';
 
 type FormNames = {
     name: string;
@@ -102,6 +108,7 @@ const ModalContent: FC<ModalContentProp> = ({ setVisible }) => {
             .then(() => {
                 navigate('/auth');
                 addToast(ToastModeEnum.SUCCESS, 'Successfully logout');
+                dispatch(apiSlice.util.resetApiState());
             })
             .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to logout'));
     };
