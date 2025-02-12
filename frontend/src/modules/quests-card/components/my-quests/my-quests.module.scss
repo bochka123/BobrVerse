@@ -1,19 +1,17 @@
 @use '@/styles/mixins/scrollbar-mixin.scss' as scrollbar;
 
 .myQuestsWrapper {
-    padding: 20px 40px;
-    overflow: hidden;
-    // max-height: 100%;
-    // height: 100%;
     display: flex;
     flex-direction: column;
+
+    padding: 20px 40px;
+    overflow: hidden;
 }
 
 .myQuestsContainer {
-    flex-grow: 1;
-
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     gap: 20px;
 
     overflow-y: auto;
