@@ -1,10 +1,10 @@
+import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { WoodenContainer } from '@/components';
+import { IconButton, WoodenContainer } from '@/components';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 
-import { QuestUpdatingHints } from './components';
 import styles from './quest-updating.module.scss';
 
 const QuestUpdatingContent: FC = () => {
@@ -20,9 +20,13 @@ const QuestUpdatingContent: FC = () => {
     return (
         <div className={styles.wrapper}>
             <WoodenContainer className={styles.container}>
-                <h1>Editing Slide {task.id}</h1>
+                <div className={styles.wrapper}>
+                    <h1>Editing Slide {task.id}</h1>
+                </div>
+                <div className={styles.buttonWrapper}>
+                    <IconButton icon={faSave}/>
+                </div>
             </WoodenContainer>
-            <QuestUpdatingHints />
         </div>
     );
 };

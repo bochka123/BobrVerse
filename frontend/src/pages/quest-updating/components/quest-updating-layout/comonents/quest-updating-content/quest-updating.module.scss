@@ -1,13 +1,21 @@
-.wrapper {
-  display: flex;
-  gap: 20px
-}
-
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  height: 100%;
 
   padding: 15px;
   flex-grow: 1;
+}
+
+.wrapper {
+  flex-grow: 1;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  align-self: end;
+  width: 230px;
 }
