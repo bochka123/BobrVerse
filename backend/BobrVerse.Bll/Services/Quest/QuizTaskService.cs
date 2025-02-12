@@ -73,7 +73,7 @@ namespace BobrVerse.Bll.Services.Quest
             }
         }
 
-        private void UpdateRequiredResources(ICollection<Resource> existingResources, List<ResourceDTO> dtoResources, IMapper mapper)
+        private async void UpdateRequiredResources(ICollection<Resource> existingResources, List<ResourceDTO> dtoResources, IMapper mapper)
         {
             var existingResourceIds = existingResources.Select(r => r.Id).ToHashSet();
             var dtoResourceIds = dtoResources.Select(r => r.Id).Where(id => id != Guid.Empty).ToHashSet();
@@ -95,6 +95,7 @@ namespace BobrVerse.Bll.Services.Quest
                 {
                     var newResource = mapper.Map<Resource>(resourceDto);
                     existingResources.Add(newResource);
+                    await context.Resources.AddAsync(newResource);
                 }
             }
         }
