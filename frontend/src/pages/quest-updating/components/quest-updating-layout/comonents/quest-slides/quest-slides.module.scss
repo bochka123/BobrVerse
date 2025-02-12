@@ -1,0 +1,34 @@
+@use '@/styles/variables/color-variables' as c;
+@use '@/styles/mixins/scrollbar-mixin' as scrollbar;
+@use "@/styles/variables/background-variables.scss" as b;
+
+.slidesContainer {
+  height: 100%;
+}
+
+.slidesWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 300px;
+  padding: 15px;
+
+  .slidesColumn {
+    display: grid;
+    grid-template-rows: repeat(auto-fit, 150px);
+    gap: 10px;
+    height: 80vh;
+    overflow-y: auto;
+
+    @include scrollbar.scrollbar-style;
+
+    .slide {
+      width: 100%;
+      border: 5px solid c.$primary;
+      border-radius: 10%;
+      transition: background-color 0.3s ease;
+      background: url("@/resources/background.jpg") no-repeat center;
+      background-size: cover;
+    }
+  }
+}
