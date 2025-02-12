@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BobrVerse.Dal.Migrations
 {
     [DbContext(typeof(BobrVerseContext))]
-    [Migration("20250212192831_AddCutForestTask")]
-    partial class AddCutForestTask
+    [Migration("20250212202224_AddCutForestTasks")]
+    partial class AddCutForestTasks
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,9 @@ namespace BobrVerse.Dal.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LogsToAdd")
                         .HasColumnType("int");
 
                     b.Property<int>("RequiredXP")

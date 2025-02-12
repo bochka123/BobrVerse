@@ -5,7 +5,7 @@
 namespace BobrVerse.Dal.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCutForestTask : Migration
+    public partial class AddCutForestTasks : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -28,7 +28,8 @@ namespace BobrVerse.Bll.Services.Quest.TaskValidator
                 return response;
             }
 
-            var maxValue = task.
+            //var maxValue = task.
+            throw new NotImplementedException();
 
         }
 
