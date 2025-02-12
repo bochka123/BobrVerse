@@ -14,5 +14,9 @@
 
         public List<ResourceDTO> RequiredResources { get; set; } = [];
         public int? MaxCollectCalls { get; set; }
+
+        public int? ForestSize { get; set; }
+        public int? TreesToCut { get; set; }
+        public bool? CutLargest { get; set; }
     }
 }
