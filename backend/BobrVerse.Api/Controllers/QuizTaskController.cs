@@ -27,9 +27,9 @@ namespace BobrVerse.Api.Controllers
             return new ApiResponse(true);
         }
 
-        [HttpGet("getQuestTask/{questId:guid}/{order:int}")]
-        public async Task<ApiResponse<QuizTaskDTO>> GetByOrder(Guid questId, int order) 
-            => new ApiResponse<QuizTaskDTO>(await service.GetByOrderAsync(questId, order) ?? throw new BobrException($"Task related to quest with id {questId} and with order {order} not found."));
+        [HttpGet("getQuestTask/{taskId:guid}")]
+        public async Task<ApiResponse<QuizTaskDTO>> GetById(Guid taskId) 
+            => new ApiResponse<QuizTaskDTO>(await service.GetByIdAsync(taskId));
 
         [HttpPut("uploadPhoto/{questTaskId:guid}")]
         public async Task<ApiResponse<FileDto>> UploadPhoto([FromRoute] Guid questTaskId) => new ApiResponse<FileDto>(await service.UploadPhotoAsync(await Request.ReadFormAsync(), questTaskId));

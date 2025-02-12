@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { createContext } from 'react';
 
-import { QuestType } from './types';
+import { IQuestTaskDto } from '@/models/responses';
+
+type TaskWithIdType = { id: string, task?: IQuestTaskDto };
 
 interface QuestUpdatingContextValues {
-    addSlide: (quest: QuestType) => void;
-    removeSlide: (questId: string) => void;
-    updateSlide: (questId: string, updatedQuest: QuestType) => void;
-    questSlides: QuestType[];
+    setupTasks: (tasks: TaskWithIdType[]) => void;
+    addTask: (task: TaskWithIdType) => void
+    removeTask: (taskId: string) => void;
+    updateTask: (taskId: string, updatedQuest: IQuestTaskDto) => void;
+    questTasks: TaskWithIdType[];
 }
 
 const QuestUpdatingContext = createContext<QuestUpdatingContextValues | undefined>(undefined);

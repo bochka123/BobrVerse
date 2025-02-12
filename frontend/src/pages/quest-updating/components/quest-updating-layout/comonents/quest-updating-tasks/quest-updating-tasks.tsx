@@ -5,17 +5,16 @@ import { useParams } from 'react-router-dom';
 import { IconButton, WoodenContainer } from '@/components';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 
-import { QuestSlidesItem, UpsertQuestTaskModal } from './components';
-import styles from './quest-slides.module.scss';
+import { QuestUpdatingTasksItem, UpsertQuestTaskModal } from './components';
+import styles from './quest-updating-tasks.module.scss';
 
-type QuestSlidesProps = {}
-const QuestSlides: FC<QuestSlidesProps> = () => {
+const QuestUpdatingTasks: FC = () => {
 
     const { questId } = useParams();
 
     const [addTaskModalVisible, setAddTaskModalVisible  ] = useState(false);
 
-    const { questSlides } = useQuestUpdating();
+    const { questTasks } = useQuestUpdating();
     
     return (
         <>
@@ -23,12 +22,12 @@ const QuestSlides: FC<QuestSlidesProps> = () => {
                 <div className={styles.slidesWrapper}>
                     <div className={styles.slidesColumn}>
                         {
-                            questSlides.map((slide, index) => (
-                                <QuestSlidesItem
+                            questTasks.map((task, index) => (
+                                <QuestUpdatingTasksItem
                                     questId={questId as string}
-                                    slideId={slide.id}
+                                    taskId={task.id}
                                     slideNumber={index + 1}
-                                    key={`slide-${slide.id}`}
+                                    key={`task-${task.id}`}
                                 />
                             ))
                         }
@@ -46,4 +45,4 @@ const QuestSlides: FC<QuestSlidesProps> = () => {
     );
 };
 
-export { QuestSlides };
+export { QuestUpdatingTasks };

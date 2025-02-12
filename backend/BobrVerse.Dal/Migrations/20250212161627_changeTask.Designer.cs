@@ -4,6 +4,7 @@ using BobrVerse.Dal.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BobrVerse.Dal.Migrations
 {
     [DbContext(typeof(BobrVerseContext))]
-    partial class BobrVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20250212161627_changeTask")]
+    partial class changeTask
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -442,8 +445,7 @@ namespace BobrVerse.Dal.Migrations
                 {
                     b.HasOne("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask", null)
                         .WithMany("RequiredResources")
-                        .HasForeignKey("QuizTaskId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("QuizTaskId");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrProfile", b =>

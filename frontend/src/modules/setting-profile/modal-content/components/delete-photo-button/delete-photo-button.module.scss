@@ -18,8 +18,10 @@
   justify-content: center;
   align-items: center;
 
-  background: url('../../../../../resources/wood.jpg');
+  background: url('@/resources/wood.jpg');
   background-size: cover;
+
+  order: 100;
 
   @include b.wood-darker-background-with-hover;
 
