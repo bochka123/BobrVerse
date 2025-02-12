@@ -1,3 +1,4 @@
+@use '@/styles/variables/color-variables.scss' as c;
 @use '@/styles/mixins/scrollbar-mixin.scss' as scrollbar;
 
 .passedQuestsWrapper {
@@ -17,4 +18,11 @@
     overflow-y: auto;
 
     @include scrollbar.scrollbar-style;
+}
+
+.paginationControls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
 }
