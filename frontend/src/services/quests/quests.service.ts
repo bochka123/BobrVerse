@@ -18,8 +18,11 @@ export const questsApiSlice = apiSlice.injectEndpoints({
                 method: HttpType.POST,
                 body: requestDto
             }),
-        }), 
+        }),
+        getQuestById: builder.query<IApiResponseDto<IQuestDto>, number>({
+            query: (questId: number) => ({ url: `/api/Quest/getQuestById/${questId}` }),
+        }),
     })
 });
 
-export const { useGetMyQuestsQuery, useGetAvailableQuestsQuery, useCreateQuestMutation } = questsApiSlice;
+export const { useGetMyQuestsQuery, useGetAvailableQuestsQuery, useCreateQuestMutation, useGetQuestByIdQuery } = questsApiSlice;
