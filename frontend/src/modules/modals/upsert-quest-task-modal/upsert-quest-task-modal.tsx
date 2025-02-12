@@ -5,7 +5,7 @@ import { InputTypes, TaskTypeEnum, ToastModeEnum } from '@/common';
 import { BaseButton, BaseInput, CheckboxInput, Modal, SelectInput } from '@/components';
 import { getFormErrorMessage, uuid } from '@/helpers';
 import { useToast } from '@/hooks';
-import { IResourceDto,ICreateQuestTaskDto } from '@/models/requests';
+import { ICreateQuestTaskDto,IResourceDto } from '@/models/requests';
 import { IQuestTaskDto } from '@/models/responses';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 import { useCreateQuestTaskMutation, useUpdateQuestTaskMutation } from '@/services';

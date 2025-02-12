@@ -19,3 +19,21 @@
   align-self: end;
   width: 230px;
 }
+
+.photoPickerWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+
+  & > button {
+    width: 230px;
+  }
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
