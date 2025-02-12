@@ -1,11 +1,11 @@
 import { FC } from 'react';
 
-import { IQuestDto } from '@/models/responses';
+import { IQuestResponseDto } from '@/models/responses';
 
 import styles from './passed-quests-item.module.scss';
 
 type PassedQuestsItemProps = {
-    quest: IQuestDto;
+    quest: IQuestResponseDto;
 }
 
 const PassedQuestsItem: FC<PassedQuestsItemProps> = ({ quest }) => {
@@ -13,7 +13,7 @@ const PassedQuestsItem: FC<PassedQuestsItemProps> = ({ quest }) => {
         <div className={styles.itemWrapper}>
             <div className={styles.backgroundOverlay} />
             <div className={styles.itemInfo}>
-                <p className={styles.title}>{quest.title}</p>
+                <p className={styles.title}>{quest.questTitle}</p>
 
                 <div>
                     
