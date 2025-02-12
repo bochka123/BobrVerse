@@ -83,16 +83,13 @@ namespace BobrVerse.Bll.Services.Quest
                 ErrorMessage = status.ErrorMessage,
             };
 
-            if (!status.Success)
+            if (!status.Success && task.IsRequiredForNextStage)
             {
-                if (task.IsRequiredForNextStage)
-                {
-                    var questResponse = await context.QuestResponses
+                var questResponse = await context.QuestResponses
                         .FirstAsync(x => x.Id == dto.QuestResponseId);
 
-                    questResponse.Status = QuestResponseStatusEnum.Completed;
-                    await HandleFinishQuest(dto.QuestResponseId, task.Quest,response);
-                }
+                questResponse.Status = QuestResponseStatusEnum.Completed;
+                return await HandleFinishQuest(dto.QuestResponseId, task.Quest, response);
             }
 
             if (status.Success)
@@ -110,6 +107,7 @@ namespace BobrVerse.Bll.Services.Quest
             {
                 response.CurrentTask = nextTask;
                 response.NextTask = await quizTaskService.GetByOrderAsync(task.QuestId, task.Order + 2);
+                await context.SaveChangesAsync();
                 return response;
             }
 

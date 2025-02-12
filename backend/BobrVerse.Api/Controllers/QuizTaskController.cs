@@ -36,5 +36,8 @@ namespace BobrVerse.Api.Controllers
 
         [HttpDelete("deletePhoto/{questTaskId:guid}")]
         public async Task<ApiResponse> DeletePhoto([FromRoute] Guid questTaskId) => new ApiResponse(await service.DeletePhotoAsync(questTaskId));
+
+        [HttpGet("taskInfos")]
+        public ApiResponse<ICollection<QuestTaskTypeInfoDTO>> GetTaskTypeInfos() => new(service.GetInfoForCreatingTasks());
     }
 }
