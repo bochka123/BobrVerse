@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { IconButton, WoodenContainer } from '@/components';
 import { useQuestUpdating } from '@/pages/quest-updating/hooks';
 
-import { QuestSlidesItem, UpsertQuestTaskModal } from './components';
+import { QuestTasksItem, UpsertQuestTaskModal } from './components';
 import styles from './quest-slides.module.scss';
 
 type QuestSlidesProps = {}
@@ -24,9 +24,9 @@ const QuestSlides: FC<QuestSlidesProps> = () => {
                     <div className={styles.slidesColumn}>
                         {
                             questTasks.map((task, index) => (
-                                <QuestSlidesItem
+                                <QuestTasksItem
                                     questId={questId as string}
-                                    slideId={task.id}
+                                    taskId={task.id}
                                     slideNumber={index + 1}
                                     key={`task-${task.id}`}
                                 />

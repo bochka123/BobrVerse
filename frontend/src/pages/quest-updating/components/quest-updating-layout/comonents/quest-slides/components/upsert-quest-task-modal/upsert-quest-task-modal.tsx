@@ -58,6 +58,7 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
         createTask(requestData)
             .unwrap()
             .then((data) => {
+                addToast(ToastModeEnum.ERROR, 'Quest task created successfully');
                 addTask({ id: data.data.id, task: data.data });
                 setVisible(false);
             })

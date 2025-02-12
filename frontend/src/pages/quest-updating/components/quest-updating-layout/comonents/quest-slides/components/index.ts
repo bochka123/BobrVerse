@@ -1,2 +1,2 @@
-export * from './quest-slides-item';
+export * from './quest-tasks-item';
 export * from './upsert-quest-task-modal';
