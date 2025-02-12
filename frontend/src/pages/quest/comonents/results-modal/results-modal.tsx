@@ -8,7 +8,7 @@ import { ModalContent } from './modal-content';
 type ResultsModalProps = {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    result: IQuestTaskResponseDto;
+    result?: IQuestTaskResponseDto;
     callback: () => void;
 }
 
