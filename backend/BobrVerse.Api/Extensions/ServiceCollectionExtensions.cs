@@ -50,10 +50,7 @@ namespace BobrVerse.Api.Extensions
             services.AddScoped<IQuestsHubService, QuestsHubService>();
             services.AddDbContext<BobrVerseContext>(options => options.UseSqlServer(configuration.GetConnectionString("BobrVerseDb")));
             services.ConfigureBllServiceCollection();
-            services.AddSignalR(o =>
-            {
-                o.AddFilter<AuthHubFilter>();
-            }).AddJsonProtocol();
+            services.AddSignalR().AddJsonProtocol();
 
             services.AddAuth();
             services.AddAuthDbContext<BobrVerseContext>();

@@ -1,3 +1,4 @@
+import { HubConnection } from '@microsoft/signalr';
 import { createContext } from 'react';
 
-export const ConnectionIdContext = createContext<string>(null);
+export const ConnectionContext = createContext<HubConnection | null>(null);

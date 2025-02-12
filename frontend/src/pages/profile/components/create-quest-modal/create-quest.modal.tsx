@@ -6,7 +6,7 @@ import { InputTypes, ToastModeEnum } from '@/common';
 import { Modal } from '@/components';
 import { BaseButton, BaseInput } from '@/components/primitives';
 import { getFormErrorMessage } from '@/helpers';
-import { useToast } from '@/hooks';
+import { useConnection, useToast } from '@/hooks';
 import { ICreateQuestDto } from '@/models/requests';
 import { useCreateQuestMutation } from '@/services';
 
@@ -30,6 +30,7 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
     const [createQuest] = useCreateQuestMutation();
     const navigate = useNavigate();
     const { addToast } = useToast();
+    const { connection } = useConnection();
 
     const { handleSubmit, control } = useForm<FormNames>();
 
@@ -50,6 +51,8 @@ const CreateQuestModal: FC<CreateQuestModalProps> = ({ visible, setVisible }) =>
             .unwrap()
             .then((data) => {
                 navigate(`quests/edit/${data.data.id}`);
+                if(connection != null)
+                    connection.invoke('notifyCreated', data.data);
             })
             .catch(() => addToast(ToastModeEnum.ERROR, 'Failed to create quest'));
     };

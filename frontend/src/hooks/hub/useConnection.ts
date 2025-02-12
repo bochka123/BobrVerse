@@ -5,9 +5,8 @@ import { HubConnectionState } from 'redux-signalr';
 const baseUrl = import.meta.env.VITE_API_URL;
 const hubUrl = import.meta.env.VITE_HUB_URL;
 
-export const useConnection = (): { connection: HubConnection; connectionId: string } => {
-    const [connection, setConnection] = useState<HubConnection>(null);
-    const [connectionId, setConnectionId] = useState<string>(null);
+export const useConnection = (): { connection: HubConnection | null; } => {
+    const [connection, setConnection] = useState<HubConnection | null>(null);
   
     useEffect(() => {
       if (baseUrl) {
@@ -30,7 +29,6 @@ export const useConnection = (): { connection: HubConnection; connectionId: stri
       if (connection && connection.state !== HubConnectionState.Connected) {
         connection
           .start()
-          .then(() => setConnectionId(connection?.connectionId))
           .catch(error => {
             console.error(error);
           });
@@ -39,6 +37,5 @@ export const useConnection = (): { connection: HubConnection; connectionId: stri
   
     return {
       connection,
-      connectionId,
     };
   };

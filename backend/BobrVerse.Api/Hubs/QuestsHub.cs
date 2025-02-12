@@ -36,13 +36,25 @@ namespace BobrVerse.Api.Hubs
             return base.OnConnectedAsync();
         }
 
-        public async Task NotifyCreated(QuestDTO quest, string userClaim)
+        public async Task NotifyCreated(QuestDTO quest)
         {
-            if (_connections.GetConnections(userClaim) is IEnumerable<string> connectionIds)
+            var httpContext = Context.GetHttpContext();
+
+            if (httpContext != null)
             {
-                foreach (var connectionId in connectionIds)
+                var accessToken = httpContext.Request.Cookies[cookieSettings.AccessTokenName];
+
+                if (accessTokenService.TryValidateAccessToken(accessToken, out var claimsPrincipal))
                 {
-                    await Clients.Client(connectionId).SendAsync("questCreated", quest);
+                    var userId = claimsPrincipal?.FindFirst(nameof(User))?.Value;
+
+                    if (_connections.GetConnections(userId) is IEnumerable<string> connectionIds)
+                    {
+                        foreach (var connectionId in connectionIds)
+                        {
+                            await Clients.Client(connectionId).SendAsync("questCreated", quest);
+                        }
+                    }
                 }
             }
         }
