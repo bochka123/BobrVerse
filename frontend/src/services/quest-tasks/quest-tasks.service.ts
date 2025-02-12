@@ -1,5 +1,5 @@
 import { HttpType } from '@/common';
-import { ICreateQuestTaskDto } from '@/models/requests';
+import { ICreateQuestTaskDto, IUpdateQuestTaskDto } from '@/models/requests';
 import { IApiResponseDto, IQuestTaskDto } from '@/models/responses';
 import { apiSlice } from '@/services';
 
@@ -12,8 +12,8 @@ export const questTasksApiSlice = apiSlice.injectEndpoints({
                 body: requestDto
             }),
         }),
-        updateQuestTask: builder.mutation<IApiResponseDto<IQuestTaskDto>, IQuestTaskDto>({
-            query: (requestDto: IQuestTaskDto) => ({
+        updateQuestTask: builder.mutation<IApiResponseDto<IQuestTaskDto>, IUpdateQuestTaskDto>({
+            query: (requestDto: IUpdateQuestTaskDto) => ({
                 url: '/api/QuizTask',
                 method: HttpType.PUT,
                 body: requestDto
@@ -35,5 +35,5 @@ export const {
     useCreateQuestTaskMutation,
     useUpdateQuestTaskMutation,
     useDeleteQuestTaskMutation,
-    useGetQuestTaskByIdQuery
+    useLazyGetQuestTaskByIdQuery
 } = questTasksApiSlice;
