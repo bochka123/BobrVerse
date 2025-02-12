@@ -1,6 +1,6 @@
-enum QuestStatus {
+enum QuestStatusEnum {
     DRAFT = 'Draft',
     ACTIVE = 'Active',
 }
 
-export { QuestStatus };
+export { QuestStatusEnum };

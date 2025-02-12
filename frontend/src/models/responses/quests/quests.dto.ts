@@ -1,3 +1,5 @@
+import { QuestStatusEnum } from '@/common';
+
 import { IProfileDto } from '../profile';
 import { IQuestTaskDto } from '../quest-task';
 
@@ -12,7 +14,7 @@ interface IQuestDto {
     tasks: IQuestTaskDto[];
     xpForComplete: number;
     xpForSuccess: number;
-    status: string;
+    status: QuestStatusEnum;
     timeLimitInSeconds?: number;
     url?: string;
     taskIds: string[];
