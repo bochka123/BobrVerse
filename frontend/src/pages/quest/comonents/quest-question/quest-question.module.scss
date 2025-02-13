@@ -7,9 +7,14 @@
 
   .questionImage {
     width: 30%;
+    flex-shrink: 0;
 
     & > img {
       border-radius: 10px;
     }
+  }
+
+  .questionInfo {
+    flex-grow: 1;
   }
 }

@@ -17,11 +17,16 @@ type UpsertQuestTaskModalFormNames = {
     taskType: string;
     shortDescription: string;
     description: string;
-    isRequiredForNextStage: string;
+    isRequiredForNextStage: boolean;
     maxAttempts: number;
     timeLimitInSeconds: number;
-    isTemplate: string;
-    requiredResources: IResourceDto[];
+    isTemplate: boolean;
+
+    requiredResources?: IResourceDto[];
+
+    forestSize?: number;
+    treesToCut?: number;
+    cutLargest: boolean;
 }
 
 type UpsertQuestTaskModalProps = {
@@ -39,32 +44,40 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
 
     const { addTask, updateTask } = useQuestUpdating();
 
-    const { handleSubmit, control } = useForm<UpsertQuestTaskModalFormNames>({
+    const { handleSubmit, control, watch } = useForm<UpsertQuestTaskModalFormNames>({
         defaultValues: taskForEditing ? {
             requiredResources: taskForEditing.requiredResources,
             description: taskForEditing.description,
-            isRequiredForNextStage: taskForEditing.isRequiredForNextStage.toString(),
-            isTemplate: taskForEditing.isTemplate.toString(),
+            isRequiredForNextStage: taskForEditing.isRequiredForNextStage,
+            isTemplate: taskForEditing.isTemplate,
             maxAttempts: taskForEditing.maxAttempts,
             taskType: taskForEditing.taskType,
             shortDescription: taskForEditing.shortDescription,
             timeLimitInSeconds: taskForEditing.timeLimitInSeconds,
+            forestSize: taskForEditing.forestSize,
+            treesToCut: taskForEditing.treesToCut,
+            cutLargest: taskForEditing.cutLargest,
         } : {
             requiredResources: [{ id: uuid(), name: 'wood', quantity: 5 }],
         }
     });
 
+    const taskType = watch('taskType');
+
     const onSubmit: SubmitHandler<UpsertQuestTaskModalFormNames> = (data): void => {
         const requestData: ICreateQuestTaskDto = {
             questId: questId,
-            isRequiredForNextStage: !!data.isRequiredForNextStage,
-            isTemplate: !!data.isTemplate,
+            isRequiredForNextStage: data.isRequiredForNextStage,
+            isTemplate: data.isTemplate,
             maxAttempts: data.maxAttempts,
             timeLimitInSeconds: data.timeLimitInSeconds,
             taskType: data.taskType as TaskTypeEnum,
             shortDescription: data.shortDescription,
             description: data.description,
             requiredResources: data.requiredResources,
+            forestSize: data.forestSize,
+            treesToCut: data.treesToCut,
+            cutLargest: !!data.cutLargest,
         };
 
         const trigger = taskForEditing
@@ -188,7 +201,58 @@ const UpsertQuestTaskModal: FC<UpsertQuestTaskModalProps> = ({ visible, setVisib
                             )}
                         />
                     </div>
-                    <RequiredResourcesInput control={control} />
+
+                    {
+                        taskType === TaskTypeEnum.COLLECT_RESOURCES &&
+                        <RequiredResourcesInput control={control} />
+                    }
+
+                    {
+                        taskType === TaskTypeEnum.CUT_TREES_IN_FOREST &&
+                        <div className={styles.form}>
+                            <Controller
+                                control={control}
+                                name={'forestSize'}
+                                rules={{ required: 'Forest size is required' }}
+                                render={({ field: { onChange, value } }) => (
+                                    <BaseInput
+                                        labelText={'Forest size:'}
+                                        value={value}
+                                        onChange={onChange}
+                                        placeholder={'Enter forest size...'}
+                                        type={InputTypes.NUMBER}
+                                        min={0}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                control={control}
+                                name={'treesToCut'}
+                                rules={{ required: 'Trees to cut is required' }}
+                                render={({ field: { onChange, value } }) => (
+                                    <BaseInput
+                                        labelText={'Trees to cut is:'}
+                                        value={value}
+                                        onChange={onChange}
+                                        placeholder={'Enter trees to cut is...'}
+                                        type={InputTypes.NUMBER}
+                                        min={0}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                control={control}
+                                name={'cutLargest'}
+                                render={({ field: { onChange, value } }) => (
+                                    <CheckboxInput
+                                        labelText={'Cut largest:'}
+                                        value={value}
+                                        onChange={onChange}
+                                    />
+                                )}
+                            />
+                        </div>
+                    }
                 </div>
 
                 <BaseButton type={'submit'}>

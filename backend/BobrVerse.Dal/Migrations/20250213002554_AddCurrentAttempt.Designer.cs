@@ -4,6 +4,7 @@ using BobrVerse.Dal.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BobrVerse.Dal.Migrations
 {
     [DbContext(typeof(BobrVerseContext))]
-    partial class BobrVerseContextModelSnapshot : ModelSnapshot
+    [Migration("20250213002554_AddCurrentAttempt")]
+    partial class AddCurrentAttempt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +41,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrLevel", b =>
@@ -66,7 +69,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BobrLevels", (string)null);
+                    b.ToTable("BobrLevels");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrProfile", b =>
@@ -101,7 +104,7 @@ namespace BobrVerse.Dal.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("BobrProfiles", (string)null);
+                    b.ToTable("BobrProfiles");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Quest", b =>
@@ -146,7 +149,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Quests", (string)null);
+                    b.ToTable("Quests");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestRating", b =>
@@ -180,7 +183,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("QuestId");
 
-                    b.ToTable("QuestRatings", (string)null);
+                    b.ToTable("QuestRatings");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestResponse", b =>
@@ -231,7 +234,7 @@ namespace BobrVerse.Dal.Migrations
                         .IsUnique()
                         .HasFilter("[QuestRatingId] IS NOT NULL");
 
-                    b.ToTable("QuestResponses", (string)null);
+                    b.ToTable("QuestResponses");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuizTaskStatus", b =>
@@ -267,7 +270,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("QuizTaskId");
 
-                    b.ToTable("QuizTaskStatuses", (string)null);
+                    b.ToTable("QuizTaskStatuses");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask", b =>
@@ -323,7 +326,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("QuestId");
 
-                    b.ToTable("QuizTasks", (string)null);
+                    b.ToTable("QuizTasks");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.Resource", b =>
@@ -349,7 +352,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("QuizTaskId");
 
-                    b.ToTable("Resources", (string)null);
+                    b.ToTable("Resources");
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrProfile", b =>

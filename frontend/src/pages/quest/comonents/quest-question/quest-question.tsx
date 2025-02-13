@@ -1,27 +1,36 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import { WoodenContainer } from '@/components';
-import { IQuestTaskDto } from '@/models/responses';
+import { IQuestTaskDto, IQuestTaskTypeInfoDto } from '@/models/responses';
 
 import styles from './quest-question.module.scss';
 
 type QuestQuestionProps = {
     task: IQuestTaskDto;
+    taskType?: IQuestTaskTypeInfoDto;
 }
 
-const QuestQuestion: FC<QuestQuestionProps> = ({ task }) => {
+const areEqual = (prevProps: QuestQuestionProps, nextProps: QuestQuestionProps) => {
+    return (
+        JSON.stringify(prevProps.task) === JSON.stringify(nextProps.task) &&
+        JSON.stringify(prevProps.taskType) === JSON.stringify(nextProps.taskType)
+    );
+};
+
+const QuestQuestion: FC<QuestQuestionProps> = React.memo(({ task, taskType }) => {
     return (
         <WoodenContainer className={styles.questionContainer}>
             <div className={styles.questionImage}>
                 <img src="/src/resources/profile.png" alt="question image"/>
             </div>
-            <div className={styles.questionImage}>
+            <div className={styles.questionInfo}>
+                <h3>{taskType?.description}</h3>
                 <h1>Task #{task.order + 1}</h1>
                 <p>{task.shortDescription}</p>
                 <p>{task.description}</p>
             </div>
         </WoodenContainer>
     );
-};
+}, areEqual);
 
 export { QuestQuestion };
