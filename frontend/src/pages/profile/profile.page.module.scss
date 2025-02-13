@@ -49,7 +49,7 @@
 .xp {
     color: c.$primary;
     @include t.label-medium;
-    @include sh.text-primary-medium;
+    @include sh.text-primary-small;
 }
 
 .profileInfo {

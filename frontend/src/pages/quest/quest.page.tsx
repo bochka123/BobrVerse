@@ -1,11 +1,15 @@
-import { FC, useCallback,useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { clearInterval, setInterval } from 'worker-timers';
 
 import { BackButton, Loader } from '@/components';
 import { ICreateQuestTaskResponseDto } from '@/models/requests';
 import { IApiResponseDto, IQuestResponseDto, IQuestTaskDto, IQuestTaskResponseDto } from '@/models/responses';
-import { useCreateQuestResponseMutation, useCreateQuestTaskResponseMutation } from '@/services';
+import {
+    useCreateQuestResponseMutation,
+    useCreateQuestTaskResponseMutation,
+    useGetTaskTypeInfosQuery
+} from '@/services';
 
 import { QuestAnswer, QuestHints, QuestQuestion, ResultsModal } from './comonents';
 import styles from './quest.page.module.scss';
@@ -18,9 +22,7 @@ const formatTime = (seconds: number | string): string => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-type QuestPageProps = {};
-
-const QuestPage: FC<QuestPageProps> = () => {
+const QuestPage: FC = () => {
     const { questId } = useParams();
     const [createQuestResponse] = useCreateQuestResponseMutation();
     const [createQuestTaskResponse] = useCreateQuestTaskResponseMutation();
@@ -33,6 +35,11 @@ const QuestPage: FC<QuestPageProps> = () => {
     const [code, setCode] = useState('');
     const [taskStartTime, setTaskStartTime] = useState<number | null>(null);
     const navigate = useNavigate();
+
+    const { data: taskTypesData, isLoading: isTaskTypeDataLoading } = useGetTaskTypeInfosQuery();
+    const currentTaskType = useMemo(() => {
+        return taskTypesData?.data.find((info) => info.taskType === currentTask?.taskType);
+    }, [taskTypesData, currentTask]);
 
     useEffect(() => {
         if (questId != null) {
@@ -100,7 +107,7 @@ const QuestPage: FC<QuestPageProps> = () => {
                     if (data.data.isFinished) {
                         setVisible(true);
                         setQuestResults(data.data);
-                    } else {
+                    } else if (nextTask) {
                         setCurrentTask(nextTask);
                         setNextTask(data.data.nextTask);
                         setTaskStartTime(Date.now());
@@ -124,14 +131,19 @@ const QuestPage: FC<QuestPageProps> = () => {
     return (
         <>
             <BackButton />
-            {!questResponse || !currentTask ? (
+            {!questResponse || !currentTask || isTaskTypeDataLoading ? (
                 <Loader />
             ) : (
                 <div className={styles.container}>
                     <div className={styles.leftPanelWrapper}>
                         <h1>{questResponse.questTitle}</h1>
-                        <QuestQuestion task={currentTask} />
-                        <QuestAnswer code={code} setCode={setCode} />
+                        <QuestQuestion task={currentTask} taskType={currentTaskType} />
+                        <QuestAnswer
+                            code={code}
+                            setCode={setCode}
+                            requiredResources={currentTask.requiredResources}
+                            taskType={currentTaskType}
+                        />
                     </div>
                     <div className={styles.rightPanelWrapper}>
                         <div className={styles.timeWrapper}>

@@ -25,6 +25,9 @@ namespace BobrVerse.Bll.Services.Quest
             var quest = await context.Quests.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.QuestId)
                 ?? throw new BobrException($"Quest is not found with id {dto.QuestId}");
 
+            var orderCount = await context.QuizTasks.CountAsync();
+            dbModel.Order = orderCount;
+
             await context.QuizTasks.AddAsync(dbModel);
             await context.SaveChangesAsync();
             return mapper.Map<QuizTaskDTO>(dbModel);
@@ -47,7 +50,9 @@ namespace BobrVerse.Bll.Services.Quest
         }
         public async Task DeleteAsync(Guid Id)
         {
-            var dbModel = await context.QuizTasks.FirstOrDefaultAsync(x => x.Id == Id)
+            var dbModel = await context.QuizTasks
+                .Include(t => t.TaskStatuses)
+                .FirstOrDefaultAsync(x => x.Id == Id)
                 ?? throw new BobrException($"Task with id {Id} not found.");
 
             if (dbModel.TaskStatuses.Count != 0)
@@ -55,7 +60,20 @@ namespace BobrVerse.Bll.Services.Quest
                 throw new BobrException("Task cannot be deleted with answers.");
             }
 
+            var questId = dbModel.QuestId;
+            var deletedOrder = dbModel.Order;
+
             context.QuizTasks.Remove(dbModel);
+
+            var tasksToUpdate = await context.QuizTasks
+                .Where(t => t.QuestId == questId && t.Order > deletedOrder)
+                .ToListAsync();
+
+            foreach (var task in tasksToUpdate)
+            {
+                task.Order -= 1;
+            }
+
             await context.SaveChangesAsync();
         }
 

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import { BaseButton, WoodenContainer } from '@/components';
 import { IQuestTaskDto } from '@/models/responses';
@@ -11,7 +11,15 @@ type QuestHintsProps = {
     isNextTaskExists: boolean;
 }
 
-const QuestHints: FC<QuestHintsProps> = ({ task, fetchNextTask, isNextTaskExists }) => {
+const areEqual = (prevProps: QuestHintsProps, nextProps: QuestHintsProps): boolean => {
+    return (
+        prevProps.isNextTaskExists === nextProps.isNextTaskExists &&
+        prevProps.fetchNextTask === nextProps.fetchNextTask &&
+        JSON.stringify(prevProps.task.requiredResources) === JSON.stringify(nextProps.task.requiredResources)
+    );
+};
+
+const QuestHints: FC<QuestHintsProps> = React.memo(({ task, fetchNextTask, isNextTaskExists }) => {
     return (
         <WoodenContainer className={styles.hintsContainer}>
             <div className={styles.hintsWrapper}>
@@ -27,6 +35,6 @@ const QuestHints: FC<QuestHintsProps> = ({ task, fetchNextTask, isNextTaskExists
             </div>
         </WoodenContainer>
     );
-};
+}, areEqual);
 
 export { QuestHints };
