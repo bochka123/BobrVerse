@@ -9,5 +9,6 @@ namespace BobrVerse.Bll.Interfaces.Quest
         Task<double> GetAverageQuestRatingAsync(Guid questId);
         Task<ICollection<QuestRatingDTO>> GetQuestRatingsAsync(Guid questId, int start, int end);
         Task<ICollection<QuestRatingDTO>> GetUserRatingsAsync(int start, int end);
+        Task<ICollection<QuestRatingDTO>> GetQuestsRatings(int start, int end);
     }
 }

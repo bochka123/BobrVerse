@@ -4,9 +4,10 @@
     {
         public DateTime CreatedAt { get; set; }
         public string Comment { get; set; } = string.Empty;
-        public int Rating { get; set; }
+        public double AverageRating { get; set; }
+        public int VotesCount { get; set; }
         public string AuthorName { get; set; } = string.Empty;
-        public Guid? QuestId { get; set; }
+        public string? QuestTitle { get; set; }
         public Guid? BobrProfileId { get; set; }
     }
 }

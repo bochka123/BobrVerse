@@ -1,33 +1,48 @@
-import { FC } from 'react';
-
-import { IProfileDto } from '@/models/responses';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FC, useState } from 'react';
+import { IconButton, Loader } from '@/components';
 
 import { RatingItem } from './rating-item';
 import styles from './ratings.module.scss';
+import { useGetQuestsRatingsQuery } from '@/services';
+
+const PAGE_SIZE = 10;
 
 const Ratings: FC = () => {
+    const [startIndex, setStartIndex] = useState(0);
+    const { data: questsData, isLoading: isQuestsLoading } = useGetQuestsRatingsQuery({
+        start: startIndex,
+        end: startIndex + PAGE_SIZE,
+    }, 
+    { refetchOnMountOrArgChange: true });
+    
+    const handleNext = (): void => {
+        setStartIndex((prev) => prev + PAGE_SIZE);
+    };
 
-    const profiles: IProfileDto[] = [
-        {
-            id: '',
-            name: 'Profile 1',
-            level: {
-                level: 1,
-                requiredXP: 100,
-                title: 'HZ',
-                description: ''
-            },
-            xp: 0,
-            logs: 150
-        }
-    ];
+    const handlePrevious = (): void => {
+        setStartIndex((prev) => Math.max(0, prev - PAGE_SIZE));
+    };
 
     return (
         <div className={styles.ratingsWrapper}>
             <div className={styles.ratingsContainer}>
                 {
-                    profiles.map((x, key) => <RatingItem profile={x} key={`profile-${key}`} />)
+                    isQuestsLoading
+                    ? <Loader size={30} />
+                    : questsData?.data?.map((x, key) => <RatingItem profile={x} key={`rating-quest-${key}`} />)
                 }
+            </div>
+            <div className={styles.paginationControls}>
+                <IconButton
+                    onClick={handlePrevious}
+                    disabled={startIndex === 0}
+                    icon={faArrowLeft} />
+
+                <IconButton
+                    onClick={handleNext}
+                    disabled={!questsData?.data || questsData.data.length < PAGE_SIZE}
+                    icon={faArrowRight} />
             </div>
         </div>
     );

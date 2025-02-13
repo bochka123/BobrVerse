@@ -38,7 +38,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrLevel", b =>
@@ -66,7 +66,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BobrLevels");
+                    b.ToTable("BobrLevels", (string)null);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrProfile", b =>
@@ -101,7 +101,7 @@ namespace BobrVerse.Dal.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("BobrProfiles");
+                    b.ToTable("BobrProfiles", (string)null);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Quest", b =>
@@ -146,7 +146,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Quests");
+                    b.ToTable("Quests", (string)null);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestRating", b =>
@@ -180,7 +180,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("QuestId");
 
-                    b.ToTable("QuestRatings");
+                    b.ToTable("QuestRatings", (string)null);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuestResponse", b =>
@@ -231,7 +231,7 @@ namespace BobrVerse.Dal.Migrations
                         .IsUnique()
                         .HasFilter("[QuestRatingId] IS NOT NULL");
 
-                    b.ToTable("QuestResponses");
+                    b.ToTable("QuestResponses", (string)null);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.QuizTaskStatus", b =>
@@ -264,7 +264,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("QuizTaskId");
 
-                    b.ToTable("QuizTaskStatuses");
+                    b.ToTable("QuizTaskStatuses", (string)null);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.QuizTask", b =>
@@ -320,7 +320,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("QuestId");
 
-                    b.ToTable("QuizTasks");
+                    b.ToTable("QuizTasks", (string)null);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.Quest.Tasks.Resource", b =>
@@ -346,7 +346,7 @@ namespace BobrVerse.Dal.Migrations
 
                     b.HasIndex("QuizTaskId");
 
-                    b.ToTable("Resources");
+                    b.ToTable("Resources", (string)null);
                 });
 
             modelBuilder.Entity("BobrVerse.Dal.Entities.BobrProfile", b =>
