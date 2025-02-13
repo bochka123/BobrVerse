@@ -25,7 +25,7 @@ const ProfilePage: FC = () => {
 
     return (
         <>
-            <div>
+            <div className={styles.profileWrapper}>
                 <div className={styles.profileContainer}>
                     <div className={styles.profileFrame}>
                         <img src={(url == undefined || url == '') ? img : url} alt="Profile Picture" className={styles.profileImg} />
@@ -61,9 +61,8 @@ const ProfilePage: FC = () => {
                         </div>
                     </div>
                 </div>
-                <div>
-                    <QuestsCardModule />
-                </div>
+                
+                <QuestsCardModule />
             </div>
             <div className={styles.settingsButton}>
                 <IconButton icon={faGear} onClick={() => setSettingsVisible(true)} />
