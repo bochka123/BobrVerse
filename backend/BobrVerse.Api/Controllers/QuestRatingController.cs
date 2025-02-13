@@ -31,7 +31,7 @@ namespace BobrVerse.Api.Controllers
             new ApiResponse<ICollection<QuestRatingDTO>>(await service.GetQuestRatingsAsync(questId, start, end));
 
         [HttpGet("user/{start:int}/{end:int}")]
-        public async Task<ApiResponse<ICollection<QuestRatingDTO>>> GetuserRatings([FromRoute] Guid questId, [FromRoute] int start, [FromRoute] int end) =>
+        public async Task<ApiResponse<ICollection<QuestRatingDTO>>> GetUserRatings([FromRoute] int start, [FromRoute] int end) =>
             new ApiResponse<ICollection<QuestRatingDTO>>(await service.GetUserRatingsAsync(start, end));
     }
 }
