@@ -37,11 +37,14 @@ const QuestUpdatingTasks: FC = () => {
                 </div>
             </WoodenContainer>
 
-            <UpsertQuestTaskModal
-                visible={addTaskModalVisible}
-                setVisible={setAddTaskModalVisible}
-                questId={questId as string}
-            />
+            {
+                addTaskModalVisible &&
+                <UpsertQuestTaskModal
+                    visible={addTaskModalVisible}
+                    setVisible={setAddTaskModalVisible}
+                    questId={questId as string}
+                />
+            }
         </>
     );
 };

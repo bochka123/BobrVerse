@@ -14,13 +14,17 @@ interface IQuestTaskDto {
     requiredResources: IResourceDto[];
     maxCollectCalls?: number;
     nextTaskId?: string;
+    forestSize?: number;
+    treesToCut?: number;
+    cutLargest?: boolean;
 }
 
-interface IQuestTaskTypeInfoDTO{
+interface IQuestTaskTypeInfoDto {
     name: string;
     taskType: string;
     description: string;
     parameters: Record<string, string>;
+    keywords: string[];
 }
 
-export { type IQuestTaskDto, type IQuestTaskTypeInfoDTO };
+export { type IQuestTaskDto, type IQuestTaskTypeInfoDto };

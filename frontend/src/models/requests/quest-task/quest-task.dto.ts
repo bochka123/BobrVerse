@@ -11,8 +11,11 @@ interface ICreateQuestTaskDto {
     maxAttempts?: number;
     timeLimitInSeconds?: number;
     isTemplate: boolean;
-    requiredResources: IResourceDto[];
+    requiredResources?: IResourceDto[];
     codeTemplate?: string;
+    forestSize?: number;
+    treesToCut?: number;
+    cutLargest?: boolean;
 }
 
 interface IUpdateQuestTaskDto extends ICreateQuestTaskDto {

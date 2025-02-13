@@ -16,7 +16,7 @@ const SelectInput: FC<SelectInputProps> = ({ value, onChange, options, labelText
             { labelText && <span className={styles.label}>{labelText}</span>}
             <select value={value} onChange={onChange} className={styles.select}>
                 {
-                    ['Не вибрано', ...options].map((option, index) => (
+                    ['Not selected', ...options].map((option, index) => (
                         <option key={`select-option-${id}-${index}`} value={option} defaultValue={undefined}>
                             {option}
                         </option>
