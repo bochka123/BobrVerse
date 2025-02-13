@@ -2,6 +2,12 @@
 @use '@/styles/variables/font-variables.scss' as t; 
 @use '@/styles/variables/shadow-variables.scss' as sh; 
 
+.profileWrapper {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 50px);
+}
+
 .profileContainer {
     display: grid;
     grid-template-columns: auto 1fr;
