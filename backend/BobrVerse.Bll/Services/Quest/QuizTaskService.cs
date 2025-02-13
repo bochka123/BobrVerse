@@ -25,7 +25,7 @@ namespace BobrVerse.Bll.Services.Quest
             var quest = await context.Quests.AsNoTracking().FirstOrDefaultAsync(x => x.Id == dto.QuestId)
                 ?? throw new BobrException($"Quest is not found with id {dto.QuestId}");
 
-            var orderCount = await context.QuizTasks.CountAsync();
+            var orderCount = await context.QuizTasks.Where(x => x.QuestId == quest.Id).CountAsync();
             dbModel.Order = orderCount;
 
             await context.QuizTasks.AddAsync(dbModel);
