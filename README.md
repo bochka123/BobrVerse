@@ -20,7 +20,15 @@ After signing in user can see profile photo, username, level, currnet XP, requir
 
 - __Logs and Levels__
 
-Basically you get 10 logs for registration. Each day at 00:00 UTC user will receive daily bonus of logs relative to level. Totally there are 15 levels. For the first level you get 5 logs each day. Get the 15th level to find out how much user will get!
+Basically user gets 10 logs for registration. Each day at 00:00 UTC user will receive daily bonus of logs relative to level. Totally there are 15 levels. For the first level users get 5 logs each day. Get the 15th level to find out how much user will get! User can spend logs to activate quests and make them available for others. To update level user should earn XP by completing other peoples' quests.
+
+- __Quests and Tasks__
+
+On the main page located 4 tabs related to quests and 1 button for creating of them. Tab `My quests` contains all quests created by users. Tab `Passed quests` contains all quests completed by users. Tab `Available quests` contains all activated quests created by other users. Tab `Ratings` contains quest ratings. To create quest click the button crate and fill out the form. To display created quest please reload the page (sorry, react cache bug). Also on quest creating/updating user can add tasks. Tasks are about coding. It means user can follow rules thar are given by task type and solve a prolem of specific settings. Time limit, earned XP and etc can be set in quest/task settings.
+
+- __Quest Types__
+
+Current release contains 2 task types. `Collect Resources` and `Cut Trees In Forest`. Collect Resources requires user to write correcr loops. Cut Trees In Forest helps train condition operators.
 
 ## Technologies
 

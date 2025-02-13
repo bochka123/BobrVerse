@@ -90,5 +90,32 @@ namespace BobrVerse.Bll.Services.Quest
 
             return mapper.Map<ICollection<QuestRatingDTO>>(questRatings);
         }
+
+        public async Task<ICollection<QuestRatingDTO>> GetQuestsRatings(int start, int end)
+        {
+            if (start < 0 || end < start)
+            {
+                throw new ArgumentException("Invalid pagination parameters");
+            }
+
+            var questRatings = (await context.QuestRatings
+                .Include(qr => qr.BobrProfile)
+                .Include(qr => qr.Quest)
+                .ToListAsync())
+                .GroupBy(qr => qr.QuestId)
+                .Select(group =>
+                {
+                    var rating = mapper.Map<QuestRatingDTO>(group.First());
+                    rating.AverageRating = group.Average(x => x.Rating);
+                    rating.VotesCount = group.Count();
+                    return rating;
+                })
+                .OrderByDescending(x => x.AverageRating)
+                .Skip(start)
+                .Take(end - start + 1)
+                .ToList();
+
+            return questRatings;
+        }
     }
 }

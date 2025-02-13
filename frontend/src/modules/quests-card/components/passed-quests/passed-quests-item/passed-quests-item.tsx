@@ -14,10 +14,8 @@ const PassedQuestsItem: FC<PassedQuestsItemProps> = ({ quest }) => {
             <div className={styles.backgroundOverlay} />
             <div className={styles.itemInfo}>
                 <p className={styles.title}>{quest.questTitle}</p>
-
-                <div>
-                    
-                </div>
+                <p className={styles.title}>{quest.status}</p>
+                <p className={styles.xpEarned}>{quest.xpEarned}xp</p>
             </div>
         </div>
     );
