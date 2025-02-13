@@ -6,6 +6,11 @@
     width: 100%;
     margin: 20px auto;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    margin-bottom: 10px;
 }
   
 .cardHeader {
@@ -57,7 +62,8 @@
 .cardBody {
     display: flex;
     flex-direction: column;
-    max-height: 50vh;
+    flex-grow: 1;
+    overflow-y: auto;
     border-radius: 30px;
     border: 10px solid c.$primary;
 
