@@ -1,20 +1,31 @@
+@use '@/styles/mixins/scrollbar-mixin.scss' as scrollbar;
+
 .questionContainer {
   width: 100%;
   flex-grow: 1;
   padding: 20px;
   display: flex;
   gap: 20px;
+  max-height: 30vh;
 
   .questionImage {
     width: 30%;
     flex-shrink: 0;
+    max-width: 100%;
 
     & > img {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
       border-radius: 10px;
+      object-fit: cover;
     }
   }
 
   .questionInfo {
     flex-grow: 1;
+    overflow-y: auto;
+    
+    @include scrollbar.scrollbar-style;
   }
 }
