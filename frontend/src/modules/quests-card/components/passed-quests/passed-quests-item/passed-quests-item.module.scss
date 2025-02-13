@@ -39,3 +39,15 @@
     @include t.label-medium;
     @include sh.text-primary-medium;
 }
+
+.status{
+    color: c.$primary;
+    @include t.label-medium;
+    @include sh.text-primary-medium;
+}
+
+.xpEarned{
+    color: c.$primary;
+    @include t.label-medium;
+    @include sh.text-primary-medium;
+}

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BobrVerse.Common.Extenions;
 using BobrVerse.Common.Models.DTO.BobrLevel;
 using BobrVerse.Common.Models.DTO.BobrProfile;
 using BobrVerse.Common.Models.DTO.Quest;
@@ -28,7 +29,8 @@ namespace BobrVerse.Bll.Mappers
 
         public void CreateMapForQuestResponse()
         {
-            CreateMap<QuestResponse, QuestResponseDTO>();
+            CreateMap<QuestResponse, QuestResponseDTO>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.GetDescription()));
         }
 
         public void CreateMapForQuestRating()
@@ -36,7 +38,8 @@ namespace BobrVerse.Bll.Mappers
             CreateMap<CreateQuestRatingDTO, QuestRating>();
 
             CreateMap<QuestRating, QuestRatingDTO>()
-                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.BobrProfile != null ? src.BobrProfile.Name : "Anonymous"));
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.BobrProfile != null ? src.BobrProfile.Name : "Anonymous"))
+                .ForMember(dest => dest.QuestTitle, opt => opt.MapFrom(src => src.Quest != null ? src.Quest.Title : "Unknown quest"));
         }
 
         public void CreateMapForBobrProfile()

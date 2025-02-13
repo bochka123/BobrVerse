@@ -9,6 +9,8 @@ interface IQuestResponseDto {
     completedAt?: string;
     currentTask?: IQuestTaskDto;
     nextTask?: IQuestTaskDto;
+    status?: string;
+    xpEarned?: number;
 }
 
 export { type IQuestResponseDto };

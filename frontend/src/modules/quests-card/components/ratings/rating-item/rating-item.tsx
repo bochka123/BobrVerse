@@ -1,11 +1,10 @@
 import { FC } from 'react';
 
-import { IProfileDto } from '@/models/responses';
-
 import styles from './rating-item.module.scss';
+import { IQuestRatingDTO } from '@/models/requests';
 
 type RatingItemProps = {
-    profile: IProfileDto;
+    profile: IQuestRatingDTO;
 }
 
 const RatingItem: FC<RatingItemProps> = ({ profile }) => {
@@ -13,7 +12,9 @@ const RatingItem: FC<RatingItemProps> = ({ profile }) => {
         <div className={styles.itemWrapper}>
             <div className={styles.backgroundOverlay} />
             <div className={styles.itemInfo}>
-                <p className={styles.title}>{profile.name}</p>
+                <p className={styles.title}>{profile.questTitle}</p>
+                <p className={styles.title}>{profile.authorName}</p>
+                <p className={styles.title}>{profile.averageRating}</p>
             </div>
         </div>
     );

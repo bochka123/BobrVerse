@@ -4,4 +4,12 @@ interface ICreateQuestRatingDto {
     rating: number;
 }
 
-export { type ICreateQuestRatingDto };
+interface IQuestRatingDTO{
+    rating: number;
+    authorName: string;
+    questTitle: string;
+    averageRating: number;
+    votesCount: number;
+}
+
+export { type ICreateQuestRatingDto, type IQuestRatingDTO };

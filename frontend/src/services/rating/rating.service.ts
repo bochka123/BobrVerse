@@ -1,5 +1,5 @@
 import { HttpType } from '@/common';
-import { ICreateQuestRatingDto } from '@/models/requests';
+import { ICreateQuestRatingDto, IQuestRatingDTO } from '@/models/requests';
 import { IApiResponseDto } from '@/models/responses';
 
 import { apiSlice } from '../api';
@@ -12,8 +12,14 @@ export const ratingsApiSlice = apiSlice.injectEndpoints({
                 method: HttpType.POST,
                 body: requestDto
             }),
+        }),
+        getQuestsRatings: builder.query<IApiResponseDto<IQuestRatingDTO[]>, { start: number, end: number }>({
+            query: ({ start, end }) => ({
+                url: `/api/QuestRating/quests/${start}/${end}`,
+                method: 'GET',
+            }),
         }), 
     })
 });
 
-export const { useRateQuestMutation } = ratingsApiSlice;
+export const { useRateQuestMutation, useGetQuestsRatingsQuery } = ratingsApiSlice;
