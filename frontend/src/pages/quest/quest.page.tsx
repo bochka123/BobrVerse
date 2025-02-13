@@ -107,7 +107,7 @@ const QuestPage: FC = () => {
                     if (data.data.isFinished) {
                         setVisible(true);
                         setQuestResults(data.data);
-                    } else {
+                    } else if (nextTask) {
                         setCurrentTask(nextTask);
                         setNextTask(data.data.nextTask);
                         setTaskStartTime(Date.now());

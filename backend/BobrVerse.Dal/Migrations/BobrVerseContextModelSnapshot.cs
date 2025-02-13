@@ -243,6 +243,9 @@ namespace BobrVerse.Dal.Migrations
                     b.Property<DateTime?>("CompletedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CurrentAttempt")
+                        .HasColumnType("int");
+
                     b.Property<int?>("EarnedXp")
                         .HasColumnType("int");
 
